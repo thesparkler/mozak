@@ -18,4 +18,9 @@ class AppAssets {
       "assets/images/form_ui_assets/working_img_white.png";
   static const professionalImgBlack =
       "assets/images/form_ui_assets/working_img_black.png";
+  static const workBlack =
+      "assets/images/form_ui_assets/working_img_white.png";
+  static const workWhite =
+      "assets/images/form_ui_assets/working_img_black.png";
+  static const lottieDone = "assets/images/form_ui_assets/lottie/correct_tick.json";
 }
