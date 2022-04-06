@@ -69,7 +69,6 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           primary: hexToColor(AppColors.appThemeColor),
-                          //primary: Colors.white,
                           side: BorderSide(
                               width: 1.0,
                               color: hexToColor(AppColors.grey))),
@@ -216,8 +215,8 @@ class _LoginPageState extends State<LoginPage> {
                                         height: maxLines * 25.0,
                                         child: TextFormField(
                                             onSaved: (val) => _email = val!,
-                                            keyboardType:
-                                            TextInputType.emailAddress,
+                                            keyboardType: TextInputType.emailAddress,
+                                            textInputAction: TextInputAction.next,
                                             style: GoogleFonts.montserrat(
                                                 fontWeight: FontWeight.w400,
                                                 color: hexToColor(
@@ -276,6 +275,7 @@ class _LoginPageState extends State<LoginPage> {
                                         child: TextFormField(
                                             onSaved: (val) => _password = val!,
                                             keyboardType: TextInputType.text,
+                                            textInputAction: TextInputAction.done,
                                             style: GoogleFonts.montserrat(
                                                 fontWeight: FontWeight.w400,
                                                 color: hexToColor(
