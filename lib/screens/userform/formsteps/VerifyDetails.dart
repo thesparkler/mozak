@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/constants/AppColors.dart';
@@ -6,6 +5,7 @@ import 'package:mozak/constants/AppStrings.dart';
 import 'package:mozak/model/UserFormModel.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/app_tools.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class VerifyDetails extends StatefulWidget {
   final UserFormModel model;
@@ -72,42 +72,81 @@ class VerifyDetailsState extends State<VerifyDetails> {
                   padding: const EdgeInsets.only(top: 20.0, bottom: 40.0),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: AutoSizeText(
+                    child: Text(
                       AppStrings.verifyDetails,
                       style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w400,
-                          color: hexToColor(AppColors.whiteTextColor),
-                          fontSize: 22.0,
-                          height: 1.5,
-
+                        fontWeight: FontWeight.w400,
+                        color: hexToColor(AppColors.whiteTextColor),
+                        fontSize: 22.0,
+                        height: 1.5,
                       ),
                     ),
                   ),
                 ),
 
-                _myName(),
-
-                _ageAndGender(),
-
-                Padding(
-                  padding: const EdgeInsets.only(top: 5.0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: AutoSizeText(
-                      userCityAddress,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Hello, ',
                       style: GoogleFonts.montserrat(
                           fontWeight: FontWeight.w400,
                           color: hexToColor(AppColors.whiteTextColor),
                           fontSize: 20.0,
-                          height: 1.5),
-                      maxLines: 2,
+                          height: 1.3),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Jai Swaminarayan',
+                          style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w500,
+                              color: hexToColor(AppColors.paleOrange),
+                              fontSize: 20.0,
+                              height: 1.3),
+                        ),
+                      ],
                     ),
                   ),
                 ),
 
-                // contact me text
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: AutoSizeText(
+                    "I'm" +
+                        "  " +
+                        capitalizeFirstLetter(userFirstName) +
+                        "  " +
+                        userMiddleName[0].toString().toUpperCase() +
+                        "." +
+                        "  " +
+                        capitalizeFirstLetter(userLastName),
+                    style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w400,
+                        color: hexToColor(AppColors.whiteTextColor),
+                        fontSize: 20.0,
+                        height: 1.8),
+                  ),
+                ),
+
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: AutoSizeText(
+                    "A" +
+                        "  " +
+                        age.toString() +
+                        " yrs old " +
+                        userGender.toLowerCase() +
+                        " from " +
+                        userCityAddress,
+                    style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w400,
+                        color: hexToColor(AppColors.whiteTextColor),
+                        fontSize: 20.0,
+                        height: 1.8),
+                  ),
+                ),
+
                 Padding(
-                  padding: const EdgeInsets.only(top: 18.0, bottom: 20.0),
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: AutoSizeText(
@@ -121,7 +160,6 @@ class VerifyDetailsState extends State<VerifyDetails> {
                   ),
                 ),
 
-                // call or email data
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Row(
@@ -133,14 +171,14 @@ class VerifyDetailsState extends State<VerifyDetails> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0),
-                        child: Text(
-                           "+91-" + userContactNo,
+                        child: AutoSizeText(
+                          "+91-" + userContactNo,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.w400,
                               color: hexToColor(AppColors.paleOrange),
                               fontSize: 19.0,
-                              height: 1.5),
+                              height: 1.4),
                         ),
                       ),
                     ],
@@ -155,83 +193,50 @@ class VerifyDetailsState extends State<VerifyDetails> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
-                      child: Text(
+                      child: AutoSizeText(
                         userEmail,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.montserrat(
                           fontWeight: FontWeight.w400,
                           color: hexToColor(AppColors.paleOrange),
                           fontSize: 19.0,
-                          height: 1.5,
+                          height: 1.4,
                         ),
                       ),
                     ),
                   ],
                 ),
 
-                // blood type
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        AppStrings.myBloodType,
-                        style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w400,
-                            color: hexToColor(AppColors.whiteTextColor),
-                            fontSize: 20.0,
-                            height: 1.3),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5.0),
-                        child: Text(
-                          userBloodType,
-                          style: GoogleFonts.montserrat(
-                              fontWeight: FontWeight.w500,
-                              color: hexToColor(AppColors.paleOrange),
-                              fontSize: 20.0,
-                              height: 1.3),
-                        ),
-                      ),
-                    ],
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: AutoSizeText(
+                    AppStrings.myBloodType + "  " + userBloodType,
+                    style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w400,
+                        color: hexToColor(AppColors.whiteTextColor),
+                        fontSize: 20.0,
+                        height: 1.9),
                   ),
                 ),
 
-                // student or professional
                 Container(
                   child: userCareerType == "Student"
                       ? _isStudent()
                       : _isWorkingProfessional(),
                 ),
 
-                // team fall under
                 Padding(
-                  padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        AppStrings.tlNameBelonging,
-                        style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w400,
-                            color: hexToColor(AppColors.whiteTextColor),
-                            fontSize: 20.0,
-                            height: 1.3),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5.0, bottom: 10.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            userTeamLead,
-                            style: GoogleFonts.montserrat(
-                                fontWeight: FontWeight.w500,
-                                color: hexToColor(AppColors.paleOrange),
-                                fontSize: 20.0,
-                                height: 1.3),
-                          ),
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 20.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: AutoSizeText(
+                      AppStrings.tlNameBelonging + " " + userTeamLead,
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w400,
+                          color: hexToColor(AppColors.whiteTextColor),
+                          fontSize: 20.0,
+                          height: 1.4),
+                    ),
                   ),
                 ),
               ],
@@ -242,291 +247,48 @@ class VerifyDetailsState extends State<VerifyDetails> {
     );
   }
 
-  Widget _ageAndGender() {
+  Widget _isStudent() {
     return Padding(
-      padding: const EdgeInsets.only(top: 5.0),
-      child: Row(
-        children: [
-          Text(
-            "A",
-            style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.w400,
-                color: hexToColor(AppColors.whiteTextColor),
-                fontSize: 20.0,
-                height: 1.3),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 5.0),
-            child: Text(
-              age.toString() + "yrs",
-              style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w500,
-                  color: hexToColor(AppColors.paleOrange),
-                  fontSize: 20.0,
-                  height: 1.3),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 5.0),
-            child: Text(
-              "old ${userGender.toLowerCase()} from",
+        padding: const EdgeInsets.only(top: 10.0),
+        child: Align(
+            alignment: Alignment.centerLeft,
+            child: AutoSizeText(
+              "Currently, I'm a" +
+                  " " +
+                  userCareerType +
+                  " studying in " +
+                  " " +
+                  userCourse +
+                  " at " +
+                  userSchoolOrCollegeName,
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w400,
                   color: hexToColor(AppColors.whiteTextColor),
                   fontSize: 20.0,
-                  height: 1.3),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _myName() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15.0),
-      child: Row(
-        children: [
-          AutoSizeText(
-            "Hi, I'm",
-            style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.w400,
-                color: hexToColor(AppColors.whiteTextColor),
-                fontSize: 20.0,
-                height: 1.3),
-            maxLines: 2,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 5.0),
-            child: Text(
-              capitalizeFirstLetter(userFirstName),
-              style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w500,
-                  color: hexToColor(AppColors.paleOrange),
-                  fontSize: 20.0,
-                  height: 1.3),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 5.0),
-            child: Text(
-              userMiddleName[0].toString().toUpperCase() + ".",
-              style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w500,
-                  color: hexToColor(AppColors.paleOrange),
-                  fontSize: 20.0,
-                  height: 1.3),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 5.0),
-            child: Text(
-              capitalizeFirstLetter(userLastName),
-              style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w500,
-                  color: hexToColor(AppColors.paleOrange),
-                  fontSize: 20.0,
-                  height: 1.3),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _isStudent() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15.0),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Text(
-                "Currently, I'm a",
-                style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w400,
-                    color: hexToColor(AppColors.whiteTextColor),
-                    fontSize: 20.0,
-                    height: 1.3),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: Text(
-                  userCareerType,
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w500,
-                      color: hexToColor(AppColors.paleOrange),
-                      fontSize: 20.0,
-                      height: 1.3),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5.0),
-            child: Row(
-              children: [
-                Text(
-                  "Studying in",
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400,
-                      color: hexToColor(AppColors.whiteTextColor),
-                      fontSize: 20.0,
-                      height: 1.3),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 5.0),
-                  child: Text(
-                    userCourse,
-                    style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w500,
-                        color: hexToColor(AppColors.paleOrange),
-                        fontSize: 20.0,
-                        height: 1.3),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "at",
-                    style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w400,
-                        color: hexToColor(AppColors.whiteTextColor),
-                        fontSize: 20.0,
-                        height: 1.3),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5.0, left: 5.0),
-                child: Text(
-                  userSchoolOrCollegeName,
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w500,
-                      color: hexToColor(AppColors.paleOrange),
-                      fontSize: 20.0,
-                      height: 1.3),
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
+                  height: 1.4),
+            )));
   }
 
   Widget _isWorkingProfessional() {
     return Padding(
-      padding: const EdgeInsets.only(top: 15.0),
-      child: Column(
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Currently,",
-              style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w400,
-                  color: hexToColor(AppColors.whiteTextColor),
-                  fontSize: 20.0,
-                  height: 1.3),
-            ),
-          ),
-          Row(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "I'm a Working",
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400,
-                      color: hexToColor(AppColors.whiteTextColor),
-                      fontSize: 20.0,
-                      height: 1.3),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 5.0, top: 5.0),
-                child: Text(
-                  userCareerType,
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w500,
-                      color: hexToColor(AppColors.paleOrange),
-                      fontSize: 20.0,
-                      height: 1.3),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                "Working as a",
-                style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w400,
-                    color: hexToColor(AppColors.whiteTextColor),
-                    fontSize: 20.0,
-                    height: 1.3),
-              ),
-            ],
-          ),
-
-          Padding(
-            padding: const EdgeInsets.only(top: 5.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                userDesignation,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w500,
-                    color: hexToColor(AppColors.paleOrange),
-                    fontSize: 20.0,
-                    height: 1.3),
-              ),
-            ),
-          ),
-
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "at",
-                    style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w400,
-                        color: hexToColor(AppColors.whiteTextColor),
-                        fontSize: 20.0,
-                        height: 1.3),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5.0, left: 5.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    userCompanyName,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w500,
-                        color: hexToColor(AppColors.paleOrange),
-                        fontSize: 20.0,
-                        height: 1.3),
-                  ),
-                ),
-              ),
-            ],
-          )
-        ],
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: AutoSizeText(
+          "Currently, I'm a working " +
+              userCareerType.toLowerCase() +
+              "." +
+              " Working as a " +
+              userDesignation +
+              " at " +
+              userCompanyName +
+              ".",
+          style: GoogleFonts.montserrat(
+              fontWeight: FontWeight.w400,
+              color: hexToColor(AppColors.whiteTextColor),
+              fontSize: 20.0,
+              height: 1.4),
+        ),
       ),
     );
   }
