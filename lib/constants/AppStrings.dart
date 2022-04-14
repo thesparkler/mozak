@@ -1,5 +1,4 @@
 class AppStrings {
-
   //SPLASH TEXTS
   static const String splashScreenTextOne = "Jai Swaminarayan\n";
   static const String splashScreenTextTwo = "Das na Das";
@@ -14,10 +13,10 @@ class AppStrings {
   // VALIDATION TEXT
   static const String isEmailRequired = "Email is required";
   static const String isPasswordRequired = "Password is required";
-  static const String passwordLengthErrorText = "Password should be more than 6 char long";
+  static const String passwordLengthErrorText =
+      "Password should be more than 6 char long";
   static const String emailErrorText = "Please enter valid email";
   static const String validationSuccessText = "Success";
-
 
   // LOGIN SCREEN WELCOME MSG TEXT
   static const String helloText = "Hello,";
@@ -45,14 +44,17 @@ class AppStrings {
   static const String firstNameHintText = "Enter First Name";
   static const String middleNameHintText = "Enter Middle Name";
   static const String lastNameHintText = "Enter Last Name";
-  static const String dobTitleText = "I would like to know\nyour date of birth?";
+  static const String dobTitleText =
+      "I would like to know\nyour date of birth?";
   static const String tapHereText = "Tap Here";
   static const String dobFieldText = "Date of Birth";
   static const String dobFieldHintText = "YYYY-MM-DD";
-  static const String contactDetailsTitleText = "Now, We want your\ncontact details so that\nwe can stay in touch";
+  static const String contactDetailsTitleText =
+      "Now, We want your\ncontact details so that\nwe can stay in touch";
   static const String contactNoFieldText = "Contact No";
   static const String contactNoFieldHintText = "123-456-7890";
-  static const String addressTitleText = "We want to know where\nyou live so we can meet\nonce a while";
+  static const String addressTitleText =
+      "We want to know where\nyou live so we can meet\nonce a while";
   static const String addressFieldText = "Street Address";
   static const String addressFieldHintText = "Address (Area and Street)";
   static const String cityFieldText = "City / District";
@@ -68,7 +70,8 @@ class AppStrings {
   static const String aNegBloodGroup = "A-";
   static const String bNegBloodGroup = "B-";
   static const String abNegBloodGroup = "AB-";
-  static const String currentlyDoingTitleText = "What are you currently\ndoing?";
+  static const String currentlyDoingTitleText =
+      "What are you currently\ndoing?";
   static const String companyNameFieldText = "Company Name";
   static const String designationFieldText = "Designation";
   static const String designationHintText = "Software Engineer";
@@ -78,16 +81,18 @@ class AppStrings {
   static const String courseFieldText = "Standard / Course";
   static const String courseFieldHintText = "B.Sc, B.Com, B.A, B.Tech, etc";
   static const String justLastQuestionText = "Just last question";
-  static const String referenceNameTitleText = "Whose reference name do\nyou come under?";
+  static const String referenceNameTitleText =
+      "Whose reference name do\nyou come under?";
   static const String teamLeadFieldText = "Reference Name";
   static const String teamLeadFieldHintText = "Bhulkoo";
   static const String thankYouText = "Thank you!";
   static const String submittedResponse = "We have submitted\nyour response";
   static const String backToLogin = "Back to Form";
   static const String verifyDetails = "Verify your Details";
-  static const String contactMeByPhoneOrMail = "You can contact me by my phone number or email id";
+  static const String contactMeByPhoneOrMail =
+      "You can contact me by my phone number or email id";
   static const String myBloodType = "My blood type is";
-  static const String tlNameBelonging = "The person to whom I'm belonging is:";
+  static const String tlNameBelonging = "The person to whom I'm belonging is ";
   static const String team = "Reference";
 
   // Errors Strings
@@ -111,5 +116,13 @@ class AppStrings {
   static const String invalidFirstName = "Invalid First Name";
   static const String invalidMiddleName = "Invalid Middle Name";
   static const String invalidLastName = "Invalid Last Name";
+  static const String dismissText = "Dismiss";
 
+  // No INTERNET TEXT
+  static const String noInternetConnTitle = "No Internet Connection";
+  static const String noInternetConnDescriptionOne =
+      "You are not connected to the internet.";
+  static const String noInternetConnDescriptionTwo =
+      "Make sure Wi-Fi is on, Airplane mode is off and try again";
+  static const String retryBtnText = "Retry";
 }
