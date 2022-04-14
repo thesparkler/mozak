@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mozak/constants/AppColors.dart';
+import 'package:mozak/screens/LoginScreen.dart';
 import 'package:mozak/screens/SplashScreen.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/utils/app_tools.dart';
@@ -22,7 +23,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    print("PrivateKey: ${FlutterConfig.get('PRIVATE_KEY')}");
 
 
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         disabledColor: hexToColor(AppColors.grey)
       ),
       debugShowCheckedModeBanner: false,
-      home: const UserForm(),
+      home: const SplashScreen(),
     );
   }
 }
