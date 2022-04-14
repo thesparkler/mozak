@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/constants/AppColors.dart';
@@ -19,7 +18,6 @@ class UserReferenceName extends StatefulWidget {
 class _UserReferenceNameState extends State<UserReferenceName> {
   final maxLines = 2;
   final _formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -31,7 +29,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
     return ScrollConfiguration(
       behavior: NoGlowBehaviour(),
       child: Scaffold(
-        key: _scaffoldKey,
         backgroundColor: hexToColor(AppColors.appThemeColor),
         body: SingleChildScrollView(
           child: Column(
@@ -72,7 +69,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                     key: _formKey,
                     child: Column(
                       children: [
-                       _buildTeamLeadField(),
+                        _buildTeamLeadField(),
                       ],
                     )),
               ),
@@ -115,25 +112,20 @@ class _UserReferenceNameState extends State<UserReferenceName> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: hexToColor(AppColors
-                          .textFieldOutlineBorderColor)),
+                      color: hexToColor(AppColors.textFieldOutlineBorderColor)),
                 ),
                 focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                        Radius.circular(5.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                    borderSide:
+                        BorderSide(color: hexToColor(AppColors.paleOrange))),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                     borderSide: BorderSide(
                         color:
-                        hexToColor(AppColors.paleOrange))),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                        Radius.circular(5.0)),
-                    borderSide: BorderSide(
-                        color: hexToColor(AppColors
-                            .textFieldOutlineBorderColor))),
+                            hexToColor(AppColors.textFieldOutlineBorderColor))),
                 hintText: AppStrings.teamLeadFieldHintText,
                 hintStyle: TextStyle(
-                    fontSize: 15,
-                    color: hexToColor(AppColors.hintTextColor)),
+                    fontSize: 15, color: hexToColor(AppColors.hintTextColor)),
               )),
         ),
       ],

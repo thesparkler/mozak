@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/constants/AppColors.dart';
 import 'package:mozak/constants/AppStrings.dart';
 import 'package:mozak/model/UserFormModel.dart';
-import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/app_tools.dart';
 
@@ -18,7 +17,6 @@ class UserFullName extends StatefulWidget {
 
 class _UserFullNameState extends State<UserFullName> {
   final maxLines = 2;
-  //final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -30,7 +28,6 @@ class _UserFullNameState extends State<UserFullName> {
     return ScrollConfiguration(
       behavior: NoGlowBehaviour(),
       child: Scaffold(
-       // key: _scaffoldKey,
         backgroundColor: hexToColor(AppColors.appThemeColor),
         body: SingleChildScrollView(
           child: Column(
@@ -83,7 +80,7 @@ class _UserFullNameState extends State<UserFullName> {
                 },
                 initialValue: widget.model.getFirstName(),
                 validator: (value) {
-                  if(value!.isEmpty) {
+                  if (value!.isEmpty) {
                     return "First name is required";
                   }
                   return null;

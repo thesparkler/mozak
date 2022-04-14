@@ -18,9 +18,6 @@ class UserAddressInfo extends StatefulWidget {
 class _UserAddressInfoState extends State<UserAddressInfo> {
   final maxLines = 2;
   final _formKey = GlobalKey<FormState>();
-
-  //final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   var n;
   String? selectedState;
   String dropdownValue = "Maharashtra";
@@ -67,7 +64,7 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
   void initState() {
     super.initState();
 
-   dropdownValue = widget.model.getState();
+    dropdownValue = widget.model.getState();
   }
 
   @override
@@ -75,7 +72,6 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
     return ScrollConfiguration(
       behavior: NoGlowBehaviour(),
       child: Scaffold(
-        // key: _scaffoldKey,
         backgroundColor: hexToColor(AppColors.appThemeColor),
         body: SingleChildScrollView(
           child: Column(
@@ -222,59 +218,6 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
     );
   }
 
-  Widget _buildStateField() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10, top: 20.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              AppStrings.stateFieldText,
-              style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w400,
-                  color: hexToColor(AppColors.whiteTextColor),
-                  fontSize: 15.0),
-            ),
-          ),
-        ),
-        SizedBox(
-          height: maxLines * 30.0,
-          child: TextFormField(
-              onChanged: (val) {
-                widget.model.setState(val);
-              },
-              initialValue: widget.model.getState(),
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.text,
-              style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w400,
-                  color: hexToColor(AppColors.whiteTextColor),
-                  fontSize: 17.0),
-              maxLines: 10,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: hexToColor(AppColors.textFieldOutlineBorderColor)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                    borderSide:
-                        BorderSide(color: hexToColor(AppColors.paleOrange))),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                    borderSide: BorderSide(
-                        color:
-                            hexToColor(AppColors.textFieldOutlineBorderColor))),
-                hintText: AppStrings.stateFieldHintText,
-                hintStyle: TextStyle(
-                    fontSize: 15, color: hexToColor(AppColors.hintTextColor)),
-              )),
-        ),
-      ],
-    );
-  }
-
   Widget _stateDropDownField() {
     return Column(
       children: [
@@ -305,9 +248,6 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
             child: DropdownButton(
               icon: const SizedBox.shrink(),
               dropdownColor: hexToColor(AppColors.appThemeColor),
-              // style: const TextStyle(
-              //   color: Colors.white,
-              // ),
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w400,
                   color: hexToColor(AppColors.whiteTextColor),
@@ -327,17 +267,6 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
                                 color: hexToColor(AppColors.paleOrange)),
                           ));
               }).toList(),
-
-              // _stateList
-              //     .map((state) => DropdownMenuItem(
-              //           child: Text(
-              //             state,
-              //             style: TextStyle(color: Colors.black),
-              //           ),
-              //           value: state,
-              //         ))
-              //     .toList(),
-
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownValue = newValue ?? dropdownValue;
@@ -345,8 +274,6 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
                 });
               },
               value: dropdownValue,
-            //  value: dropdownValue,
-              //value: widget.model.getState(),
             ),
           ),
         ),

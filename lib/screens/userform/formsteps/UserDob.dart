@@ -9,7 +9,6 @@ import 'package:mozak/utils/app_tools.dart';
 import 'package:intl/intl.dart';
 
 class UserDob extends StatefulWidget {
-
   final UserFormModel model;
 
   const UserDob(this.model, {Key? key}) : super(key: key);
@@ -20,41 +19,32 @@ class UserDob extends StatefulWidget {
 
 class _UserDobState extends State<UserDob> {
   final maxLines = 2;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   var userName = '';
   var dateController = TextEditingController(text: "");
   var selected;
   var date;
 
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     userName = widget.model.getFirstName();
     dateController.text = widget.model.getDOB();
-
-  //  date = widget.model.getDOB();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       backgroundColor: hexToColor(AppColors.appThemeColor),
       body: SingleChildScrollView(
         child: Column(
           children: [
-
             _myNameText(),
-
             _dobTitleText(),
-
             _dobTapHereIcon(),
-
             Container(
-              child: widget.model.getDOB() == '' ? Container() : _dateOfBirthField(),
+              child: widget.model.getDOB() == ''
+                  ? Container()
+                  : _dateOfBirthField(),
             ),
           ],
         ),
@@ -110,10 +100,7 @@ class _UserDobState extends State<UserDob> {
             child: Container(
               padding: const EdgeInsets.only(left: 10.0),
               height: maxLines * 25.0,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0),
                 border: Border.all(
@@ -128,11 +115,8 @@ class _UserDobState extends State<UserDob> {
                   controller: dateController,
                   decoration: const InputDecoration(
                       hintText: 'YYYY-MM-DD',
-                      hintStyle: TextStyle(
-                          color: Color(0xFF757575),
-                          fontSize: 15.0
-                      )
-                  ),
+                      hintStyle:
+                          TextStyle(color: Color(0xFF757575), fontSize: 15.0)),
                   style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w400,
                     color: hexToColor(AppColors.whiteTextColor),
@@ -157,7 +141,7 @@ class _UserDobState extends State<UserDob> {
           width: 80.0,
           decoration: BoxDecoration(
             color: hexToColor(AppColors.paleOrange),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(15),
           ),
           child: Padding(
             padding: const EdgeInsets.all(7.0),

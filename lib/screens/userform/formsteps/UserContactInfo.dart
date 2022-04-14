@@ -8,7 +8,6 @@ import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/app_tools.dart';
 
 class UserContactInfo extends StatefulWidget {
-
   final UserFormModel model;
 
   const UserContactInfo(this.model, {Key? key}) : super(key: key);
@@ -20,7 +19,6 @@ class UserContactInfo extends StatefulWidget {
 class _UserContactInfoState extends State<UserContactInfo> {
   final maxLines = 2;
   final _formKey = GlobalKey<FormState>();
- // final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -32,7 +30,6 @@ class _UserContactInfoState extends State<UserContactInfo> {
     return ScrollConfiguration(
       behavior: NoGlowBehaviour(),
       child: Scaffold(
-      //  key: _scaffoldKey,
         backgroundColor: hexToColor(AppColors.appThemeColor),
         body: SingleChildScrollView(
           child: Column(
@@ -59,10 +56,8 @@ class _UserContactInfoState extends State<UserContactInfo> {
                     key: _formKey,
                     child: Column(
                       children: [
-
                         _buildEmailField(),
-
-                       _buildContactNo(),
+                        _buildContactNo(),
                       ],
                     )),
               ),
@@ -108,25 +103,23 @@ class _UserContactInfoState extends State<UserContactInfo> {
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: hexToColor(AppColors
-                            .textFieldOutlineBorderColor)),
+                        color:
+                            hexToColor(AppColors.textFieldOutlineBorderColor)),
                   ),
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(
-                          Radius.circular(5.0)),
-                      borderSide: BorderSide(
-                          color:
-                          hexToColor(AppColors.paleOrange))),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(5.0)),
+                      borderSide:
+                          BorderSide(color: hexToColor(AppColors.paleOrange))),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(
-                          Radius.circular(5.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(5.0)),
                       borderSide: BorderSide(
-                          color: hexToColor(AppColors
-                              .textFieldOutlineBorderColor))),
+                          color: hexToColor(
+                              AppColors.textFieldOutlineBorderColor))),
                   hintText: AppStrings.emailHintText,
                   hintStyle: TextStyle(
-                      fontSize: 15,
-                      color: hexToColor(AppColors.hintTextColor)),
+                      fontSize: 15, color: hexToColor(AppColors.hintTextColor)),
                 )),
           ),
         ),
@@ -160,7 +153,7 @@ class _UserContactInfoState extends State<UserContactInfo> {
                 ],
                 textInputAction: TextInputAction.done,
                 onChanged: (val) {
-                   widget.model.setContactInfo(val);
+                  widget.model.setContactInfo(val);
                 },
                 initialValue: widget.model.getContactNo(),
                 keyboardType: TextInputType.number,
@@ -172,32 +165,27 @@ class _UserContactInfoState extends State<UserContactInfo> {
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: hexToColor(AppColors
-                            .textFieldOutlineBorderColor)),
+                        color:
+                            hexToColor(AppColors.textFieldOutlineBorderColor)),
                   ),
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(
-                          Radius.circular(5.0)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(5.0)),
+                      borderSide:
+                          BorderSide(color: hexToColor(AppColors.paleOrange))),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(5.0)),
                       borderSide: BorderSide(
                           color: hexToColor(
-                              AppColors.paleOrange))),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(
-                          Radius.circular(5.0)),
-                      borderSide: BorderSide(
-                          color: hexToColor(AppColors
-                              .textFieldOutlineBorderColor))),
+                              AppColors.textFieldOutlineBorderColor))),
                   hintText: AppStrings.contactNoFieldHintText,
                   hintStyle: TextStyle(
-                      fontSize: 15,
-                      color:
-                      hexToColor(AppColors.hintTextColor)),
+                      fontSize: 15, color: hexToColor(AppColors.hintTextColor)),
                 )),
           ),
         ),
       ],
     );
   }
-
-
 }

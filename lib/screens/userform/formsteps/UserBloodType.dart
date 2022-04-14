@@ -20,6 +20,7 @@ class _UserBloodType extends State<UserBloodType> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: hexToColor(AppColors.appThemeColor),
       body: Column(
         children: [

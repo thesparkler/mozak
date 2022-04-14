@@ -81,6 +81,7 @@ class _SelectGenderState extends State<SelectGender> {
     );
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: hexToColor(AppColors.appThemeColor),
       body: Column(
         children: [

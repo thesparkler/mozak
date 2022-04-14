@@ -20,7 +20,6 @@ class UserCareerTypeState extends State<UserCareerType> {
   final maxLines = 2;
   final _studentFormKey = GlobalKey<FormState>();
   final _professionalFormKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -96,7 +95,6 @@ class UserCareerTypeState extends State<UserCareerType> {
     return ScrollConfiguration(
       behavior: NoGlowBehaviour(),
       child: Scaffold(
-        key: _scaffoldKey,
         backgroundColor: hexToColor(AppColors.appThemeColor),
         body: SingleChildScrollView(
           child: Column(
