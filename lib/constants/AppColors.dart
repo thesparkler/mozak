@@ -14,4 +14,6 @@ class AppColors {
   static const progressOuterContainerColor = "#404553";
   static const prevNextBtnTextColor = "#909296";
   static const prevBtnColor = "#6F6E6E";
+  static const paleRed = "#E57373";
+  static const red = "#D10000";
 }
