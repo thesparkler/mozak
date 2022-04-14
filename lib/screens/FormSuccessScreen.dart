@@ -7,8 +7,6 @@ import 'package:mozak/constants/AppStrings.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/utils/app_tools.dart';
 
-import 'LoginScreen.dart';
-
 class FormSuccessScreen extends StatefulWidget {
   const FormSuccessScreen({Key? key}) : super(key: key);
 

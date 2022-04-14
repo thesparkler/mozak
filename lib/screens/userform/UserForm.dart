@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/api/mozak_sheet_api.dart';
 import 'package:mozak/constants/AppColors.dart';
@@ -16,6 +18,7 @@ import 'package:mozak/utils/CustomLinearProgress.dart';
 import 'package:mozak/utils/app_tools.dart';
 import 'formsteps/UserBloodType.dart';
 import 'formsteps/UserFullName.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class UserForm extends StatefulWidget {
   const UserForm({Key? key}) : super(key: key);
@@ -30,7 +33,10 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
   UserFormModel model = UserFormModel();
   final PageController _controller = PageController();
   late ValueNotifier<double> _valueNotifier;
-  final nameFormKey = GlobalKey<FormState>;
+
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   @override
   void initState() {
@@ -41,6 +47,35 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
       _valueNotifier.value =
           (_controller.page != null ? _controller.page! + 1 : 1);
     });
+    initConnectivity();
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+
+  }
+
+  Future<void> initConnectivity() async {
+    late ConnectivityResult result;
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print('Couldn\'t check connectivity status $e');
+      return;
+    }
+    if (!mounted) {
+      return Future.value(null);
+    }
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    setState(() {
+      _connectionStatus = result;
+    });
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
   }
 
   void next() {
@@ -69,77 +104,8 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
         break;
     }
     if (null != msg) {
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //   content: Text(msg),
-      //   action: SnackBarAction(
-      //     label: 'Dismiss',
-      //     textColor: Colors.white,
-      //     onPressed: () {
-      //       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      //     },
-      //   ),
-      //   backgroundColor: Color(0xFFD10000),
-      // ));
-      final snackBar = SnackBar(
-        backgroundColor: Color(0xFFD10000),
-        content: Container(
-            width: MediaQuery.of(context).size.width,
-            height: 25,
-            // padding: const EdgeInsets.all(8),
-            // decoration: BoxDecoration(
-            //   color: Colors.greenAccent,
-            //   border: Border.all(color: Colors.green, width: 3),
-            //   boxShadow: const [
-            //     BoxShadow(
-            //       color: Color(0xFFD10000),
-            //       spreadRadius: 2.0,
-            //       blurRadius: 8.0,
-            //       offset: Offset(2, 4),
-            //     )
-            //   ],
-            //   borderRadius: BorderRadius.circular(4),
-            // ),
-            child: Row(
-              children: [
-                Text(msg, style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w300,
-                    color: hexToColor(AppColors.whiteTextColor),
-                    fontSize: 15.0),),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () =>
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                        left: 5.0, right: 5.0, bottom: 5.0, top: 2.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: Text(
-                      "Dismiss",
-                      style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w300,
-                          color: hexToColor(AppColors.whiteTextColor),
-                          fontSize: 15.0),
-                      // TextStyle(
-                      //   color: Colors.white,
-                      // ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                )
-                // TextButton(
-                //     onPressed: () => debugPrint("Undid"),
-                //     child: Text("Undo", style: TextStyle(color: Colors.white)))
-              ],
-            )),
-      );
+      var snackBar = errorSnackBar(context, msg);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
       return;
     }
     // everything is green
@@ -305,9 +271,14 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
         ),
         GestureDetector(
           onTap: () async {
-            await MozakSheetApi.insertUserData(model);
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const FormSuccessScreen()));
+            if(_connectionStatus == ConnectivityResult.none) {
+              internetConnectivityDialog(context);
+            }
+            else {
+              await MozakSheetApi.insertUserData(model);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const FormSuccessScreen()));
+            }
           },
           child: Container(
               height: 40,

@@ -8,7 +8,6 @@ import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/app_tools.dart';
 
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -42,75 +41,75 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<bool> _onBackPressed() async {
     return await showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: hexToColor(AppColors.appThemeColor),
-        title: Row(
-          children: [
-            Text(AppStrings.dialogTitle,
-                style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20.0,
-                    color: hexToColor(AppColors.whiteTextColor))),
-          ],
-        ),
-        content: Text(AppStrings.dialogDescription,
-            style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.w400,
-                fontSize: 15.0,
-                color: hexToColor(AppColors.whiteTextColor))),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10, right: 10, left: 10),
-            child: Row(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: hexToColor(AppColors.appThemeColor),
+            title: Row(
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: hexToColor(AppColors.appThemeColor),
-                          side: BorderSide(
-                              width: 1.0,
-                              color: hexToColor(AppColors.grey))),
-                      onPressed: () {
-                        Navigator.of(context).pop(false);
-                      },
-                      child: Text(
-                        AppStrings.cancelBtnText,
-                        style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w500,
-                          color: hexToColor(AppColors.grey),
-                          fontSize: 15.0,
-                        ),
-                      )),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: hexToColor(AppColors.redAccent)
-                        //const Color(0xffC93131),
-                      ),
-                      onPressed: () {
-                        exit(0);
-                      },
-                      child: Text(
-                        AppStrings.exitBtnText,
-                        style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w500,
-                          color: hexToColor(AppColors.whiteTextColor),
-                          fontSize: 15.0,
-                        ),
-                      )),
-                ),
+                Text(AppStrings.dialogTitle,
+                    style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20.0,
+                        color: hexToColor(AppColors.whiteTextColor))),
               ],
             ),
-          )
-        ],
-      ),
-    ) ??
+            content: Text(AppStrings.dialogDescription,
+                style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 15.0,
+                    color: hexToColor(AppColors.whiteTextColor))),
+            actions: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10, right: 10, left: 10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: hexToColor(AppColors.appThemeColor),
+                              side: BorderSide(
+                                  width: 1.0,
+                                  color: hexToColor(AppColors.grey))),
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                          child: Text(
+                            AppStrings.cancelBtnText,
+                            style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w500,
+                              color: hexToColor(AppColors.grey),
+                              fontSize: 15.0,
+                            ),
+                          )),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: hexToColor(AppColors.redAccent)
+                              //const Color(0xffC93131),
+                              ),
+                          onPressed: () {
+                            exit(0);
+                          },
+                          child: Text(
+                            AppStrings.exitBtnText,
+                            style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w500,
+                              color: hexToColor(AppColors.whiteTextColor),
+                              fontSize: 15.0,
+                            ),
+                          )),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ) ??
         false;
   }
 
@@ -137,9 +136,9 @@ class _LoginPageState extends State<LoginPage> {
                       height: MediaQuery.of(context).size.height / 2.60,
                       decoration: const BoxDecoration(
                           image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(AppAssets.hariSwamiBgImage),
-                          )),
+                        fit: BoxFit.cover,
+                        image: AssetImage(AppAssets.hariSwamiBgImage),
+                      )),
                     )),
                 Positioned(
                     left: 0,
@@ -198,7 +197,7 @@ class _LoginPageState extends State<LoginPage> {
                                     children: [
                                       Padding(
                                         padding:
-                                        const EdgeInsets.only(bottom: 10),
+                                            const EdgeInsets.only(bottom: 10),
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
@@ -215,8 +214,10 @@ class _LoginPageState extends State<LoginPage> {
                                         height: maxLines * 25.0,
                                         child: TextFormField(
                                             onSaved: (val) => _email = val!,
-                                            keyboardType: TextInputType.emailAddress,
-                                            textInputAction: TextInputAction.next,
+                                            keyboardType:
+                                                TextInputType.emailAddress,
+                                            textInputAction:
+                                                TextInputAction.next,
                                             style: GoogleFonts.montserrat(
                                                 fontWeight: FontWeight.w400,
                                                 color: hexToColor(
@@ -231,21 +232,21 @@ class _LoginPageState extends State<LoginPage> {
                                               ),
                                               focusedBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(5.0)),
+                                                      const BorderRadius.all(
+                                                          Radius.circular(5.0)),
                                                   borderSide: BorderSide(
                                                       color: hexToColor(
                                                           AppColors
                                                               .paleOrange))),
                                               enabledBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(5.0)),
+                                                      const BorderRadius.all(
+                                                          Radius.circular(5.0)),
                                                   borderSide: BorderSide(
                                                       color: hexToColor(AppColors
                                                           .textFieldOutlineBorderColor))),
                                               hintText:
-                                              AppStrings.emailHintText,
+                                                  AppStrings.emailHintText,
                                               hintStyle: TextStyle(
                                                   fontSize: 15,
                                                   color: hexToColor(
@@ -257,7 +258,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                       Padding(
                                         padding:
-                                        const EdgeInsets.only(bottom: 10),
+                                            const EdgeInsets.only(bottom: 10),
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
@@ -275,7 +276,8 @@ class _LoginPageState extends State<LoginPage> {
                                         child: TextFormField(
                                             onSaved: (val) => _password = val!,
                                             keyboardType: TextInputType.text,
-                                            textInputAction: TextInputAction.done,
+                                            textInputAction:
+                                                TextInputAction.done,
                                             style: GoogleFonts.montserrat(
                                                 fontWeight: FontWeight.w400,
                                                 color: hexToColor(
@@ -286,16 +288,16 @@ class _LoginPageState extends State<LoginPage> {
                                             decoration: InputDecoration(
                                               focusedBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(5.0)),
+                                                      const BorderRadius.all(
+                                                          Radius.circular(5.0)),
                                                   borderSide: BorderSide(
                                                       color: hexToColor(
                                                           AppColors
                                                               .paleOrange))),
                                               enabledBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(5.0)),
+                                                      const BorderRadius.all(
+                                                          Radius.circular(5.0)),
                                                   borderSide: BorderSide(
                                                       color: hexToColor(AppColors
                                                           .textFieldOutlineBorderColor))),
@@ -313,7 +315,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 ),
                                               ),
                                               hintText:
-                                              AppStrings.passwordHintText,
+                                                  AppStrings.passwordHintText,
                                               hintStyle: TextStyle(
                                                   fontSize: 15,
                                                   color: hexToColor(
@@ -331,11 +333,11 @@ class _LoginPageState extends State<LoginPage> {
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                         primary:
-                                        hexToColor(AppColors.orangeAccent)),
+                                            hexToColor(AppColors.orangeAccent)),
                                     onPressed: () {
                                       _formKey.currentState!.save();
                                       var result =
-                                      validation(_email, _password);
+                                          validation(_email, _password);
                                       if (result != null) {
                                         showSnackBar(result,
                                             hexToColor(AppColors.redAccent));
@@ -347,7 +349,7 @@ class _LoginPageState extends State<LoginPage> {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                              const UserForm()));
+                                                  const UserForm()));
                                     },
                                     child: Text(
                                       AppStrings.loginBtnText,
@@ -358,7 +360,7 @@ class _LoginPageState extends State<LoginPage> {
                                         fontSize: 18.0,
                                       ),
                                     )),
-                              )
+                              ),
                             ],
                           ),
                         )))
