@@ -4,6 +4,7 @@ import 'package:mozak/constants/AppAssets.dart';
 import 'package:mozak/constants/AppColors.dart';
 import 'package:mozak/constants/AppStrings.dart';
 import 'package:mozak/screens/LoginScreen.dart';
+import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/utils/app_tools.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,12 +24,12 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     controller = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this);
+        duration: const Duration(milliseconds: 5000), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
     controller.forward();
 
     Timer(const Duration(seconds: 5),
-            () => Navigator.of(context).push(_createRoute()));
+        () => Navigator.of(context).push(_createRoute()));
   }
 
   @override
@@ -42,9 +43,9 @@ class _SplashScreenState extends State<SplashScreen>
             child: Align(
               alignment: Alignment.topCenter,
               child: Image.asset(
-                AppAssets.ydsLogo,
-                height: 120,
-                width: 120,
+                AppAssets.hariprabodhamLogo,
+                height: 250,
+                width: 250,
               ),
             ),
           ),
@@ -92,13 +93,14 @@ class _SplashScreenState extends State<SplashScreen>
   Route _createRoute() {
     return PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>
-        const LoginPage(),
+            // const LoginPage(),
+            const UserForm(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
           const curve = Curves.ease;
           var tween =
-          Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
           return SlideTransition(
             position: animation.drive(tween),

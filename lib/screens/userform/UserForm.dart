@@ -31,7 +31,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
   int currStep = 1;
   int stepCount = 9;
   UserFormModel model = UserFormModel();
-  final PageController _controller = PageController();
+  final PageController _controller = PageController(initialPage: 7);
   late ValueNotifier<double> _valueNotifier;
 
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
@@ -48,8 +48,8 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
           (_controller.page != null ? _controller.page! + 1 : 1);
     });
     initConnectivity();
-    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
-
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
   Future<void> initConnectivity() async {
@@ -271,10 +271,9 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
         ),
         GestureDetector(
           onTap: () async {
-            if(_connectionStatus == ConnectivityResult.none) {
+            if (_connectionStatus == ConnectivityResult.none) {
               internetConnectivityDialog(context);
-            }
-            else {
+            } else {
               await MozakSheetApi.insertUserData(model);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const FormSuccessScreen()));

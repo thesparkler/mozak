@@ -18,7 +18,20 @@ class UserReferenceName extends StatefulWidget {
 class _UserReferenceNameState extends State<UserReferenceName> {
   final maxLines = 2;
   final _formKey = GlobalKey<FormState>();
-  String? selectedState;
+  // String? selectedState;
+  //String dropdownValue = "BR";
+  //String tLNameCode = "Aditya Jejurkar	BR01";
+  // final List<String> _grpList = [
+  //   "BR",
+  //   "CR",
+  //   "DS",
+  //   "GK",
+  //   "HK",
+  //   "SK",
+  //   "SM",
+  //   "SY",
+  // ];
+
   String dropdownValue = "Maharashtra";
   final List<String> _stateList = [
     "Andaman and Nicobar",
@@ -58,12 +71,103 @@ class _UserReferenceNameState extends State<UserReferenceName> {
     "Uttarakhand",
     "West Bengal	"
   ];
+  // final List<String> BR = [
+  //   "Aditya Jejurkar	BR01",
+  //   "Akshay Shelar	BR02",
+  //   "Deepak Bhilare	BR03",
+  //   "Nikhil Jagdale	BR04",
+  //   "Nikhil Jagtap	BR05",
+  //   "Omkar Lande	BR06",
+  //   "Rammani Gupta	BR07",
+  //   "Rupesh Tukaram Jadhav	BR08",
+  //   "Suraj Nanasaheb Jadhav	BR09",
+  // ];
+  // final List<String> CR = [
+  //   "Mahendra Dora	CR01",
+  //   "Nimesh Solanki	CR02",
+  //   "Rakesh Gupta	CR03",
+  //   "Rakesh Patel	CR04",
+  //   "Ronak Panchal	CR05",
+  //   "Shrikant Lonkar	CR06",
+  //   "Vikas Sharma	CR07",
+  //   "Yogesh Mahapadi	CR08",
+  // ];
+  // final List<String> DS = [
+  //   "Ajay Gawde	DS01",
+  //   "Amol Jaybhaye	DS02",
+  //   "Chethan Gowda	DS03",
+  //   "Ganesh Sargar	DS04",
+  //   "Girish Chhatani	DS05",
+  //   "Haresh Shingare	DS06",
+  //   "Manish Shirvadkar	DS07",
+  //   "Naresh Manish Salvi	DS08",
+  //   "Omkar Sanjay Desai	DS09",
+  //   "Samir Shinde	DS10",
+  //   "Saurabh Rasal	DS11",
+  //   "Shreedhar Dhopat	DS12",
+  //   "Shubham Dalvi	DS13",
+  //   "Siddhesh Kadam	DS14",
+  // ];
+  // final List<String> GK = [
+  //   "Bhavesh Rawal	GK01",
+  //   "Dakshesh	GK02",
+  //   "Deep Panchal	GK03",
+  //   "Karan Gosalia	GK04",
+  //   "Nikhil Katta	GK05",
+  //   "Pratik Mehta	GK06",
+  //   "Rohit More	GK07",
+  //   "Sagar Sarvaiya	GK08",
+  //   "Shreeram Ingale	GK09",
+  //   "Urvesh Kothari	GK10",
+  //   "Vishal Goswami	GK11",
+  //   "Vishal Mehta	GK12",
+  // ];
+  // final List<String> HK = [
+  //   "Aatish Gupta	HK01",
+  //   "Abhishek Trivedi	HK02",
+  //   "Amar Daxini 	HK03",
+  //   "Anirudha Patil	HK04",
+  //   "Jayesh Kasargod	HK05",
+  //   "Lopesh	HK06",
+  //   "Manish Jain	HK07",
+  //   "Nirav Mirani	HK08",
+  //   "Nobin Trinath Sahu	HK09",
+  //   "Pramod Gupta	HK10",
+  //   "Santosh Prajapati	HK11",
+  //   "Shaktinarayan HK12",
+  //   "Urvesh Trivedi	HK13",
+  //   "Vinod Gupta HK14",
+  //   "Yash Mirani HK15",
+  // ];
+  // final List<String> SK = [
+  //   "Abhay Shembade	SK01",
+  //   "Harsh Mahesh Kanzariya	SK02",
+  //   "Harshad L Bhanushali	SK03",
+  //   "Kailash Bhanushali	SK04",
+  //   "Milan Rambhiya	SK05",
+  //   "Santan Swain	SK06",
+  //   "Vinay Ramesh Katwa	SK07",
+  // ];
+  // final List<String> SM = [
+  //   "Anil Chaurasiya	SM01",
+  //   "Devendra prajapati	SM02",
+  // ];
+  // final List<String> SY = [
+  //   "Abhay Shembade	SY01",
+  //   "Abhishek Dubey	SY02",
+  //   "Abhishek Pandey SY03",
+  //   "Avanish Singh SY04",
+  //   "Jayesh Salvi	SY05",
+  //   "Kishor Patel	SY06",
+  //   "Shilpesh Tawde	SY07",
+  // ];
 
   @override
   void initState() {
     super.initState();
 
-    dropdownValue = widget.model.getState();
+    dropdownValue = widget.model.getRefGrp();
+    //tLNameCode = widget.model.getReferenceName();
   }
 
   @override
@@ -138,38 +242,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
             ),
           ),
         ),
-        SizedBox(
-          height: maxLines * 25.0,
-          child: TextFormField(
-              onChanged: (val) {
-                widget.model.setReferenceName(val);
-              },
-              initialValue: widget.model.getReferenceName(),
-              keyboardType: TextInputType.text,
-              style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w400,
-                  color: hexToColor(AppColors.whiteTextColor),
-                  fontSize: 17.0),
-              maxLines: 1,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: hexToColor(AppColors.textFieldOutlineBorderColor)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                    borderSide:
-                        BorderSide(color: hexToColor(AppColors.paleOrange))),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                    borderSide: BorderSide(
-                        color:
-                            hexToColor(AppColors.textFieldOutlineBorderColor))),
-                hintText: AppStrings.teamLeadFieldHintText,
-                hintStyle: TextStyle(
-                    fontSize: 15, color: hexToColor(AppColors.hintTextColor)),
-              )),
-        ),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
@@ -211,6 +283,37 @@ class _UserReferenceNameState extends State<UserReferenceName> {
               },
               value: dropdownValue,
             ),
+
+            // DropdownButton(
+            //   icon: const SizedBox.shrink(),
+            //   dropdownColor: hexToColor(AppColors.appThemeColor),
+            //   style: GoogleFonts.montserrat(
+            //       fontWeight: FontWeight.w400,
+            //       color: hexToColor(AppColors.whiteTextColor),
+            //       fontSize: 17.0),
+            //   underline: DropdownButtonHideUnderline(child: Container()),
+            //   items: _grpList.map<DropdownMenuItem<String>>((String value) {
+            //     return DropdownMenuItem<String>(
+            //         value: value,
+            //         child: value == dropdownValue
+            //             ? Text(
+            //                 value,
+            //                 style: const TextStyle(color: Colors.white),
+            //               )
+            //             : Text(
+            //                 value,
+            //                 style: TextStyle(
+            //                     color: hexToColor(AppColors.paleOrange)),
+            //               ));
+            //   }).toList(),
+            //   onChanged: (String? newValue) {
+            //     setState(() {
+            //       dropdownValue = newValue ?? dropdownValue;
+            //       widget.model.setRefGrp(newValue!);
+            //     });
+            //   },
+            //   value: dropdownValue,
+            // ),
           ),
         ),
       ],

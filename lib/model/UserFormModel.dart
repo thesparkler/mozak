@@ -18,6 +18,7 @@ class UserFormModel {
     'course_name': '',
     'company_name': '',
     'designation': '',
+    'refGrp': '',
     'reference_name': '',
   };
 
@@ -135,6 +136,14 @@ class UserFormModel {
 
   getState() {
     return data['state'];
+  }
+
+  getRefGrp() {
+    return data['refGrp'];
+  }
+
+  setRefGrp(String refGrp) {
+    return data['refGrp'] = refGrp;
   }
 
   setState(String state) {
