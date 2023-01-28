@@ -135,14 +135,16 @@ SnackBar errorSnackBar(BuildContext context, String errorMsg) {
         height: 25,
         child: Row(
           children: [
-            Text(errorMsg, style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.w300,
-                color: hexToColor(AppColors.whiteTextColor),
-                fontSize: 15.0),),
+            Text(
+              errorMsg,
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w300,
+                  color: hexToColor(AppColors.whiteTextColor),
+                  fontSize: 15.0),
+            ),
             const Spacer(),
             GestureDetector(
-              onTap: () =>
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+              onTap: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
               child: Container(
                 padding: const EdgeInsets.only(
                     left: 5.0, right: 5.0, bottom: 5.0, top: 2.0),
@@ -165,6 +167,6 @@ SnackBar errorSnackBar(BuildContext context, String errorMsg) {
             )
           ],
         )),
+    duration: Duration(milliseconds: 1000),
   );
 }
-

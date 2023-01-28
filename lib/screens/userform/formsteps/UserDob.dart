@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/constants/AppAssets.dart';
@@ -67,7 +66,7 @@ class _UserDobState extends State<UserDob> {
           child: child ?? const Text(""),
         );
       },
-      initialDate: DateTime(1970),
+      initialDate: DateTime(1997),
       firstDate: DateTime(1900),
       lastDate: DateTime(3000),
     );

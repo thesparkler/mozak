@@ -1,5 +1,5 @@
 class AppAssets {
-  static const hariprabodhamLogo = "assets/images/hariprabodhamLOGO.png";
+  static const hariprabodhamLogo = "assets/images/unnamed.png";
   static const net = "assets/images/no_signal.png";
   static const yuvak = "assets/images/yuvak.png";
   static const hariSwamiBgImage = "assets/images/hari_swami.png";

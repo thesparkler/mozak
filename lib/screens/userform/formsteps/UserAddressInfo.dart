@@ -19,7 +19,7 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
   final maxLines = 2;
   final _formKey = GlobalKey<FormState>();
   var n;
-  String? selectedState;
+  // String? selectedState;
   String dropdownValue = "Maharashtra";
   final List<String> _stateList = [
     "Andaman and Nicobar",

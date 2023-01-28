@@ -28,10 +28,10 @@ class UserForm extends StatefulWidget {
 }
 
 class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
-  int currStep = 1;
+  int currStep = 6;
   int stepCount = 9;
   UserFormModel model = UserFormModel();
-  final PageController _controller = PageController(initialPage: 7);
+  final PageController _controller = PageController();
   late ValueNotifier<double> _valueNotifier;
 
   ConnectivityResult _connectionStatus = ConnectivityResult.none;

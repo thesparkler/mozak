@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,21 +23,102 @@ class _LoginPageState extends State<LoginPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   late String _email;
   late String _password;
+  final data = HashSet<String>();
 
   @override
   void initState() {
+    var elements = [
+      "BR01",
+      "BR02",
+      "BR03",
+      "BR04",
+      "BR05",
+      "BR06",
+      "BR07",
+      "BR08",
+      "BR09",
+      "DS01",
+      "DS02",
+      "DS03",
+      "DS04",
+      "DS05",
+      "DS06",
+      "DS07",
+      "DS08",
+      "DS09",
+      "DS10",
+      "DS11",
+      "DS12",
+      "DS13",
+      "DS14",
+      "CR01",
+      "CR02",
+      "CR03",
+      "CR04",
+      "CR05",
+      "CR06",
+      "CR07",
+      "CR08",
+      "GK01",
+      "GK02",
+      "GK03",
+      "GK04",
+      "GK05",
+      "GK06",
+      "GK07",
+      "GK08",
+      "GK09",
+      "GK10",
+      "GK11",
+      "GK12",
+      "HK01",
+      "HK02",
+      "HK03",
+      "HK04",
+      "HK05",
+      "HK06",
+      "HK07",
+      "HK08",
+      "HK09",
+      "HK10",
+      "HK11",
+      "HK12",
+      "HK13",
+      "HK14",
+      "HK15",
+      "SK01",
+      "SK02",
+      "SK03",
+      "SK04",
+      "SK05",
+      "SK06",
+      "SK07",
+      "SY01",
+      "SY02",
+      "SY03",
+      "SY04",
+      "SY05",
+      "SY06",
+      "SY07",
+      "SM01",
+      "SM02",
+    ];
+    data.addAll(elements);
     super.initState();
   }
 
-  void _toogleVisibility() {
+  Future<void> _toogleVisibility() async {
     setState(() {
       _showPassword = !_showPassword;
     });
   }
 
   showSnackBar(String text, Color color) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(text), backgroundColor: color));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(text),
+      backgroundColor: color,
+      duration: Duration(milliseconds: 1000),
+    ));
   }
 
   Future<bool> _onBackPressed() async {
@@ -67,7 +149,8 @@ class _LoginPageState extends State<LoginPage> {
                     Expanded(
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              primary: hexToColor(AppColors.appThemeColor),
+                              backgroundColor:
+                                  hexToColor(AppColors.appThemeColor),
                               //primary: Colors.white,
                               side: BorderSide(
                                   width: 1.0,
@@ -90,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                     Expanded(
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              primary: hexToColor(AppColors.redAccent)
+                              backgroundColor: hexToColor(AppColors.redAccent)
                               //const Color(0xffC93131),
                               ),
                           onPressed: () {
@@ -202,7 +285,7 @@ class _LoginPageState extends State<LoginPage> {
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            AppStrings.emailText,
+                                            AppStrings.groupCode,
                                             style: GoogleFonts.montserrat(
                                                 fontWeight: FontWeight.w400,
                                                 color: hexToColor(
@@ -245,7 +328,7 @@ class _LoginPageState extends State<LoginPage> {
                                                       color: hexToColor(AppColors
                                                           .textFieldOutlineBorderColor))),
                                               hintText:
-                                                  AppStrings.emailHintText,
+                                                  AppStrings.grpCodeHintText,
                                               hintStyle: TextStyle(
                                                   fontSize: 15,
                                                   color: hexToColor(
@@ -329,24 +412,31 @@ class _LoginPageState extends State<LoginPage> {
                                 width: MediaQuery.of(context).size.width,
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        primary:
+                                        backgroundColor:
                                             hexToColor(AppColors.orangeAccent)),
                                     onPressed: () {
                                       _formKey.currentState!.save();
-                                      var result =
-                                          validation(_email, _password);
-                                      if (result != null) {
-                                        showSnackBar(result,
+                                      // var result = validation(_email, _password);
+                                      // if (result != null) {
+                                      //   showSnackBar(result,
+                                      //       hexToColor(AppColors.redAccent));
+                                      //   return;
+                                      // }
+                                      if (data.contains(_email.toUpperCase()) &&
+                                          _password == "huGunatit") {
+                                        showSnackBar(
+                                            AppStrings.validationSuccessText,
+                                            hexToColor(AppColors.greenAccent));
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const UserForm()));
+                                      } else {
+                                        showSnackBar(
+                                            "Invalid Group code or Password!!!",
                                             hexToColor(AppColors.redAccent));
                                         return;
                                       }
-                                      showSnackBar(
-                                          AppStrings.validationSuccessText,
-                                          hexToColor(AppColors.greenAccent));
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const UserForm()));
                                     },
                                     child: Text(
                                       AppStrings.loginBtnText,

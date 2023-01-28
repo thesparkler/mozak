@@ -6,7 +6,10 @@ class AppStrings {
   //LOGIN TEXTS
   static const String passwordHintText = "Must have at least 6 characters";
   static const String emailHintText = "bhulkoo@example.com";
+  static const String grpCodeHintText = "Eg. SY04/sy04";
   static const String emailText = "Email";
+  static const String groupCode = "Group Code";
+  static const String password = "swAminArAyAn";
   static const String passwordText = "Password";
   static const String loginBtnText = "Login";
 
@@ -93,7 +96,9 @@ class AppStrings {
       "You can contact me by my phone number or email id";
   static const String myBloodType = "My blood type is";
   static const String tlNameBelonging = "The person to whom I'm belonging is ";
+  static const String teamBelonging = "The mandal to which I belong is ";
   static const String team = "Reference";
+  static const String teamName = "Team Name";
 
   // Errors Strings
   static const String firstNameRequired = "First Name is required";

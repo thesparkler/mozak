@@ -22,6 +22,7 @@ class VerifyDetailsState extends State<VerifyDetails> {
   late String userEmail, userContactNo;
   late String userBloodType;
   late String userTeamLead;
+  late String userTeam;
   late String userCareerType, userDesignation, userCompanyName;
   late String userSchoolOrCollegeName, userCourse;
   late String userCityAddress;
@@ -29,7 +30,6 @@ class VerifyDetailsState extends State<VerifyDetails> {
   @override
   void initState() {
     super.initState();
-
     userFirstName = widget.model.getFirstName();
     userMiddleName = widget.model.getMiddleName();
     userLastName = widget.model.getLastName();
@@ -38,6 +38,7 @@ class VerifyDetailsState extends State<VerifyDetails> {
     userContactNo = widget.model.getContactNo();
     userBloodType = widget.model.getBloodGroup();
     userTeamLead = widget.model.getReferenceName();
+    userTeam = widget.model.getRefGrp();
     userCareerType = widget.model.getCareerType();
     userDesignation = widget.model.getDesignation();
     userCompanyName = widget.model.getCompanyName();
@@ -59,6 +60,8 @@ class VerifyDetailsState extends State<VerifyDetails> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> userEmailList;
+    userEmailList = userEmail.split("@");
     return ScrollConfiguration(
       behavior: NoGlowBehaviour(),
       child: Scaffold(
@@ -83,7 +86,6 @@ class VerifyDetailsState extends State<VerifyDetails> {
                     ),
                   ),
                 ),
-
                 Align(
                   alignment: Alignment.centerLeft,
                   child: RichText(
@@ -107,7 +109,6 @@ class VerifyDetailsState extends State<VerifyDetails> {
                     ),
                   ),
                 ),
-
                 Align(
                   alignment: Alignment.centerLeft,
                   child: AutoSizeText(
@@ -126,7 +127,6 @@ class VerifyDetailsState extends State<VerifyDetails> {
                         height: 1.8),
                   ),
                 ),
-
                 Align(
                   alignment: Alignment.centerLeft,
                   child: AutoSizeText(
@@ -144,7 +144,6 @@ class VerifyDetailsState extends State<VerifyDetails> {
                         height: 1.8),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
                   child: Align(
@@ -159,7 +158,6 @@ class VerifyDetailsState extends State<VerifyDetails> {
                     ),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Row(
@@ -184,29 +182,38 @@ class VerifyDetailsState extends State<VerifyDetails> {
                     ],
                   ),
                 ),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.email,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: AutoSizeText(
-                        userEmail,
+                Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.email,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      AutoSizeText(
+                        "  " + userEmailList[0],
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w400,
-                          color: hexToColor(AppColors.paleOrange),
-                          fontSize: 19.0,
-                          height: 1.4,
+                            fontWeight: FontWeight.w400,
+                            color: hexToColor(AppColors.paleOrange),
+                            fontSize: 19.0,
+                            height: 1.4),
+                      ),
+                      Expanded(
+                        child: AutoSizeText(
+                          "@" + userEmailList[1],
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w400,
+                              color: hexToColor(AppColors.paleOrange),
+                              fontSize: 19.0,
+                              height: 1.4),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-
                 Align(
                   alignment: Alignment.centerLeft,
                   child: AutoSizeText(
@@ -218,13 +225,25 @@ class VerifyDetailsState extends State<VerifyDetails> {
                         height: 1.9),
                   ),
                 ),
-
                 Container(
                   child: userCareerType == "Student"
                       ? _isStudent()
                       : _isWorkingProfessional(),
                 ),
-
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 0.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: AutoSizeText(
+                      AppStrings.teamBelonging + " " + userTeam,
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w400,
+                          color: hexToColor(AppColors.whiteTextColor),
+                          fontSize: 20.0,
+                          height: 1.4),
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 20.0),
                   child: Align(
