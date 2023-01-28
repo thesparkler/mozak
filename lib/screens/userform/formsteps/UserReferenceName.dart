@@ -18,10 +18,52 @@ class UserReferenceName extends StatefulWidget {
 class _UserReferenceNameState extends State<UserReferenceName> {
   final maxLines = 2;
   final _formKey = GlobalKey<FormState>();
+  String? selectedState;
+  String dropdownValue = "Maharashtra";
+  final List<String> _stateList = [
+    "Andaman and Nicobar",
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chandigarh",
+    "Chhattisgarh",
+    "Dadra and Nagar Haveli",
+    "Daman and Diu",
+    "Delhi",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jammu and Kashmir",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Lakshadweep",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Orissa",
+    "Puducherry",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal	"
+  ];
 
   @override
   void initState() {
     super.initState();
+
+    dropdownValue = widget.model.getState();
   }
 
   @override
@@ -127,6 +169,49 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                 hintStyle: TextStyle(
                     fontSize: 15, color: hexToColor(AppColors.hintTextColor)),
               )),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            border: Border.all(
+              color: hexToColor(AppColors.textFieldOutlineBorderColor),
+              width: 1.0,
+            ),
+          ),
+          width: MediaQuery.of(context).size.width,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: DropdownButton(
+              icon: const SizedBox.shrink(),
+              dropdownColor: hexToColor(AppColors.appThemeColor),
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w400,
+                  color: hexToColor(AppColors.whiteTextColor),
+                  fontSize: 17.0),
+              underline: DropdownButtonHideUnderline(child: Container()),
+              items: _stateList.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                    value: value,
+                    child: value == dropdownValue
+                        ? Text(
+                            value,
+                            style: const TextStyle(color: Colors.white),
+                          )
+                        : Text(
+                            value,
+                            style: TextStyle(
+                                color: hexToColor(AppColors.paleOrange)),
+                          ));
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue ?? dropdownValue;
+                  widget.model.setState(newValue!);
+                });
+              },
+              value: dropdownValue,
+            ),
+          ),
         ),
       ],
     );

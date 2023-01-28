@@ -35,8 +35,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   showSnackBar(String text, Color color) {
-    _scaffoldKey.currentState
-        ?.showSnackBar(SnackBar(content: Text(text), backgroundColor: color));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(text), backgroundColor: color));
   }
 
   Future<bool> _onBackPressed() async {
@@ -68,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               primary: hexToColor(AppColors.appThemeColor),
+                              //primary: Colors.white,
                               side: BorderSide(
                                   width: 1.0,
                                   color: hexToColor(AppColors.grey))),
@@ -216,8 +217,6 @@ class _LoginPageState extends State<LoginPage> {
                                             onSaved: (val) => _email = val!,
                                             keyboardType:
                                                 TextInputType.emailAddress,
-                                            textInputAction:
-                                                TextInputAction.next,
                                             style: GoogleFonts.montserrat(
                                                 fontWeight: FontWeight.w400,
                                                 color: hexToColor(
@@ -276,8 +275,6 @@ class _LoginPageState extends State<LoginPage> {
                                         child: TextFormField(
                                             onSaved: (val) => _password = val!,
                                             keyboardType: TextInputType.text,
-                                            textInputAction:
-                                                TextInputAction.done,
                                             style: GoogleFonts.montserrat(
                                                 fontWeight: FontWeight.w400,
                                                 color: hexToColor(
@@ -360,7 +357,7 @@ class _LoginPageState extends State<LoginPage> {
                                         fontSize: 18.0,
                                       ),
                                     )),
-                              ),
+                              )
                             ],
                           ),
                         )))

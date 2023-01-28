@@ -1,4 +1,4 @@
-import 'package:mozak/constants/AppStrings.dart';
+import '../constants/AppStrings.dart';
 
 class UserFormModel {
   var data = {
@@ -171,7 +171,6 @@ class UserFormModel {
   }
 
   String? validateStepTwoNamesField() {
-
     var firstName = data['first_name'];
     var middleName = data['middle_name'];
     var lastName = data['last_name'];
@@ -193,7 +192,6 @@ class UserFormModel {
   }
 
   String? validateStepFourContactInfo() {
-
     Pattern pattern = "(0/91)?[7-9][0-9]{9}";
     RegExp regex = RegExp(pattern.toString());
     var email = data['email'];
@@ -205,7 +203,7 @@ class UserFormModel {
       return AppStrings.enterValidEmail;
     } else if (contactNo != null && contactNo == '') {
       return AppStrings.contactNoRequired;
-    } else if(!regex.hasMatch(contactNo!)) {
+    } else if (!regex.hasMatch(contactNo!)) {
       return "Invalid Contact Number";
     }
     return null;

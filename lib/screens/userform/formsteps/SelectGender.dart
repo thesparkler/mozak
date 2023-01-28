@@ -89,11 +89,13 @@ class _SelectGenderState extends State<SelectGender> {
             padding: const EdgeInsets.only(top: 10.0, left: 18.0),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(AppStrings.genderSelection,
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400,
-                      color: hexToColor(AppColors.whiteTextColor),
-                      fontSize: 22.0)),
+              child: Text(
+                AppStrings.genderSelection,
+                style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w400,
+                    color: hexToColor(AppColors.whiteTextColor),
+                    fontSize: 22.0),
+              ),
             ),
           ),
 
