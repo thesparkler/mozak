@@ -8,8 +8,8 @@ class AppStrings {
   static const String emailHintText = "bhulkoo@example.com";
   static const String grpCodeHintText = "Eg. SY04/sy04";
   static const String emailText = "Email";
-  static const String groupCode = "Group Code";
-  static const String password = "swAminArAyAn";
+  static const String groupCode = "Team Code";
+  static const String password = "dasnadas";
   static const String passwordText = "Password";
   static const String loginBtnText = "Login";
 
@@ -64,7 +64,8 @@ class AppStrings {
   static const String cityFieldHintText = "City/District/Town";
   static const String stateFieldText = "State";
   static const String stateFieldHintText = "Maharashtra";
-  static const String bloodGroupTitleText = "Select your blood\ngroup type";
+  static const String bloodGroupTitleText =
+      "Select your blood\ngroup type (*Not Mandatory)";
   static const String oPlusBloodGroup = "O+";
   static const String aPlusBloodGroup = "A+";
   static const String bPlusBloodGroup = "B+";

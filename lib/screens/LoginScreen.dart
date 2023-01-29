@@ -423,7 +423,7 @@ class _LoginPageState extends State<LoginPage> {
                                       //   return;
                                       // }
                                       if (data.contains(_email.toUpperCase()) &&
-                                          _password == "huGunatit") {
+                                          _password == "dasnadas") {
                                         showSnackBar(
                                             AppStrings.validationSuccessText,
                                             hexToColor(AppColors.greenAccent));

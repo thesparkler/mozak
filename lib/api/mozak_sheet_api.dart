@@ -55,6 +55,7 @@ class MozakSheetApi {
         model.getCourseName(),
         model.getCompanyName(),
         model.getDesignation(),
+        model.getRefGrp(),
         model.getReferenceName()
       ]);
     } catch (e) {

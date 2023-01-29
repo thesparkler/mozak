@@ -27,13 +27,19 @@ class _UserBloodType extends State<UserBloodType> {
             padding: const EdgeInsets.only(left: 18.0, top: 35.0, bottom: 30.0),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                AppStrings.bloodGroupTitleText,
-                style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w400,
-                    color: hexToColor(AppColors.whiteTextColor),
-                    fontSize: 22.0,
-                    height: 1.5),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    AppStrings.bloodGroupTitleText,
+                    style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w400,
+                        color: hexToColor(AppColors.whiteTextColor),
+                        fontSize: 22.0,
+                        height: 1.5),
+                  ),
+                ],
               ),
             ),
           ),
