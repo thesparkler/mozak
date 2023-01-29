@@ -4,9 +4,9 @@ class AppStrings {
   static const String splashScreenTextTwo = "Das na Das";
 
   //LOGIN TEXTS
-  static const String passwordHintText = "Must have at least 6 characters";
+  static const String passwordHintText = "Must have at least 8 characters";
   static const String emailHintText = "bhulkoo@example.com";
-  static const String grpCodeHintText = "Eg. SY04/sy04";
+  static const String grpCodeHintText = "SY04/sy04";
   static const String emailText = "Email";
   static const String groupCode = "Team Code";
   static const String password = "dasnadas";
