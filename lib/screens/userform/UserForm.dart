@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/api/mozak_sheet_api.dart';
 import 'package:mozak/constants/AppColors.dart';
@@ -41,6 +42,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     _valueNotifier = ValueNotifier<double>(1);
 
     _controller.addListener(() {
@@ -269,29 +271,39 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                 fontSize: 15.0,
               )),
         ),
-        GestureDetector(
-          onTap: () async {
-            if (_connectionStatus == ConnectivityResult.none) {
-              internetConnectivityDialog(context);
-            } else {
-              await MozakSheetApi.insertUserData(model);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const FormSuccessScreen()));
-            }
-          },
-          child: Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  color: hexToColor(AppColors.greenAccent)),
-              child: Icon(
-                Icons.done,
-                color: hexToColor(
-                  AppColors.colorBlack,
-                ),
-                size: 22,
-              )),
+        Theme(
+          data: ThemeData(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+          ),
+          child: InkWell(
+            onTap: () async {
+              EasyLoading.show(
+                status: 'Please wait...',
+              );
+              if (_connectionStatus == ConnectivityResult.none) {
+                EasyLoading.dismiss();
+              } else {
+                await MozakSheetApi.insertUserData(model);
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const FormSuccessScreen()));
+                EasyLoading.dismiss();
+              }
+            },
+            child: Container(
+                height: 40,
+                width: 40,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    color: hexToColor(AppColors.greenAccent)),
+                child: Icon(
+                  Icons.done,
+                  color: hexToColor(
+                    AppColors.colorBlack,
+                  ),
+                  size: 22,
+                )),
+          ),
         ),
       ],
     ));

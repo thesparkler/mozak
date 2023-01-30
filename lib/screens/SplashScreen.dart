@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mozak/constants/AppAssets.dart';
 import 'package:mozak/constants/AppColors.dart';
 import 'package:mozak/constants/AppStrings.dart';
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     controller = AnimationController(
         duration: const Duration(milliseconds: 5000), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);

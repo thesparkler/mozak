@@ -56,7 +56,8 @@ class MozakSheetApi {
         model.getCompanyName(),
         model.getDesignation(),
         model.getRefGrp(),
-        model.getReferenceName()
+        model.getReferenceName(),
+        DateTime.now().toString()
       ]);
     } catch (e) {
       print('Init Error $e');

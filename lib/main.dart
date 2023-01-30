@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 //import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mozak/constants/AppColors.dart';
 import 'package:mozak/screens/LoginScreen.dart';
@@ -9,6 +10,7 @@ import 'package:mozak/utils/app_tools.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  EasyLoading.init();
   runApp(const MyApp());
 }
 
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(disabledColor: hexToColor(AppColors.grey)),
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
+      builder: EasyLoading.init(),
     );
   }
 }

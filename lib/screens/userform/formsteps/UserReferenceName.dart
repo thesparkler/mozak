@@ -5,6 +5,7 @@ import 'package:mozak/constants/AppStrings.dart';
 import 'package:mozak/model/UserFormModel.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/app_tools.dart';
+import 'package:flutter/services.dart';
 
 class UserReferenceName extends StatefulWidget {
   final UserFormModel model;
@@ -137,6 +138,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
 
   @override
   void initState() {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     selectedMandal = widget.model.getRefGrp();
     _selectedCode = codeMap[selectedMandal]!;
     if (_selectedCode == "BR") {
