@@ -169,8 +169,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
       selectedTL = widget.model.getReferenceName();
     }
     widget.model.setReferenceName(selectedTL);
-    print(_selectedCode);
-    print(widget.model.getReferenceName());
     super.initState();
   }
 
@@ -346,8 +344,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                     selectedTL = currentTLList[0];
                   }
                   widget.model.setReferenceName(selectedTL);
-                  print(_selectedCode);
-                  print(widget.model.getReferenceName());
                 });
               },
               value: selectedMandal,
@@ -405,7 +401,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                 setState(() {
                   selectedTL = newValue!;
                   widget.model.setReferenceName(newValue);
-                  print(widget.model.getRefGrp());
                 });
               },
               value: selectedTL,
