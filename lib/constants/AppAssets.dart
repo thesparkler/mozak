@@ -1,6 +1,6 @@
 class AppAssets {
-  // images
-  static const ydsLogo = "assets/images/logo_yds.png";
+  static const hariprabodhamLogo = "assets/images/shri_hari_prabodham.png";
+  static const net = "assets/images/no_signal.png";
   static const yuvak = "assets/images/yuvak.png";
   static const hariSwamiBgImage = "assets/images/hari_swami.png";
   static const maleImgBlack = "assets/images/form_ui_assets/male_img_black.png";
@@ -18,4 +18,8 @@ class AppAssets {
       "assets/images/form_ui_assets/working_img_white.png";
   static const professionalImgBlack =
       "assets/images/form_ui_assets/working_img_black.png";
+  static const workBlack = "assets/images/form_ui_assets/working_img_white.png";
+  static const workWhite = "assets/images/form_ui_assets/working_img_black.png";
+  static const lottieDone =
+      "assets/images/form_ui_assets/lottie/correct_tick.json";
 }

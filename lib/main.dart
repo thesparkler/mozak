@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+//import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mozak/constants/AppColors.dart';
+import 'package:mozak/screens/LoginScreen.dart';
 import 'package:mozak/screens/SplashScreen.dart';
+import 'package:mozak/screens/userform/UserForm.dart';
+import 'package:mozak/utils/app_tools.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -18,9 +24,10 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(disabledColor: hexToColor(AppColors.grey)),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }

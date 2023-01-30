@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,7 +8,6 @@ import 'package:mozak/constants/AppStrings.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/app_tools.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -23,95 +23,177 @@ class _LoginPageState extends State<LoginPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   late String _email;
   late String _password;
+  final data = HashSet<String>();
 
   @override
   void initState() {
+    var elements = [
+      "BR01",
+      "BR02",
+      "BR03",
+      "BR04",
+      "BR05",
+      "BR06",
+      "BR07",
+      "BR08",
+      "BR09",
+      "DS01",
+      "DS02",
+      "DS03",
+      "DS04",
+      "DS05",
+      "DS06",
+      "DS07",
+      "DS08",
+      "DS09",
+      "DS10",
+      "DS11",
+      "DS12",
+      "DS13",
+      "DS14",
+      "CR01",
+      "CR02",
+      "CR03",
+      "CR04",
+      "CR05",
+      "CR06",
+      "CR07",
+      "CR08",
+      "GK01",
+      "GK02",
+      "GK03",
+      "GK04",
+      "GK05",
+      "GK06",
+      "GK07",
+      "GK08",
+      "GK09",
+      "GK10",
+      "GK11",
+      "GK12",
+      "HK01",
+      "HK02",
+      "HK03",
+      "HK04",
+      "HK05",
+      "HK06",
+      "HK07",
+      "HK08",
+      "HK09",
+      "HK10",
+      "HK11",
+      "HK12",
+      "HK13",
+      "HK14",
+      "HK15",
+      "SK01",
+      "SK02",
+      "SK03",
+      "SK04",
+      "SK05",
+      "SK06",
+      "SK07",
+      "SY01",
+      "SY02",
+      "SY03",
+      "SY04",
+      "SY05",
+      "SY06",
+      "SY07",
+      "SM01",
+      "SM02",
+    ];
+    data.addAll(elements);
     super.initState();
   }
 
-  void _toogleVisibility() {
+  Future<void> _toogleVisibility() async {
     setState(() {
       _showPassword = !_showPassword;
     });
   }
 
   showSnackBar(String text, Color color) {
-    _scaffoldKey.currentState
-        ?.showSnackBar(SnackBar(content: Text(text), backgroundColor: color));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(text),
+      backgroundColor: color,
+      duration: Duration(milliseconds: 1000),
+    ));
   }
 
   Future<bool> _onBackPressed() async {
     return await showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: hexToColor(AppColors.appThemeColor),
-        title: Row(
-          children: [
-            Text(AppStrings.dialogTitle,
-                style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20.0,
-                    color: hexToColor(AppColors.whiteTextColor))),
-          ],
-        ),
-        content: Text(AppStrings.dialogDescription,
-            style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.w400,
-                fontSize: 15.0,
-                color: hexToColor(AppColors.whiteTextColor))),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10, right: 10, left: 10),
-            child: Row(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: hexToColor(AppColors.appThemeColor),
+            title: Row(
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: hexToColor(AppColors.appThemeColor),
-                          //primary: Colors.white,
-                          side: BorderSide(
-                              width: 1.0,
-                              color: hexToColor(AppColors.grey))),
-                      onPressed: () {
-                        Navigator.of(context).pop(false);
-                      },
-                      child: Text(
-                        AppStrings.cancelBtnText,
-                        style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w500,
-                          color: hexToColor(AppColors.grey),
-                          fontSize: 15.0,
-                        ),
-                      )),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: hexToColor(AppColors.redAccent)
-                        //const Color(0xffC93131),
-                      ),
-                      onPressed: () {
-                        exit(0);
-                      },
-                      child: Text(
-                        AppStrings.exitBtnText,
-                        style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w500,
-                          color: hexToColor(AppColors.whiteTextColor),
-                          fontSize: 15.0,
-                        ),
-                      )),
-                ),
+                Text(AppStrings.dialogTitle,
+                    style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20.0,
+                        color: hexToColor(AppColors.whiteTextColor))),
               ],
             ),
-          )
-        ],
-      ),
-    ) ??
+            content: Text(AppStrings.dialogDescription,
+                style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 15.0,
+                    color: hexToColor(AppColors.whiteTextColor))),
+            actions: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10, right: 10, left: 10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  hexToColor(AppColors.appThemeColor),
+                              //primary: Colors.white,
+                              side: BorderSide(
+                                  width: 1.0,
+                                  color: hexToColor(AppColors.grey))),
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                          child: Text(
+                            AppStrings.cancelBtnText,
+                            style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w500,
+                              color: hexToColor(AppColors.grey),
+                              fontSize: 15.0,
+                            ),
+                          )),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: hexToColor(AppColors.redAccent)
+                              //const Color(0xffC93131),
+                              ),
+                          onPressed: () {
+                            exit(0);
+                          },
+                          child: Text(
+                            AppStrings.exitBtnText,
+                            style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w500,
+                              color: hexToColor(AppColors.whiteTextColor),
+                              fontSize: 15.0,
+                            ),
+                          )),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ) ??
         false;
   }
 
@@ -138,9 +220,9 @@ class _LoginPageState extends State<LoginPage> {
                       height: MediaQuery.of(context).size.height / 2.60,
                       decoration: const BoxDecoration(
                           image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(AppAssets.hariSwamiBgImage),
-                          )),
+                        fit: BoxFit.cover,
+                        image: AssetImage(AppAssets.hariSwamiBgImage),
+                      )),
                     )),
                 Positioned(
                     left: 0,
@@ -199,11 +281,11 @@ class _LoginPageState extends State<LoginPage> {
                                     children: [
                                       Padding(
                                         padding:
-                                        const EdgeInsets.only(bottom: 10),
+                                            const EdgeInsets.only(bottom: 10),
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            AppStrings.emailText,
+                                            AppStrings.groupCode,
                                             style: GoogleFonts.montserrat(
                                                 fontWeight: FontWeight.w400,
                                                 color: hexToColor(
@@ -217,7 +299,7 @@ class _LoginPageState extends State<LoginPage> {
                                         child: TextFormField(
                                             onSaved: (val) => _email = val!,
                                             keyboardType:
-                                            TextInputType.emailAddress,
+                                                TextInputType.emailAddress,
                                             style: GoogleFonts.montserrat(
                                                 fontWeight: FontWeight.w400,
                                                 color: hexToColor(
@@ -232,21 +314,21 @@ class _LoginPageState extends State<LoginPage> {
                                               ),
                                               focusedBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(5.0)),
+                                                      const BorderRadius.all(
+                                                          Radius.circular(5.0)),
                                                   borderSide: BorderSide(
                                                       color: hexToColor(
                                                           AppColors
                                                               .paleOrange))),
                                               enabledBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(5.0)),
+                                                      const BorderRadius.all(
+                                                          Radius.circular(5.0)),
                                                   borderSide: BorderSide(
                                                       color: hexToColor(AppColors
                                                           .textFieldOutlineBorderColor))),
                                               hintText:
-                                              AppStrings.emailHintText,
+                                                  AppStrings.grpCodeHintText,
                                               hintStyle: TextStyle(
                                                   fontSize: 15,
                                                   color: hexToColor(
@@ -258,7 +340,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                       Padding(
                                         padding:
-                                        const EdgeInsets.only(bottom: 10),
+                                            const EdgeInsets.only(bottom: 10),
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
@@ -286,16 +368,16 @@ class _LoginPageState extends State<LoginPage> {
                                             decoration: InputDecoration(
                                               focusedBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(5.0)),
+                                                      const BorderRadius.all(
+                                                          Radius.circular(5.0)),
                                                   borderSide: BorderSide(
                                                       color: hexToColor(
                                                           AppColors
                                                               .paleOrange))),
                                               enabledBorder: OutlineInputBorder(
                                                   borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(5.0)),
+                                                      const BorderRadius.all(
+                                                          Radius.circular(5.0)),
                                                   borderSide: BorderSide(
                                                       color: hexToColor(AppColors
                                                           .textFieldOutlineBorderColor))),
@@ -313,7 +395,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 ),
                                               ),
                                               hintText:
-                                              AppStrings.passwordHintText,
+                                                  AppStrings.passwordHintText,
                                               hintStyle: TextStyle(
                                                   fontSize: 15,
                                                   color: hexToColor(
@@ -330,24 +412,31 @@ class _LoginPageState extends State<LoginPage> {
                                 width: MediaQuery.of(context).size.width,
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        primary:
-                                        hexToColor(AppColors.orangeAccent)),
+                                        backgroundColor:
+                                            hexToColor(AppColors.orangeAccent)),
                                     onPressed: () {
                                       _formKey.currentState!.save();
-                                      var result =
-                                      validation(_email, _password);
-                                      if (result != null) {
-                                        showSnackBar(result,
+                                      // var result = validation(_email, _password);
+                                      // if (result != null) {
+                                      //   showSnackBar(result,
+                                      //       hexToColor(AppColors.redAccent));
+                                      //   return;
+                                      // }
+                                      if (data.contains(_email.toUpperCase()) &&
+                                          _password == "dasnadas") {
+                                        showSnackBar(
+                                            AppStrings.validationSuccessText,
+                                            hexToColor(AppColors.greenAccent));
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const UserForm()));
+                                      } else {
+                                        showSnackBar(
+                                            "Invalid Group code or Password!!!",
                                             hexToColor(AppColors.redAccent));
                                         return;
                                       }
-                                      showSnackBar(
-                                          AppStrings.validationSuccessText,
-                                          hexToColor(AppColors.greenAccent));
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                              const UserForm()));
                                     },
                                     child: Text(
                                       AppStrings.loginBtnText,
