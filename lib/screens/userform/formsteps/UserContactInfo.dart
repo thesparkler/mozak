@@ -9,8 +9,9 @@ import 'package:mozak/utils/app_tools.dart';
 
 class UserContactInfo extends StatefulWidget {
   final UserFormModel model;
+  final next;
 
-  const UserContactInfo(this.model, {Key? key}) : super(key: key);
+  const UserContactInfo(this.model, this.next, {Key? key}) : super(key: key);
 
   @override
   State<UserContactInfo> createState() => _UserContactInfoState();
@@ -154,6 +155,9 @@ class _UserContactInfoState extends State<UserContactInfo> {
                 textInputAction: TextInputAction.done,
                 onChanged: (val) {
                   widget.model.setContactInfo(val);
+                },
+                onEditingComplete: () {
+                  widget.next();
                 },
                 initialValue: widget.model.getContactNo(),
                 keyboardType: TextInputType.number,

@@ -10,7 +10,9 @@ import 'package:mozak/utils/app_tools.dart';
 class UserAddressInfo extends StatefulWidget {
   final UserFormModel model;
 
-  const UserAddressInfo(this.model, {Key? key}) : super(key: key);
+  final next;
+
+  const UserAddressInfo(this.model, this.next, {Key? key}) : super(key: key);
 
   @override
   State<UserAddressInfo> createState() => _UserAddressInfoState();
@@ -187,6 +189,9 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
           child: TextFormField(
               onChanged: (val) {
                 widget.model.setCity(val);
+              },
+              onEditingComplete: () {
+                SystemChannels.textInput.invokeMethod('TextInput.hide');
               },
               initialValue: widget.model.getCity(),
               textInputAction: TextInputAction.next,

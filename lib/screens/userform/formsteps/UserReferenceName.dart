@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/constants/AppColors.dart';
@@ -9,8 +11,8 @@ import 'package:flutter/services.dart';
 
 class UserReferenceName extends StatefulWidget {
   final UserFormModel model;
-
-  const UserReferenceName(this.model, {Key? key}) : super(key: key);
+  final next;
+  const UserReferenceName(this.model, this.next, {Key? key}) : super(key: key);
 
   @override
   State<UserReferenceName> createState() => _UserReferenceNameState();
@@ -401,6 +403,9 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                 setState(() {
                   selectedTL = newValue!;
                   widget.model.setReferenceName(newValue);
+                  Timer(Duration(seconds: 1), () {
+                    widget.next();
+                  });
                 });
               },
               value: selectedTL,

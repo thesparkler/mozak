@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,8 +12,8 @@ import 'package:intl/intl.dart';
 
 class UserDob extends StatefulWidget {
   final UserFormModel model;
-
-  const UserDob(this.model, {Key? key}) : super(key: key);
+  final next;
+  const UserDob(this.model, this.next, {Key? key}) : super(key: key);
 
   @override
   State<UserDob> createState() => _UserDobState();
@@ -79,6 +81,9 @@ class _UserDobState extends State<UserDob> {
       setState(() {
         date = dateController.text = formatter.format(selected);
         widget.model.setDOB(date);
+        Timer(Duration(seconds: 1), () {
+          widget.next();
+        });
       });
     }
   }

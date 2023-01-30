@@ -124,13 +124,13 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     var steps = [
       SelectGender(model, next),
-      UserFullName(model),
-      UserDob(model),
-      UserContactInfo(model),
-      UserAddressInfo(model),
+      UserFullName(model, next),
+      UserDob(model, next),
+      UserContactInfo(model, next),
+      UserAddressInfo(model, next),
       UserBloodType(model, next),
-      UserCareerType(model),
-      UserReferenceName(model),
+      UserCareerType(model, next),
+      UserReferenceName(model, next),
       VerifyDetails(model),
     ];
 
