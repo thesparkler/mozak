@@ -25,18 +25,18 @@ class _SplashScreenState extends State<SplashScreen>
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     controller = AnimationController(
-        duration: const Duration(milliseconds: 5000), vsync: this);
-    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
+        duration: const Duration(milliseconds: 5), vsync: this);
+    animation = CurvedAnimation(parent: controller, curve: Curves.easeInBack);
     controller.forward();
 
-    Timer(const Duration(seconds: 5),
+    Timer(const Duration(seconds: 2),
         () => Navigator.of(context).push(_createRoute()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: hexToColor(AppColors.appThemeColor),
+      backgroundColor: hexToColor("#4A250A"),
       body: Stack(
         children: [
           Padding(
@@ -114,14 +114,19 @@ class _SplashScreenState extends State<SplashScreen>
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
-          const curve = Curves.ease;
-          var tween =
-              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          const curve = Curves.slowMiddle;
+          Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-          return SlideTransition(
-            position: animation.drive(tween),
+          return FadeTransition(
+            opacity: animation,
             child: child,
+            alwaysIncludeSemantics: true,
           );
         });
+  }
+
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

@@ -278,6 +278,9 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
           ),
           child: InkWell(
             onTap: () async {
+              EasyLoading.instance
+                ..backgroundColor = Colors.white10
+                ..userInteractions = false;
               EasyLoading.show(
                 status: 'Please wait...',
               );

@@ -1,5 +1,5 @@
 class AppColors {
-  static const appThemeColor = "#4A250A";
+  static const appThemeColor = "#181E2C";
   static const iconColor = "#747880";
   static const hintTextColor = "#626672";
   static const textFieldOutlineBorderColor = "#626672";
