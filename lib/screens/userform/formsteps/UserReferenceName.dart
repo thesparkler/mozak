@@ -21,6 +21,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
   String? _selectedCode;
   String selectedMandal = "Bramhadarshan";
   String selectedTL = "Aditya Jejurkar BR01";
+  TextEditingController reference_name = TextEditingController();
 
   final List<String> _grpCodeList = [
     "Bramhadarshan",
@@ -179,21 +180,21 @@ class _UserReferenceNameState extends State<UserReferenceName> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 18.0, top: 35.0, bottom: 30.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    AppStrings.justLastQuestionText,
-                    style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w400,
-                        color: hexToColor(AppColors.whiteTextColor),
-                        fontSize: 22.0,
-                        height: 1.3),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding:
+              //       const EdgeInsets.only(left: 18.0, top: 35.0, bottom: 30.0),
+              //   child: Align(
+              //     alignment: Alignment.centerLeft,
+              //     child: Text(
+              //       AppStrings.justLastQuestionText,
+              //       style: GoogleFonts.montserrat(
+              //           fontWeight: FontWeight.w400,
+              //           color: hexToColor(AppColors.whiteTextColor),
+              //           fontSize: 22.0,
+              //           height: 1.3),
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.only(left: 18.0, bottom: 30.0),
                 child: Align(
@@ -235,7 +236,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              AppStrings.team,
+              AppStrings.reference,
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w400,
                   color: hexToColor(AppColors.whiteTextColor),
@@ -243,6 +244,28 @@ class _UserReferenceNameState extends State<UserReferenceName> {
             ),
           ),
         ),
+    Container(
+    decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(5.0),
+    border: Border.all(
+    color: hexToColor(AppColors.textFieldOutlineBorderColor),
+    width: 1.0,
+    ),
+    ),
+    width: MediaQuery.of(context).size.width,
+    child: Padding(
+    padding: const EdgeInsets.only(left: 10.0),
+    child: TextField(
+      controller: reference_name,
+      style: GoogleFonts.montserrat(
+          fontWeight: FontWeight.w400,
+          color: hexToColor(AppColors.whiteTextColor),
+          fontSize: 15.0),
+    )
+
+    )
+    ),
+
         Padding(
           padding: const EdgeInsets.only(bottom: 10, top: 20.0),
           child: Align(
@@ -340,7 +363,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              AppStrings.team,
+              AppStrings.reference,
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w400,
                   color: hexToColor(AppColors.whiteTextColor),

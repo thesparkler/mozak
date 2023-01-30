@@ -64,17 +64,19 @@ class _UserBloodType extends State<UserBloodType> {
                     _bloodGroup(AppStrings.aNegBloodGroup),
                     _bloodGroup(AppStrings.bNegBloodGroup),
                     _bloodGroup(AppStrings.abNegBloodGroup),
+
                   ],
                 ),
               ),
             ),
           ),
+          //_bloodGroup(AppStrings.dontKnow, 350),
         ],
       ),
     );
   }
 
-  Widget _bloodGroup(String text) {
+  Widget _bloodGroup(String text, [double w=55]) {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -84,7 +86,7 @@ class _UserBloodType extends State<UserBloodType> {
       },
       child: Container(
         height: 55,
-        width: 55,
+        width: w,
         decoration: BoxDecoration(
           color: widget.model.getBloodGroup() == text
               ? hexToColor(AppColors.paleOrange)

@@ -12,7 +12,7 @@ class UserFormModel {
     'street_address': "",
     'city': "",
     'state': "Maharashtra",
-    'blood_group': "",
+    'blood_group': "Not given",
     'career_type': "Student",
     'college_name': "",
     'course_name': "",

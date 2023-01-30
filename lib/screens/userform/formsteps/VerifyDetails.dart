@@ -122,7 +122,7 @@ class VerifyDetailsState extends State<VerifyDetails> {
                         capitalizeFirstLetter(userLastName),
                     style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w400,
-                        color: hexToColor(AppColors.whiteTextColor),
+                        color: hexToColor(AppColors.paleOrange),
                         fontSize: 20.0,
                         height: 1.8),
                   ),

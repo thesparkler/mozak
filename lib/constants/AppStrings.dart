@@ -74,6 +74,7 @@ class AppStrings {
   static const String aNegBloodGroup = "A-";
   static const String bNegBloodGroup = "B-";
   static const String abNegBloodGroup = "AB-";
+  static const String dontKnow = "Don't Know";
   static const String currentlyDoingTitleText =
       "What are you currently\ndoing?";
   static const String companyNameFieldText = "Company Name";
@@ -86,7 +87,7 @@ class AppStrings {
   static const String courseFieldHintText = "B.Sc, B.Com, B.A, B.Tech, etc";
   static const String justLastQuestionText = "Just last question";
   static const String referenceNameTitleText =
-      "Whose reference name do\nyou come under?";
+      "Reference and Team";
   static const String teamLeadFieldText = "Reference Name";
   static const String teamLeadFieldHintText = "Bhulkoo";
   static const String thankYouText = "Thank you!";
@@ -94,11 +95,11 @@ class AppStrings {
   static const String backToLogin = "Back to Form";
   static const String verifyDetails = "Verify your Details";
   static const String contactMeByPhoneOrMail =
-      "You can contact me by my phone number or email id";
+      "My phone number and email id";
   static const String myBloodType = "My blood type is";
-  static const String tlNameBelonging = "The person to whom I'm belonging is ";
-  static const String teamBelonging = "The mandal to which I belong is ";
-  static const String team = "Reference";
+  static const String tlNameBelonging = "My Team Leader is ";
+  static const String teamBelonging = "My mandal is ";
+  static const String reference = "Reference";
   static const String teamName = "Team Name";
 
   // Errors Strings
