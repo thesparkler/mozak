@@ -95,7 +95,7 @@ class _UserContactInfoState extends State<UserContactInfo> {
                   widget.model.setEmail(val);
                 },
                 initialValue: widget.model.getEmail(),
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.emailAddress,
                 style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w400,
                     color: hexToColor(AppColors.whiteTextColor),

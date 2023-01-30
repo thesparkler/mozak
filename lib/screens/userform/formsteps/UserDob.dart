@@ -81,7 +81,7 @@ class _UserDobState extends State<UserDob> {
       setState(() {
         date = dateController.text = formatter.format(selected);
         widget.model.setDOB(date);
-        Timer(Duration(seconds: 1), () {
+        Timer(Duration(milliseconds: 800), () {
           widget.next();
         });
       });
