@@ -57,6 +57,7 @@ class MozakSheetApi {
         model.getDesignation(),
         model.getRefGrp(),
         model.getReferenceName(),
+        model.getInTeamRef(),
         DateTime.now().toString()
       ]);
     } catch (e) {

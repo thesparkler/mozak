@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/constants/AppColors.dart';
 import 'package:mozak/constants/AppStrings.dart';
@@ -30,7 +29,6 @@ class VerifyDetailsState extends State<VerifyDetails> {
 
   @override
   void initState() {
-    EasyLoading.init();
     super.initState();
     userFirstName = widget.model.getFirstName();
     userMiddleName = widget.model.getMiddleName();
@@ -124,7 +122,7 @@ class VerifyDetailsState extends State<VerifyDetails> {
                         capitalizeFirstLetter(userLastName),
                     style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w400,
-                        color: hexToColor(AppColors.whiteTextColor),
+                        color: hexToColor(AppColors.paleOrange),
                         fontSize: 20.0,
                         height: 1.8),
                   ),

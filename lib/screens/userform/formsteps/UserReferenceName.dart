@@ -22,6 +22,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
   String? _selectedCode;
   String selectedMandal = "Bramhadarshan";
   String selectedTL = "Aditya Jejurkar BR01";
+  TextEditingController referenceName = TextEditingController();
 
   final List<String> _grpCodeList = [
     "Bramhadarshan",
@@ -138,6 +139,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
 
   @override
   void initState() {
+    referenceName.text = widget.model.getInTeamRef()!;
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     selectedMandal = widget.model.getRefGrp();
     _selectedCode = codeMap[selectedMandal]!;
@@ -237,11 +239,45 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              AppStrings.team,
+              AppStrings.frndOrRel,
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w400,
                   color: hexToColor(AppColors.whiteTextColor),
                   fontSize: 15.0),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 50,
+          child: TextFormField(
+            onChanged: (val) {
+              widget.model.setInTeamRef(val);
+            },
+            initialValue: widget.model.getInTeamRef(),
+            textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.text,
+            style: GoogleFonts.montserrat(
+                fontWeight: FontWeight.w400,
+                color: hexToColor(AppColors.whiteTextColor),
+                fontSize: 17.0),
+            maxLines: 1,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: hexToColor(AppColors.textFieldOutlineBorderColor)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                  borderSide:
+                      BorderSide(color: hexToColor(AppColors.paleOrange))),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                  borderSide: BorderSide(
+                      color:
+                          hexToColor(AppColors.textFieldOutlineBorderColor))),
+              hintText: AppStrings.coreReferenceName,
+              hintStyle: TextStyle(
+                  fontSize: 15, color: hexToColor(AppColors.hintTextColor)),
             ),
           ),
         ),
@@ -342,20 +378,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              AppStrings.team,
-              style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w400,
-                  color: hexToColor(AppColors.whiteTextColor),
-                  fontSize: 15.0),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10, top: 20.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              AppStrings.teamName,
+              AppStrings.teamLeaderText,
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w400,
                   color: hexToColor(AppColors.whiteTextColor),

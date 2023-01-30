@@ -62,6 +62,7 @@ class AppStrings {
   static const String addressFieldHintText = "Address (Area and Street)";
   static const String cityFieldText = "City / District";
   static const String cityFieldHintText = "City/District/Town";
+  static const String coreReferenceName = "Myself";
   static const String stateFieldText = "State";
   static const String stateFieldHintText = "Maharashtra";
   static const String bloodGroupTitleText =
@@ -99,7 +100,9 @@ class AppStrings {
   static const String tlNameBelonging = "The person to whom I'm belonging is ";
   static const String teamBelonging = "The mandal to which I belong is ";
   static const String team = "Reference";
+  static const String frndOrRel = "Friend or Relative of:";
   static const String teamName = "Team Name";
+  static const String teamLeaderText = "Team Leader";
 
   // Errors Strings
   static const String firstNameRequired = "First Name is required";
