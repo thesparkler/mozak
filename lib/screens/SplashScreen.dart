@@ -5,7 +5,6 @@ import 'package:mozak/constants/AppAssets.dart';
 import 'package:mozak/constants/AppColors.dart';
 import 'package:mozak/constants/AppStrings.dart';
 import 'package:mozak/screens/LoginScreen.dart';
-import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/utils/app_tools.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -40,13 +39,13 @@ class _SplashScreenState extends State<SplashScreen>
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 70.0),
+            padding: const EdgeInsets.only(top: 100.0),
             child: Align(
               alignment: Alignment.topCenter,
               child: Image.asset(
                 AppAssets.hariprabodhamLogo,
-                height: 250,
-                width: 250,
+                height: 200,
+                width: 200,
               ),
             ),
           ),

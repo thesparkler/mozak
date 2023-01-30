@@ -184,21 +184,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           child: Column(
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 18.0, top: 35.0, bottom: 30.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    AppStrings.justLastQuestionText,
-                    style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w400,
-                        color: hexToColor(AppColors.whiteTextColor),
-                        fontSize: 22.0,
-                        height: 1.3),
-                  ),
-                ),
-              ),
-              Padding(
                 padding: const EdgeInsets.only(left: 18.0, bottom: 30.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
@@ -220,7 +205,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                     child: Column(
                       children: [
                         _grpCodeDropDownField(),
-                        _teamLeaderDropDownFeild()
                       ],
                     )),
               ),
@@ -238,12 +222,16 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           padding: const EdgeInsets.only(bottom: 10, top: 20.0),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(
-              AppStrings.frndOrRel,
-              style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w400,
-                  color: hexToColor(AppColors.whiteTextColor),
-                  fontSize: 15.0),
+            child: Row(
+              children: [
+                Text(
+                  AppStrings.team,
+                  style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w400,
+                      color: hexToColor(AppColors.whiteTextColor),
+                      fontSize: 15.0),
+                ),
+              ],
             ),
           ),
         ),
@@ -366,13 +354,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
             ),
           ),
         ),
-      ],
-    );
-  }
-
-  Widget _teamLeaderDropDownFeild() {
-    return Column(
-      children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 10, top: 20.0),
           child: Align(

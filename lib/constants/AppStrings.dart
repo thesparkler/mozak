@@ -85,22 +85,22 @@ class AppStrings {
   static const String companyFieldHintText = "ABC Company Pvt Ltd";
   static const String courseFieldText = "Standard / Course";
   static const String courseFieldHintText = "B.Sc, B.Com, B.A, B.Tech, etc";
-  static const String justLastQuestionText = "Just last question";
-  static const String referenceNameTitleText =
-      "Whose reference name do\nyou come under?";
+  static const String justLastQuestionText = "Just onr last input";
+  static const String referenceNameTitleText = "Reference and Team";
   static const String teamLeadFieldText = "Reference Name";
   static const String teamLeadFieldHintText = "Bhulkoo";
   static const String thankYouText = "Thank you!";
   static const String submittedResponse = "We have submitted\nyour response";
   static const String backToLogin = "Back to Form";
-  static const String verifyDetails = "Verify your Details";
-  static const String contactMeByPhoneOrMail =
-      "You can contact me by my phone number or email id";
+  static const String verifyDetails =
+      "Please Verify your Details\nYou may not be able to change further then";
+
   static const String myBloodType = "My blood type is";
-  static const String tlNameBelonging = "The person to whom I'm belonging is ";
-  static const String teamBelonging = "The mandal to which I belong is ";
+  static const String contactMeByPhoneOrMail = "My phone number and email id";
+  static const String tlNameBelonging = "My Team Leader is ";
+  static const String teamBelonging = "My mandal is ";
+  static const String reference = "Reference";
   static const String team = "Reference";
-  static const String frndOrRel = "Friend or Relative of:";
   static const String teamName = "Team Name";
   static const String teamLeaderText = "Team Leader";
 
