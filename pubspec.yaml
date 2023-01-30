@@ -42,7 +42,7 @@ dependencies:
   connectivity_plus: ^2.3.0
   auto_size_text: ^3.0.0
   flutter_easyloading: any
-
+  flutter_svg: any
 
 
 

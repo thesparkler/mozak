@@ -22,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     controller = AnimationController(
         duration: const Duration(milliseconds: 5000), vsync: this);
@@ -39,16 +40,24 @@ class _SplashScreenState extends State<SplashScreen>
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 100.0),
+            padding: const EdgeInsets.only(top: 0.0),
             child: Align(
               alignment: Alignment.topCenter,
-              child: Image.asset(
-                AppAssets.hariprabodhamLogo,
-                height: 200,
-                width: 200,
-              ),
+              child: Image.asset(AppAssets.gunatitPurushoLogo,
+                  width: MediaQuery.of(context).size.width),
             ),
           ),
+          // Padding(
+          //   padding: const EdgeInsets.only(top: 100.0),
+          //   child: Align(
+          //     alignment: Alignment.topCenter,
+          //     child: Image.asset(
+          //       AppAssets.hariprabodhamLogo,
+          //       height: 200,
+          //       width: 200,
+          //     ),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.only(bottom: 60.0),
             child: Align(
@@ -56,33 +65,40 @@ class _SplashScreenState extends State<SplashScreen>
               child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                    text: AppStrings.splashScreenTextOne,
-                    style: TextStyle(
+                  text: AppStrings.splashScreenTextOne,
+                  style: TextStyle(
+                      color: hexToColor(AppColors.whiteTextColor),
+                      fontSize: 26.0,
+                      fontFamily: 'FocusGrotesk',
+                      fontWeight: FontWeight.bold,
+                      height: 1.7,
+                      letterSpacing: 1.4),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: AppStrings.splashScreenTextTwo,
+                      style: TextStyle(
+                        fontSize: 21,
                         color: hexToColor(AppColors.whiteTextColor),
-                        fontSize: 26.0,
                         fontFamily: 'FocusGrotesk',
-                        fontWeight: FontWeight.bold,
-                        height: 1.7,
-                        letterSpacing: 1.4),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: AppStrings.splashScreenTextTwo,
-                          style: TextStyle(
-                              fontSize: 21,
-                              color: hexToColor(AppColors.whiteTextColor),
-                              fontFamily: 'FocusGrotesk',
-                              fontWeight: FontWeight.w300,
-                              letterSpacing: 1.3))
-                    ]),
+                        fontWeight: FontWeight.w300,
+                        letterSpacing: 1.3,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Image.asset(
-              AppAssets.yuvak,
-              height: 297,
-              width: 277,
+          AnimatedContainer(
+            duration: Duration(milliseconds: 2000),
+            curve: Curves.easeInExpo,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Image.asset(
+                AppAssets.hariprabodhamLogo,
+                width: MediaQuery.of(context).size.width - 10,
+                height: MediaQuery.of(context).size.width - 10,
+              ),
             ),
           ),
         ],
