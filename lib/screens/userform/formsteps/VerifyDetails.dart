@@ -129,19 +129,21 @@ class VerifyDetailsState extends State<VerifyDetails> {
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: AutoSizeText(
-                    "A" +
-                        "  " +
-                        age.toString() +
-                        " yrs old " +
-                        userGender.toLowerCase() +
-                        " from " +
-                        userCityAddress,
-                    style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w400,
-                        color: hexToColor(AppColors.whiteTextColor),
-                        fontSize: 20.0,
-                        height: 1.8),
+                  child: Expanded(
+                    child: AutoSizeText(
+                      "A" +
+                          "  " +
+                          (userGender.toLowerCase() == "male"
+                              ? (age > 16 ? "yuvak" : "boy")
+                              : (age > 16 ? "yuvati" : "girl")) +
+                          " from " +
+                          userCityAddress,
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w400,
+                          color: hexToColor(AppColors.whiteTextColor),
+                          fontSize: 20.0,
+                          height: 1.8),
+                    ),
                   ),
                 ),
                 Padding(
@@ -185,25 +187,19 @@ class VerifyDetailsState extends State<VerifyDetails> {
                 Padding(
                   padding: EdgeInsets.only(right: 10),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Icon(
                         Icons.email,
                         color: Colors.white,
                         size: 20,
                       ),
-                      AutoSizeText(
-                        "  " + userEmailList[0],
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w400,
-                            color: hexToColor(AppColors.paleOrange),
-                            fontSize: 19.0,
-                            height: 1.4),
+                      SizedBox(
+                        width: 5,
                       ),
                       Expanded(
                         child: AutoSizeText(
-                          "@" + userEmailList[1],
-                          overflow: TextOverflow.ellipsis,
+                          userEmailList[0] + "@" + userEmailList[1],
                           style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.w400,
                               color: hexToColor(AppColors.paleOrange),

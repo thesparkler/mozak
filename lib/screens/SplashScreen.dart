@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
+
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     controller = AnimationController(
         duration: const Duration(milliseconds: 3500), vsync: this);
@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
                       color: hexToColor(AppColors.whiteTextColor),
                       fontSize: 26.0,
                       fontFamily: 'FocusGrotesk',
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w800,
                       height: 1.7,
                       letterSpacing: 1.4),
                   children: <TextSpan>[

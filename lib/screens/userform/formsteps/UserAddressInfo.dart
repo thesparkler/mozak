@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -191,7 +193,9 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
                 widget.model.setCity(val);
               },
               onEditingComplete: () {
-                SystemChannels.textInput.invokeMethod('TextInput.hide');
+                Timer(Duration(seconds: 1), () {
+                  widget.next();
+                });
               },
               initialValue: widget.model.getCity(),
               textInputAction: TextInputAction.next,
