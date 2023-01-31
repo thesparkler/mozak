@@ -262,6 +262,17 @@ class _LoginPageState extends State<LoginPage> {
                                                 color: hexToColor(
                                                     AppColors.paleOrange),
                                                 fontSize: 21.0),
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                text: ",\n",
+                                                style: GoogleFonts.montserrat(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 21.0,
+                                                    color: hexToColor(AppColors
+                                                        .whiteTextColor),
+                                                    height: 1.5),
+                                              ),
+                                            ],
                                           ),
                                           TextSpan(
                                             text: AppStrings.welcomeBackText,
