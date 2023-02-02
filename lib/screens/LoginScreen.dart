@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/constants/AppAssets.dart';
 import 'package:mozak/constants/AppColors.dart';
@@ -9,6 +10,7 @@ import 'package:mozak/constants/AppStrings.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/app_tools.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -25,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   late String _email;
   late String _password;
   final data = HashSet<String>();
+  final prefs = SharedPreferences.getInstance();
 
   @override
   void initState() {
@@ -427,7 +430,7 @@ class _LoginPageState extends State<LoginPage> {
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor:
                                             hexToColor(AppColors.orangeAccent)),
-                                    onPressed: () {
+                                    onPressed: () async {
                                       _formKey.currentState!.save();
                                       // var result = validation(_email, _password);
                                       // if (result != null) {
@@ -435,7 +438,13 @@ class _LoginPageState extends State<LoginPage> {
                                       //       hexToColor(AppColors.redAccent));
                                       //   return;
                                       // }
-                                      if (data.contains(_email.toUpperCase()) &&
+                                      EasyLoading.instance
+                                        ..backgroundColor = Colors.white10
+                                        ..userInteractions = false;
+                                      EasyLoading.show(
+                                        status: 'Please wait...',
+                                      );
+                                      if (data.contains(_email) &&
                                           _password == "dasnadas") {
                                         showSnackBar(
                                             AppStrings.validationSuccessText,
@@ -444,10 +453,12 @@ class _LoginPageState extends State<LoginPage> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     const UserForm()));
+                                        EasyLoading.dismiss();
                                       } else {
                                         showSnackBar(
                                             "Invalid Group code or Password!!!",
                                             hexToColor(AppColors.redAccent));
+                                        EasyLoading.dismiss();
                                         return;
                                       }
                                     },

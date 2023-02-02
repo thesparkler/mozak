@@ -12,7 +12,7 @@ class UserFormModel {
     'street_address': "",
     'city': "",
     'state': "Maharashtra",
-    'blood_group': "",
+    'blood_group': "not given",
     'career_type': "Student",
     'college_name': "",
     'course_name': "",
@@ -20,7 +20,7 @@ class UserFormModel {
     'designation': "",
     'refGrp': "Bramhadarshan",
     'reference_name': "Aditya Jejurkar BR01",
-    'inTeamRef': 'myself'
+    'inTeamRef': ''
   };
 
   getCollegeName() {
@@ -151,7 +151,7 @@ class UserFormModel {
     data['state'] = state;
   }
 
-  void setInTeamRef(String val) {
+  setInTeamRef(String val) {
     data['inTeamRef'] = val;
   }
 

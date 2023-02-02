@@ -22,6 +22,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
   final maxLines = 2;
   final _formKey = GlobalKey<FormState>();
   String? _selectedCode;
+  String inTeamRef = "";
   String selectedMandal = "Bramhadarshan";
   String selectedTL = "Aditya Jejurkar BR01";
   TextEditingController referenceName = TextEditingController();
@@ -240,6 +241,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           child: TextFormField(
             onChanged: (val) {
               widget.model.setInTeamRef(val);
+              referenceName.text = widget.model.getInTeamRef()!;
             },
             initialValue: widget.model.getInTeamRef(),
             textInputAction: TextInputAction.next,
@@ -263,9 +265,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                   borderSide: BorderSide(
                       color:
                           hexToColor(AppColors.textFieldOutlineBorderColor))),
-              hintText: AppStrings.coreReferenceName,
-              hintStyle: TextStyle(
-                  fontSize: 15, color: hexToColor(AppColors.hintTextColor)),
             ),
           ),
         ),

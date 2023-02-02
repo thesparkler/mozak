@@ -92,11 +92,11 @@ class AppStrings {
   static const String thankYouText = "Thank you!";
   static const String submittedResponse = "We have submitted\nyour response";
   static const String backToLogin = "Back to Form";
-  static const String verifyDetails =
-      "Please Verify your Details\nYou may not be able to change further then";
+  static const String verifyDetails = "Please verify your details";
 
   static const String myBloodType = "My blood type is";
-  static const String contactMeByPhoneOrMail = "My phone number and email id";
+  static const String contactMeByPhoneOrMail =
+      "My phone number and email id is";
   static const String tlNameBelonging = "My Team Leader is ";
   static const String teamBelonging = "My mandal is ";
   static const String reference = "Reference";

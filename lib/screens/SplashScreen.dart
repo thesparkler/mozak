@@ -93,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen>
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Image.asset(
-                AppAssets.hariprabodhamLogo2,
+                AppAssets.hariprabodhamLogo,
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width,
               ),

@@ -120,6 +120,14 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
         duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }
 
+  showSnackBar(String text, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(text),
+      backgroundColor: color,
+      duration: Duration(milliseconds: 1000),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     var steps = [
@@ -285,7 +293,8 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                 status: 'Please wait...',
               );
               if (_connectionStatus == ConnectivityResult.none) {
-                errorSnackBar(context, AppStrings.noInternetConnDescriptionOne);
+                showSnackBar(AppStrings.noInternetConnDescriptionOne,
+                    hexToColor(AppColors.redAccent));
                 EasyLoading.dismiss();
               } else {
                 await MozakSheetApi.insertUserData(model);
