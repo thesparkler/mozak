@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/api/mozak_sheet_api.dart';
 import 'package:mozak/constants/AppColors.dart';
@@ -41,6 +42,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     _valueNotifier = ValueNotifier<double>(1);
 
     _controller.addListener(() {
@@ -118,17 +120,25 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
         duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }
 
+  showSnackBar(String text, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(text),
+      backgroundColor: color,
+      duration: Duration(milliseconds: 1000),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     var steps = [
       SelectGender(model, next),
-      UserFullName(model),
-      UserDob(model),
-      UserContactInfo(model),
-      UserAddressInfo(model),
+      UserFullName(model, next),
+      UserDob(model, next),
+      UserContactInfo(model, next),
+      UserAddressInfo(model, next),
       UserBloodType(model, next),
-      UserCareerType(model),
-      UserReferenceName(model),
+      UserCareerType(model, next),
+      UserReferenceName(model, next),
       VerifyDetails(model),
     ];
 
@@ -269,29 +279,44 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                 fontSize: 15.0,
               )),
         ),
-        GestureDetector(
-          onTap: () async {
-            if (_connectionStatus == ConnectivityResult.none) {
-              internetConnectivityDialog(context);
-            } else {
-              await MozakSheetApi.insertUserData(model);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const FormSuccessScreen()));
-            }
-          },
-          child: Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  color: hexToColor(AppColors.greenAccent)),
-              child: Icon(
-                Icons.done,
-                color: hexToColor(
-                  AppColors.colorBlack,
-                ),
-                size: 22,
-              )),
+        Theme(
+          data: ThemeData(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+          ),
+          child: InkWell(
+            onTap: () async {
+              EasyLoading.instance
+                ..backgroundColor = Colors.white10
+                ..userInteractions = false;
+              EasyLoading.show(
+                status: 'Please wait...',
+              );
+              if (_connectionStatus == ConnectivityResult.none) {
+                showSnackBar(AppStrings.noInternetConnDescriptionOne,
+                    hexToColor(AppColors.redAccent));
+                EasyLoading.dismiss();
+              } else {
+                await MozakSheetApi.insertUserData(model);
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const FormSuccessScreen()));
+                EasyLoading.dismiss();
+              }
+            },
+            child: Container(
+                height: 40,
+                width: 40,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    color: hexToColor(AppColors.greenAccent)),
+                child: Icon(
+                  Icons.done,
+                  color: hexToColor(
+                    AppColors.colorBlack,
+                  ),
+                  size: 22,
+                )),
+          ),
         ),
       ],
     ));

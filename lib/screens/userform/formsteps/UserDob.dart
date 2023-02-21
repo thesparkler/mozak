@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/constants/AppAssets.dart';
 import 'package:mozak/constants/AppColors.dart';
@@ -9,8 +12,8 @@ import 'package:intl/intl.dart';
 
 class UserDob extends StatefulWidget {
   final UserFormModel model;
-
-  const UserDob(this.model, {Key? key}) : super(key: key);
+  final next;
+  const UserDob(this.model, this.next, {Key? key}) : super(key: key);
 
   @override
   State<UserDob> createState() => _UserDobState();
@@ -26,6 +29,7 @@ class _UserDobState extends State<UserDob> {
   @override
   void initState() {
     super.initState();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     userName = widget.model.getFirstName();
     dateController.text = widget.model.getDOB();
   }
@@ -77,6 +81,9 @@ class _UserDobState extends State<UserDob> {
       setState(() {
         date = dateController.text = formatter.format(selected);
         widget.model.setDOB(date);
+        Timer(Duration(milliseconds: 800), () {
+          widget.next();
+        });
       });
     }
   }

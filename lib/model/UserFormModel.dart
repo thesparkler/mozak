@@ -20,6 +20,7 @@ class UserFormModel {
     'designation': "",
     'refGrp': "Bramhadarshan",
     'reference_name': "Aditya Jejurkar BR01",
+    'inTeamRef': ''
   };
 
   getCollegeName() {
@@ -148,6 +149,14 @@ class UserFormModel {
 
   setState(String state) {
     data['state'] = state;
+  }
+
+  setInTeamRef(String val) {
+    data['inTeamRef'] = val;
+  }
+
+  String? getInTeamRef() {
+    return data['inTeamRef'];
   }
 
   getBloodGroup() {

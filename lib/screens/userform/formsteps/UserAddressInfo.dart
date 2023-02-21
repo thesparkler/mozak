@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/constants/AppColors.dart';
 import 'package:mozak/constants/AppStrings.dart';
@@ -9,7 +12,9 @@ import 'package:mozak/utils/app_tools.dart';
 class UserAddressInfo extends StatefulWidget {
   final UserFormModel model;
 
-  const UserAddressInfo(this.model, {Key? key}) : super(key: key);
+  final next;
+
+  const UserAddressInfo(this.model, this.next, {Key? key}) : super(key: key);
 
   @override
   State<UserAddressInfo> createState() => _UserAddressInfoState();
@@ -63,7 +68,7 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
   @override
   void initState() {
     super.initState();
-
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     dropdownValue = widget.model.getState();
   }
 
@@ -186,6 +191,11 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
           child: TextFormField(
               onChanged: (val) {
                 widget.model.setCity(val);
+              },
+              onEditingComplete: () {
+                Timer(Duration(seconds: 1), () {
+                  widget.next();
+                });
               },
               initialValue: widget.model.getCity(),
               textInputAction: TextInputAction.next,

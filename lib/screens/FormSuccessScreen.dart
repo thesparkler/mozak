@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mozak/constants/AppAssets.dart';
@@ -15,8 +16,15 @@ class FormSuccessScreen extends StatefulWidget {
 }
 
 class FormSuccessScreenState extends State<FormSuccessScreen> {
+  Future<bool> _onBackPressed() async {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const UserForm()));
+    return false;
+  }
+
   @override
   void initState() {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     super.initState();
   }
 

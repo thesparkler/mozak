@@ -9,8 +9,8 @@ import 'package:mozak/utils/app_tools.dart';
 
 class UserCareerType extends StatefulWidget {
   final UserFormModel model;
-
-  const UserCareerType(this.model, {Key? key}) : super(key: key);
+  final next;
+  const UserCareerType(this.model, this.next, {Key? key}) : super(key: key);
 
   @override
   State<UserCareerType> createState() => UserCareerTypeState();
@@ -242,6 +242,9 @@ class UserCareerTypeState extends State<UserCareerType> {
                     onChanged: (val) {
                       widget.model.setCourseName(val);
                     },
+                    onEditingComplete: () {
+                      widget.next();
+                    },
                     initialValue: widget.model.getCareerType() == "Student"
                         ? widget.model.getCourseName()
                         : '',
@@ -364,6 +367,9 @@ class UserCareerTypeState extends State<UserCareerType> {
                     onChanged: (val) {
                       // widget.model.getCareerType() == "Professional" ?
                       widget.model.setDesignation(val);
+                    },
+                    onEditingComplete: () {
+                      widget.next();
                     },
                     //    initialValue: designation,
                     initialValue: widget.model.getCareerType() == "Professional"

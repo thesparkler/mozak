@@ -22,8 +22,8 @@ class AppStrings {
   static const String validationSuccessText = "Success";
 
   // LOGIN SCREEN WELCOME MSG TEXT
-  static const String helloText = "Hello,";
-  static const String bhulkooText = "\tbhulkoo\n";
+  static const String helloText = "Hello";
+  static const String bhulkooText = "\tbhulkoo";
   static const String welcomeBackText = "Welcome Back";
 
   // EXIT DIALOG TEXTS
@@ -62,6 +62,7 @@ class AppStrings {
   static const String addressFieldHintText = "Address (Area and Street)";
   static const String cityFieldText = "City / District";
   static const String cityFieldHintText = "City/District/Town";
+  static const String coreReferenceName = "Myself";
   static const String stateFieldText = "State";
   static const String stateFieldHintText = "Maharashtra";
   static const String bloodGroupTitleText =
@@ -101,6 +102,7 @@ class AppStrings {
   static const String teamBelonging = "My mandal is ";
   static const String reference = "Reference";
   static const String teamName = "Team Name";
+  static const String teamLeaderText = "Team Leader";
 
   // Errors Strings
   static const String firstNameRequired = "First Name is required";

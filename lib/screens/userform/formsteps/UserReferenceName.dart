@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/constants/AppColors.dart';
@@ -5,11 +7,12 @@ import 'package:mozak/constants/AppStrings.dart';
 import 'package:mozak/model/UserFormModel.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/app_tools.dart';
+import 'package:flutter/services.dart';
 
 class UserReferenceName extends StatefulWidget {
   final UserFormModel model;
-
-  const UserReferenceName(this.model, {Key? key}) : super(key: key);
+  final next;
+  const UserReferenceName(this.model, this.next, {Key? key}) : super(key: key);
 
   @override
   State<UserReferenceName> createState() => _UserReferenceNameState();
@@ -19,9 +22,10 @@ class _UserReferenceNameState extends State<UserReferenceName> {
   final maxLines = 2;
   final _formKey = GlobalKey<FormState>();
   String? _selectedCode;
+  String inTeamRef = "";
   String selectedMandal = "Bramhadarshan";
   String selectedTL = "Aditya Jejurkar BR01";
-  TextEditingController reference_name = TextEditingController();
+  TextEditingController referenceName = TextEditingController();
 
   final List<String> _grpCodeList = [
     "Bramhadarshan",
@@ -138,6 +142,8 @@ class _UserReferenceNameState extends State<UserReferenceName> {
 
   @override
   void initState() {
+    referenceName.text = widget.model.getInTeamRef()!;
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
     selectedMandal = widget.model.getRefGrp();
     _selectedCode = codeMap[selectedMandal]!;
     if (_selectedCode == "BR") {
@@ -166,8 +172,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
       selectedTL = widget.model.getReferenceName();
     }
     widget.model.setReferenceName(selectedTL);
-    print(_selectedCode);
-    print(widget.model.getReferenceName());
     super.initState();
   }
 
@@ -180,21 +184,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              // Padding(
-              //   padding:
-              //       const EdgeInsets.only(left: 18.0, top: 35.0, bottom: 30.0),
-              //   child: Align(
-              //     alignment: Alignment.centerLeft,
-              //     child: Text(
-              //       AppStrings.justLastQuestionText,
-              //       style: GoogleFonts.montserrat(
-              //           fontWeight: FontWeight.w400,
-              //           color: hexToColor(AppColors.whiteTextColor),
-              //           fontSize: 22.0,
-              //           height: 1.3),
-              //     ),
-              //   ),
-              // ),
               Padding(
                 padding: const EdgeInsets.only(left: 18.0, bottom: 30.0),
                 child: Align(
@@ -217,7 +206,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                     child: Column(
                       children: [
                         _grpCodeDropDownField(),
-                        _teamLeaderDropDownFeild()
                       ],
                     )),
               ),
@@ -256,7 +244,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
     child: Padding(
     padding: const EdgeInsets.only(left: 10.0),
     child: TextField(
-      controller: reference_name,
+      controller: referenceName,
       style: GoogleFonts.montserrat(
           fontWeight: FontWeight.w400,
           color: hexToColor(AppColors.whiteTextColor),
@@ -343,8 +331,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                     selectedTL = currentTLList[0];
                   }
                   widget.model.setReferenceName(selectedTL);
-                  print(_selectedCode);
-                  print(widget.model.getReferenceName());
                 });
               },
               value: selectedMandal,
@@ -376,7 +362,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              AppStrings.teamName,
+              AppStrings.teamLeaderText,
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w400,
                   color: hexToColor(AppColors.whiteTextColor),
@@ -422,7 +408,9 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                 setState(() {
                   selectedTL = newValue!;
                   widget.model.setReferenceName(newValue);
-                  print(widget.model.getRefGrp());
+                  Timer(Duration(seconds: 1), () {
+                    widget.next();
+                  });
                 });
               },
               value: selectedTL,

@@ -9,7 +9,9 @@ import 'package:mozak/utils/app_tools.dart';
 class UserFullName extends StatefulWidget {
   final UserFormModel model;
 
-  const UserFullName(this.model, {Key? key}) : super(key: key);
+  final next;
+
+  const UserFullName(this.model, this.next, {Key? key}) : super(key: key);
 
   @override
   State<UserFullName> createState() => _UserFullNameState();
@@ -202,6 +204,9 @@ class _UserFullNameState extends State<UserFullName> {
                 textInputAction: TextInputAction.done,
                 onChanged: (val) {
                   widget.model.setLastName(val);
+                },
+                onEditingComplete: () {
+                  widget.next();
                 },
                 initialValue: widget.model.getLastName(),
                 keyboardType: TextInputType.text,
