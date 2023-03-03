@@ -444,6 +444,7 @@ class _LoginPageState extends State<LoginPage> {
                                       EasyLoading.show(
                                         status: 'Please wait...',
                                       );
+                                      _email = _email.toUpperCase();
                                       if (data.contains(_email) &&
                                           _password == "dasnadas") {
                                         showSnackBar(
