@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/constants/AppAssets.dart';
 import 'package:mozak/constants/AppColors.dart';
 import 'package:mozak/constants/AppStrings.dart';
+import 'package:mozak/screens/home.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/app_tools.dart';
@@ -28,6 +29,42 @@ class _LoginPageState extends State<LoginPage> {
   late String _password;
   final data = HashSet<String>();
   final prefs = SharedPreferences.getInstance();
+
+  get login => () async {
+    _formKey.currentState!.save();
+    // var result = validation(_email, _password);
+    // if (result != null) {
+    //   showSnackBar(result,
+    //       hexToColor(AppColors.redAccent));
+    //   return;
+    // }
+    EasyLoading.instance
+      ..backgroundColor = Colors.white10
+      ..userInteractions = false;
+    EasyLoading.show(
+      status: 'Please wait...',
+    );
+    _email = _email.toUpperCase();
+    if (data.contains(_email) &&
+        _password == "dasnadas") {
+      showSnackBar(
+          AppStrings.validationSuccessText,
+          hexToColor(AppColors.greenAccent));
+
+      Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) =>
+               HomePage()));
+
+      EasyLoading.dismiss();
+    } else {
+      showSnackBar(
+          "Invalid Group code or Password!!!",
+          hexToColor(AppColors.redAccent));
+      EasyLoading.dismiss();
+      return;
+    }
+  };
 
   @override
   void initState() {
@@ -430,40 +467,7 @@ class _LoginPageState extends State<LoginPage> {
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor:
                                             hexToColor(AppColors.orangeAccent)),
-                                    onPressed: () async {
-                                      _formKey.currentState!.save();
-                                      // var result = validation(_email, _password);
-                                      // if (result != null) {
-                                      //   showSnackBar(result,
-                                      //       hexToColor(AppColors.redAccent));
-                                      //   return;
-                                      // }
-                                      EasyLoading.instance
-                                        ..backgroundColor = Colors.white10
-                                        ..userInteractions = false;
-                                      EasyLoading.show(
-                                        status: 'Please wait...',
-                                      );
-                                      _email = _email.toUpperCase();
-                                      if (data.contains(_email) &&
-                                          _password == "dasnadas") {
-                                        showSnackBar(
-                                            AppStrings.validationSuccessText,
-                                            hexToColor(AppColors.greenAccent));
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const UserForm()));
-
-                                        EasyLoading.dismiss();
-                                      } else {
-                                        showSnackBar(
-                                            "Invalid Group code or Password!!!",
-                                            hexToColor(AppColors.redAccent));
-                                        EasyLoading.dismiss();
-                                        return;
-                                      }
-                                    },
+                                    onPressed: login,
                                     child: Text(
                                       AppStrings.loginBtnText,
                                       style: GoogleFonts.montserrat(

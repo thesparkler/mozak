@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mozak/constants/AppColors.dart';
 import 'package:mozak/screens/LoginScreen.dart';
 import 'package:mozak/screens/SplashScreen.dart';
+import 'package:mozak/screens/home.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/utils/app_tools.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(disabledColor: hexToColor(AppColors.grey)),
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home:  HomePage(),
       builder: EasyLoading.init(),
     );
   }
