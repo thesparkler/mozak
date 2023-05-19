@@ -11,7 +11,9 @@ class HomePage extends StatelessWidget {
 
     List<String> options = ['Youth list','Add Weeklyforum','Add Center','Add Group','Take Attendance','Add Team'];
 
-    return Padding(
+    return Scaffold(
+      appBar: AppBar(),
+      body: Padding(
       padding: const EdgeInsets.all(8.0),
       child: GridView.builder(
           itemCount: options.length,
@@ -34,6 +36,7 @@ class HomePage extends StatelessWidget {
                 )
             );
           }),
+    ),
     );
   }
 }
