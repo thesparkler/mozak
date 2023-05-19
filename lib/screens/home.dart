@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mozak/screens/weekly_forum_events.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
                         aspectRatio: 1,
                         child: TextButton(
                           onPressed: () {},
-                          child: Text('Youth Registration'),
+                          child: Text('Youths'),
                         ),
                       ),
                     )
@@ -48,7 +49,12 @@ class _HomePageState extends State<HomePage> {
                       child: AspectRatio(
                         aspectRatio: 1,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        WeeklyForumEvents()));
+                          },
                           child: Text('Weekly Forum Events'),
                         ),
                       ),
@@ -79,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                       child: AspectRatio(
                         aspectRatio: 1,
                         child: TextButton(
-                          
+
                           onPressed: () {},
                           child: Text('Centers'),
                         ),
