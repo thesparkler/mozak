@@ -7,6 +7,7 @@ import 'package:mozak/screens/LoginScreen.dart';
 import 'package:mozak/screens/SplashScreen.dart';
 import 'package:mozak/screens/home.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
+import 'package:mozak/screens/youthList.dart';
 import 'package:mozak/utils/app_tools.dart';
 
 void main() async {
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home:  HomePage(),
       builder: EasyLoading.init(),
+      routes: {
+        'Youth list':(context) => YouthList()
+      },
     );
   }
 }
