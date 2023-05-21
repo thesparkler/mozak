@@ -8,6 +8,7 @@ import 'package:mozak/screens/SplashScreen.dart';
 import 'package:mozak/screens/home.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/screens/youthList.dart';
+import 'package:mozak/screens/weekly_forum_events_page.dart';
 import 'package:mozak/utils/app_tools.dart';
 
 void main() async {
@@ -31,11 +32,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(disabledColor: hexToColor(AppColors.grey)),
       debugShowCheckedModeBanner: false,
-      home:  HomePage(),
-      builder: EasyLoading.init(),
+      initialRoute: '/',
       routes: {
-        'Youth list':(context) => YouthList()
+        '/':(context) => HomePage(),
+        'Youths':(context) => HomePage(),
+        'Weekly Forum Events': (context) => WeeklyForumEventsPage(),
+        'Centers':(context) => HomePage(),
+        'Groups':(context) => HomePage(),
+        'Attendance':(context) => HomePage(),
+        'Add Team':(context) => HomePage(),
       },
+      builder: EasyLoading.init(),
     );
   }
 }
