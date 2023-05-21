@@ -293,9 +293,11 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                 status: 'Please wait...',
               );
               if (_connectionStatus == ConnectivityResult.none) {
-                showSnackBar(AppStrings.noInternetConnDescriptionOne,
-                    hexToColor(AppColors.redAccent));
                 EasyLoading.dismiss();
+                errorSnackBar(
+                  context,
+                  AppStrings.noInternetConnDescriptionOne,
+                );
               } else {
                 await MozakSheetApi.insertUserData(model);
                 Navigator.of(context).push(MaterialPageRoute(

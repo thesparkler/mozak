@@ -1,10 +1,7 @@
 name: mozak
 description: Data collection app.
-
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 3.0.0+2
+version: 3.0.0+1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -12,20 +9,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  google_fonts: ^2.2.0
+  google_fonts: ^4.0.4
   lottie: ^1.2.2
+  http: ^0.13.6
 
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  intl: ^0.17.0
-  gsheets: ^0.3.2
-  connectivity_plus: ^2.3.0
-  auto_size_text: ^3.0.0
+  cupertino_icons: any
+  intl: any
+  gsheets: any
+  connectivity_plus: any
+  auto_size_text: any
   flutter_easyloading: any
-  flutter_svg: any
+  email_auth: any
+  email_otp: any
 
 
 
@@ -33,6 +32,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  shared_preferences: any 
   flutter_lints: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
@@ -51,7 +51,6 @@ flutter:
     - assets/images/
     - assets/images/form_ui_assets/
     - assets/images/form_ui_assets/lottie/
-
   fonts:
     - family: FocusGrotesk
       fonts:

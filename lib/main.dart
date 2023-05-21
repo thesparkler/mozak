@@ -5,7 +5,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mozak/constants/AppColors.dart';
 import 'package:mozak/screens/LoginScreen.dart';
 import 'package:mozak/screens/SplashScreen.dart';
+import 'package:mozak/screens/home.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
+import 'package:mozak/screens/youthList.dart';
+import 'package:mozak/screens/weekly_forum_events_page.dart';
 import 'package:mozak/utils/app_tools.dart';
 
 void main() async {
@@ -29,7 +32,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(disabledColor: hexToColor(AppColors.grey)),
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      initialRoute: '/',
+      routes: {
+        '/':(context) => HomePage(),
+        'Youths':(context) => HomePage(),
+        'Weekly Forum Events': (context) => WeeklyForumEventsPage(),
+        'Centers':(context) => HomePage(),
+        'Groups':(context) => HomePage(),
+        'Attendance':(context) => HomePage(),
+        'Add Team':(context) => HomePage(),
+      },
       builder: EasyLoading.init(),
     );
   }
