@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
       Navigator.of(context).pushNamed('$path');
     }
 
-    List<String> options = ['Youth list','Add Weeklyforum','Add Center','Add Group','Take Attendance','Add Team'];
+    List<String> options = ['Youth list','Weekly Forum Events','Add Center','Add Group','Take Attendance','Add Team'];
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
