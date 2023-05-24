@@ -1,9 +1,9 @@
 class Constants{
 
-  static String domain="http://192.168.1.37:8080/mozakio";
+  static String domain="http://192.168.29.92:8080/mozakio";
   static String allYouths="/allYouths";
   static String allWFEvents="/allWFEvents";
-  String allCenters="";
-  String allGroups="";
-  String allTeams="";
+  static String allCenters="/allCenters";
+  static String allGroups="";
+  static String allTeams="";
 }
