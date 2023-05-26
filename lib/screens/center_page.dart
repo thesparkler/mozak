@@ -11,19 +11,62 @@ class CenterPage extends StatefulWidget {
 
 class _CenterPageState extends State<CenterPage> {
   late List<center.Center> centerList;
+  int index = 0;
+
+  void addCenter(String location) {
+    ApiService().setCenter(location);
+  }
 
   @override
   void initState() {
-    var obj = ApiService().getCenters();
-    obj.then((value) => {
-      for(var o in value){
-        print(o.toString())
-      }
-    });
     super.initState();
   }
+
+  Future<List<center.Center>> getCenterList() {
+    var obj = ApiService().getCenters();
+    return obj.then((value) => value);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return 
+      
+      Column(
+        children: [
+          TextButton(onPressed: () => addCenter("Ghatkopar"), child: Text("Add a new center")),
+          FutureBuilder<List<center.Center>>(
+            future: getCenterList(),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<center.Center>> snapshot) {
+
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      '${snapshot.error} occurred',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  );
+                } else if (snapshot.hasData) {
+                  centerList = snapshot.data!;
+                  return Column(
+                    children: centerList.map((e) => getCenterRow(e.location)).toList(),
+                  );
+                }
+              }
+
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }),
+        ],
+      );
+  }
+
+  Widget getCenterRow(String name) {
+    index++;
+    return Row(
+      children: [Container(child: Text(index.toString())), Container(child: Text(name))],
+    );
   }
 }

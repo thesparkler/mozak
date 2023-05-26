@@ -50,4 +50,18 @@ class ApiService{
       throw Exception('Failed to load album');
     }
   }
+
+  Future<http.Response> setCenter(String location) async {
+    Uri createCenterUrl = Uri.parse('${Constants.domain}${Constants.createCenter}');
+    http.Response response =await http.post(
+      createCenterUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'location': location,
+      }),
+    );
+    return response;
+  }
 }

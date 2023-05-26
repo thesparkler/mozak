@@ -6,4 +6,6 @@ class Constants{
   static String allCenters="/allCenters";
   static String allGroups="";
   static String allTeams="";
+
+  static String createCenter="/createCenter";
 }
