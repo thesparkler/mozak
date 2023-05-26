@@ -27,6 +27,7 @@ class MozakSheetApi {
   static final _spreadSheetId = "1cMNuUIHbaC0kpykIj-Jt524WUK7R9qigoxcKpnoSEg0";
   static final _gSheets = GSheets(_credentials);
   static Worksheet? _userSheet;
+  getUserData() {}
 
   static Future insertUserData(UserFormModel model) async {
     try {

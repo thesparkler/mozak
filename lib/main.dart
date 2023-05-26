@@ -36,13 +36,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/':(context) => HomePage(),
-        'Youths':(context) => HomePage(),
+        '/': (context) => HomePage(),
+        'Youths': (context) => YouthList(),
         'Weekly Forum Events': (context) => WeeklyForumEventsPage(),
-        'Centers':(context) => CenterPage(),
-        'Groups':(context) => HomePage(),
-        'Attendance':(context) => HomePage(),
-        'Teams':(context) => TeamsPage()
+        'Centers': (context) => CenterPage(),
+        'Groups': (context) => HomePage(),
+        'Attendance': (context) => HomePage(),
+        'Teams': (context) => TeamsPage(),
+        'UserForm': (context) => UserForm()
       },
       builder: EasyLoading.init(),
     );
