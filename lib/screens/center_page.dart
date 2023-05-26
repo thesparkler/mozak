@@ -12,6 +12,11 @@ class CenterPage extends StatefulWidget {
 class _CenterPageState extends State<CenterPage> {
   late List<center.Center> centerList;
   int index = 0;
+  bool showCreateCenterCard = false;
+
+  void openCreateCenterPage() {
+    showCreateCenterCard = true;
+  }
 
   void addCenter(String location) {
     ApiService().setCenter(location);
@@ -29,11 +34,23 @@ class _CenterPageState extends State<CenterPage> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController locationController = new TextEditingController();
     return 
       
       Column(
         children: [
-          TextButton(onPressed: () => addCenter("Ghatkopar"), child: Text("Add a new center")),
+          TextButton(onPressed: openCreateCenterPage, child: Text("Add a new center")),
+          Card(
+              elevation: 50,
+              shadowColor: Colors.black,
+              color: Colors.greenAccent[100],
+              child: Form(child: Column(
+                children: [
+                  TextField(controller: locationController),
+                  TextButton(onPressed: () => addCenter(locationController.text.toString()), child: Text("SAVE"))
+                ],
+              ))
+          ),
           FutureBuilder<List<center.Center>>(
             future: getCenterList(),
             builder: (BuildContext context,
