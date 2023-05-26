@@ -65,7 +65,7 @@ class ApiService{
     return response;
   }
 
-  Future<http.Response> setWFEvent(center.Center center, DateTime date) async {
+  Future<http.Response> setWFEvent(center.Center center, String date) async {
     Uri createWFEUrl = Uri.parse('${Constants.domain}${Constants.createWFEvent}?centerId=${center.id}');
     http.Response response =await http.post(
       createWFEUrl,

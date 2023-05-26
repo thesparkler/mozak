@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mozak/model/weekly_forum_event.dart';
 import 'package:mozak/utils/api_service.dart';
 import 'package:mozak/model/center.dart' as center;
@@ -17,9 +18,7 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
   DateTime dateSelected = DateTime.now();
 
   void onDateChanged(DateTime date) {
-    setState(() {
       dateSelected = date;
-    });
   }
 
   void openCreateWFEPage() {
@@ -27,7 +26,7 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
   }
 
   void addWFEvent(center.Center center, DateTime date) {
-    ApiService().setWFEvent(center, date);
+    ApiService().setWFEvent(center, DateFormat('yyyy-MM-dd').format(date));
   }
 
   @override
@@ -85,9 +84,7 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
                                 dropdownMenuEntries: centerEntries,
                                 controller: centerController,
                                 onSelected: (center.Center? center) {
-                                  setState(() {
-                                    selectedCenter = center;
-                                  });
+                                  selectedCenter = center;
                                 },
                               ),
                               CalendarDatePicker(
