@@ -71,7 +71,7 @@ class _YouthListState extends State<YouthList> {
                     youthList = snapshot.data!;
                     return Column(
                       children: youthList
-                          .map((e) => getYouthRow(e.youthFullName!))
+                          .map((e) => getYouthRow(e.youthFullName))
                           .toList(),
                     );
                   }
