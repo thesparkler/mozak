@@ -6,6 +6,7 @@ import 'package:mozak/constants/AppColors.dart';
 import 'package:mozak/screens/LoginScreen.dart';
 import 'package:mozak/screens/SplashScreen.dart';
 import 'package:mozak/screens/attendance_page.dart';
+import 'package:mozak/screens/event_attendance.dart';
 import 'package:mozak/screens/teams_page.dart';
 import 'package:mozak/screens/center_page.dart';
 import 'package:mozak/screens/home.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
         'Weekly Forum Events': (context) => WeeklyForumEventsPage(),
         'Centers': (context) => CenterPage(),
         'Groups': (context) => HomePage(),
-        'Attendance': (context) => HomePage(),
+        'Attendance': (context) => AttendancePage(),
         'Teams': (context) => TeamsPage(),
         'UserForm': (context) => UserForm()
       },
