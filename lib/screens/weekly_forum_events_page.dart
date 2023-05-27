@@ -18,7 +18,7 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
   DateTime dateSelected = DateTime.now();
 
   void onDateChanged(DateTime date) {
-      dateSelected = date;
+    dateSelected = date;
   }
 
   void openCreateWFEPage() {
@@ -46,39 +46,42 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
         <DropdownMenuEntry<center.Center>>[];
     center.Center? selectedCenter;
 
-    return Column(
-      children: [
-        TextButton(
-            onPressed: openCreateWFEPage,
-            child: Text("Add a new Weekly Forum event")),
-        FutureBuilder(
-            future: getCenterList(),
-            builder: (BuildContext context, AsyncSnapshot<List<center.Center>> snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
-                      '${snapshot.error} occurred',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  );
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            TextButton(
+                onPressed: openCreateWFEPage,
+                child: Text("Add a new Weekly Forum event")),
+            FutureBuilder(
+                future: getCenterList(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<center.Center>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          '${snapshot.error} occurred',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      );
 
-                  // if we got our data
-                } else if (snapshot.hasData) {
-                  // print(snapshot.data);
-                  List<center.Center>? centerList = snapshot.data;
-                  for(var center in centerList!){
-                   // print(center);
-                   centerEntries
-                       .add(DropdownMenuEntry(value: center, label: center.location));
-                  }
+                      // if we got our data
+                    } else if (snapshot.hasData) {
+                      // print(snapshot.data);
+                      List<center.Center>? centerList = snapshot.data;
+                      for (var center in centerList!) {
+                        // print(center);
+                        centerEntries.add(DropdownMenuEntry(
+                            value: center, label: center.location));
+                      }
 
-                  return Card(
-                      elevation: 50,
-                      shadowColor: Colors.black,
-                      color: Colors.greenAccent[100],
-                      child: Form(
-                          child: Column(
+                      return Card(
+                          elevation: 50,
+                          shadowColor: Colors.black,
+                          color: Colors.greenAccent[100],
+                          child: Form(
+                              child: Column(
                             children: [
                               DropdownMenu(
                                 dropdownMenuEntries: centerEntries,
@@ -98,38 +101,40 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
                                   child: Text("SAVE"))
                             ],
                           )));
-                }
-              }
+                    }
+                  }
 
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }),
-        FutureBuilder<List<WeeklyForumEvent>>(
-            future: getWFEventList(),
-            builder: (BuildContext context,
-                AsyncSnapshot<List<WeeklyForumEvent>> snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
                   return Center(
-                    child: Text(
-                      '${snapshot.error} occurred',
-                      style: TextStyle(fontSize: 18),
-                    ),
+                    child: CircularProgressIndicator(),
                   );
-                } else if (snapshot.hasData) {
-                  wfeList = snapshot.data!;
-                  return Column(
-                    children: wfeList.map((e) => getWFERow(e)).toList(),
-                  );
-                }
-              }
+                }),
+            FutureBuilder<List<WeeklyForumEvent>>(
+                future: getWFEventList(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<WeeklyForumEvent>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          '${snapshot.error} occurred',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      );
+                    } else if (snapshot.hasData) {
+                      wfeList = snapshot.data!;
+                      return Column(
+                        children: wfeList.map((e) => getWFERow(e)).toList(),
+                      );
+                    }
+                  }
 
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }),
-      ],
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }),
+          ],
+        ),
+      ),
     );
   }
 

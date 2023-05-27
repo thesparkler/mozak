@@ -31,40 +31,35 @@ class _LoginPageState extends State<LoginPage> {
   final prefs = SharedPreferences.getInstance();
 
   get login => () async {
-    _formKey.currentState!.save();
-    // var result = validation(_email, _password);
-    // if (result != null) {
-    //   showSnackBar(result,
-    //       hexToColor(AppColors.redAccent));
-    //   return;
-    // }
-    EasyLoading.instance
-      ..backgroundColor = Colors.white10
-      ..userInteractions = false;
-    EasyLoading.show(
-      status: 'Please wait...',
-    );
-    _email = _email.toUpperCase();
-    if (data.contains(_email) &&
-        _password == "dasnadas") {
-      showSnackBar(
-          AppStrings.validationSuccessText,
-          hexToColor(AppColors.greenAccent));
+        _formKey.currentState!.save();
+        // var result = validation(_email, _password);
+        // if (result != null) {
+        //   showSnackBar(result,
+        //       hexToColor(AppColors.redAccent));
+        //   return;
+        // }
+        EasyLoading.instance
+          ..backgroundColor = Colors.white10
+          ..userInteractions = false;
+        EasyLoading.show(
+          status: 'Please wait...',
+        );
+        _email = _email.toUpperCase();
+        if (data.contains(_email) && _password == "dasnadas") {
+          showSnackBar(AppStrings.validationSuccessText,
+              hexToColor(AppColors.greenAccent));
 
-      Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (context) =>
-               HomePage()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => UserForm())); //HomePage
 
-      EasyLoading.dismiss();
-    } else {
-      showSnackBar(
-          "Invalid Group code or Password!!!",
-          hexToColor(AppColors.redAccent));
-      EasyLoading.dismiss();
-      return;
-    }
-  };
+          EasyLoading.dismiss();
+        } else {
+          showSnackBar("Invalid Group code or Password!!!",
+              hexToColor(AppColors.redAccent));
+          EasyLoading.dismiss();
+          return;
+        }
+      };
 
   @override
   void initState() {

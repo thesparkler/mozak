@@ -29,21 +29,27 @@ class MyApp extends StatelessWidget {
       statusBarColor: Colors.transparent,
     ));
 
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
 
     return MaterialApp(
       theme: ThemeData(disabledColor: hexToColor(AppColors.grey)),
       debugShowCheckedModeBanner: false,
+      //home: SplashScreen(),
       initialRoute: '/',
       routes: {
-        '/':(context) => HomePage(),
-        'Youths':(context) => HomePage(),
+        '/': (context) => HomePage(),
+        'Youths': (context) => YouthList(),
         'Weekly Forum Events': (context) => WeeklyForumEventsPage(),
-        'Centers':(context) => CenterPage(),
-        'Groups':(context) => HomePage(),
-        'Attendance':(context) => AttendancePage(),
-        'Teams':(context) => TeamsPage()
+        'Centers': (context) => CenterPage(),
+        'Groups': (context) => HomePage(),
+        'Attendance': (context) => HomePage(),
+        'Teams': (context) => TeamsPage(),
+        'UserForm': (context) => UserForm()
       },
       builder: EasyLoading.init(),
     );
