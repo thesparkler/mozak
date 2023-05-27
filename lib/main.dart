@@ -28,12 +28,17 @@ class MyApp extends StatelessWidget {
       statusBarColor: Colors.transparent,
     ));
 
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
 
     return MaterialApp(
       theme: ThemeData(disabledColor: hexToColor(AppColors.grey)),
       debugShowCheckedModeBanner: false,
+      //home: SplashScreen(),
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),

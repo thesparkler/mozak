@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mozak/model/youth.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
-
+import '../constants/AppColors.dart';
 import '../utils/api_service.dart';
+import '../utils/app_tools.dart';
 
 class YouthList extends StatefulWidget {
   const YouthList({Key? key}) : super(key: key);
@@ -13,16 +14,17 @@ class YouthList extends StatefulWidget {
 
 class _YouthListState extends State<YouthList> {
   int index = 0;
+
+  late List<Youth> youthList;
+  Future<List<Youth>> getYouthList() async {
+    List<Youth> obj = await ApiService().getAllYouths();
+    return obj;
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  }
-
-  late List<Youth> youthList;
-  Future<List<Youth>> getYouthList() {
-    var obj = ApiService().getAllYouths();
-    return obj.then((value) => value);
   }
 
   @override
@@ -47,42 +49,41 @@ class _YouthListState extends State<YouthList> {
 
     return Scaffold(
       appBar: appBar,
-      body: Container(
-          child: Column(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: hexToColor(AppColors.appThemeColor),
+      body: Column(
         children: [
           TextButton(
-              onPressed: () => {
-                    Navigator.of(context).pushNamed("UserForm"),
-                  },
-              child: Text("Add a new Youth")),
+            onPressed: () => {
+              Navigator.of(context).pushNamed("UserForm"),
+            },
+            child: Text("Add a new Youth"),
+          ),
           FutureBuilder<List<Youth>>(
               future: getYouthList(),
               builder:
                   (BuildContext context, AsyncSnapshot<List<Youth>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        '${snapshot.error} occurred',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    );
-                  } else if (snapshot.hasData) {
-                    youthList = snapshot.data!;
-                    return Column(
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      '${snapshot.error} occurred',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  );
+                } else if (snapshot.hasData) {
+                  youthList = snapshot.data!;
+                  return Column(
                       children: youthList
-                          .map((e) => getYouthRow(e.youthFullName))
-                          .toList(),
-                    );
-                  }
+                          .map((e) => getYouthRow(e.youthFullName!))
+                          .toList());
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
-
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
               }),
         ],
-      )),
+      ),
     );
   }
 

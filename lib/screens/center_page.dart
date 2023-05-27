@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mozak/utils/api_service.dart';
 import 'package:mozak/model/center.dart' as center;
 
+import '../constants/AppColors.dart';
+import '../utils/app_tools.dart';
+
 class CenterPage extends StatefulWidget {
   const CenterPage({Key? key}) : super(key: key);
 
@@ -48,8 +51,21 @@ class _CenterPageState extends State<CenterPage> {
     final mediaQuery = MediaQuery.of(context);
     index = 0;
     final appBar = AppBar(
-      title: Text('Centres'),
+      title: Text(
+        'Centres',
+        style: kGoogleStyleTexts.copyWith(
+          fontWeight: FontWeight.w700,
+          fontSize: 22,
+          color: hexToColor(AppColors.whiteTextColor),
+        ),
+        textAlign: TextAlign.center,
+      ),
+      iconTheme: IconThemeData(
+        color: hexToColor(AppColors.whiteTextColor),
+      ),
       centerTitle: true,
+      elevation: 0,
+      backgroundColor: hexToColor(AppColors.appThemeColor),
     );
 
     final bodyHeight = mediaQuery.size.height -
@@ -63,6 +79,8 @@ class _CenterPageState extends State<CenterPage> {
 
     return Scaffold(
       appBar: appBar,
+      resizeToAvoidBottomInset: true,
+      backgroundColor: hexToColor(AppColors.appThemeColor),
       body: Column(
         children: [
           TextButton(

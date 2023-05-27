@@ -174,10 +174,18 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                     Padding(
                       padding: const EdgeInsets.only(top: 15.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          v > 1.0 ? _buildPreviousIcon() : Container(),
-                          v < 8.5 ? _buildNextIcon() : _buildDoneIcon(),
+                          v > 1.0 ? _buildPreviousIcon2() : Container(),
+                          v > 1.0
+                              ? Text(
+                                  "|",
+                                  style: TextStyle(
+                                    color: hexToColor(AppColors.whiteTextColor),
+                                  ),
+                                )
+                              : Container(),
+                          v < 8.5 ? _buildNextIcon2() : _buildDoneIcon(),
                         ],
                       ),
                     )
@@ -234,6 +242,34 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
     );
   }
 
+  Widget _buildPreviousIcon2() {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () => prev(),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 2),
+            child: Text(AppStrings.prevStepText,
+                style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w400,
+                  color: hexToColor(AppColors.prevNextBtnTextColor),
+                  fontSize: 15.0,
+                )),
+          ),
+        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 8.0),
+        //   child: Text(AppStrings.prevStepText,
+        //       style: GoogleFonts.montserrat(
+        //         fontWeight: FontWeight.w400,
+        //         color: hexToColor(AppColors.prevNextBtnTextColor),
+        //         fontSize: 15.0,
+        //       )),
+        // ),
+      ],
+    );
+  }
+
   Widget _buildNextIcon() {
     return Row(
       children: [
@@ -266,12 +302,31 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
     );
   }
 
+  Widget _buildNextIcon2() {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () => next(),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 2, right: 8.0),
+            child: Text(AppStrings.nextStepText,
+                style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w400,
+                  color: hexToColor(AppColors.paleOrange),
+                  fontSize: 15.0,
+                )),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildDoneIcon() {
     return SizedBox(
         child: Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(right: 8.0),
+          padding: const EdgeInsets.only(left: 2, right: 8.0),
           child: Text(AppStrings.saveDetailsText,
               style: GoogleFonts.montserrat(
                 fontWeight: FontWeight.w400,
