@@ -5,12 +5,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mozak/constants/AppColors.dart';
 import 'package:mozak/screens/LoginScreen.dart';
 import 'package:mozak/screens/SplashScreen.dart';
+import 'package:mozak/screens/attendancePage.dart';
 import 'package:mozak/screens/teams_page.dart';
 import 'package:mozak/screens/center_page.dart';
 import 'package:mozak/screens/home.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/screens/youthList.dart';
-import 'package:mozak/screens/weekly_forum_events_page.dart';
+import 'package:mozak/screens/weekly_forum_event_page.dart';
 import 'package:mozak/utils/app_tools.dart';
 
 void main() async {
@@ -48,7 +49,8 @@ class MyApp extends StatelessWidget {
         'Groups': (context) => HomePage(),
         'Attendance': (context) => HomePage(),
         'Teams': (context) => TeamsPage(),
-        'UserForm': (context) => UserForm()
+        'UserForm': (context) => UserForm(),
+        'AttendancePage': (context) => AttendancePage(),
       },
       builder: EasyLoading.init(),
     );
