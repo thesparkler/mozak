@@ -34,8 +34,21 @@ class _YouthListState extends State<YouthList> {
     final mediaQuery = MediaQuery.of(context);
 
     final appBar = AppBar(
-      title: Text('Youth Data'),
+      title: Text(
+        'Youths',
+        style: kGoogleStyleTexts.copyWith(
+          fontWeight: FontWeight.w700,
+          fontSize: 22,
+          color: hexToColor(AppColors.whiteTextColor),
+        ),
+        textAlign: TextAlign.center,
+      ),
+      iconTheme: IconThemeData(
+        color: hexToColor(AppColors.whiteTextColor),
+      ),
       centerTitle: true,
+      elevation: 0,
+      backgroundColor: hexToColor(AppColors.appThemeColor),
     );
 
     final bodyHeight = mediaQuery.size.height -
