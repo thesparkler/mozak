@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
+
 class Youth {
   int? id;
-  String? rollno;
+  String rollno;
   String? team;
-  String? youthFullName;
+  String youthFullName;
   String? dob;
   String? mobile1;
   String? mobile2;
@@ -12,10 +14,11 @@ class Youth {
   String? pincode;
 
   Youth(
-      {this.id,
-      this.rollno,
+      {
+        required this.id,
+        required this.rollno,
       this.team,
-      this.youthFullName,
+      required this.youthFullName,
       this.dob,
       this.mobile1,
       this.mobile2,
@@ -24,7 +27,11 @@ class Youth {
       this.tlCode,
       this.pincode});
 
-  Youth.fromJson(Map<String, dynamic> json) {
+  Youth.fromJson(Map<String, dynamic> json)
+  :rollno=json['rollno'],
+  youthFullName=json['youthFullName']
+
+  {
     id = json['id'];
     rollno = json['rollno'];
     team = json['team'];
@@ -52,5 +59,10 @@ class Youth {
     data['tlCode'] = this.tlCode;
     data['pincode'] = this.pincode;
     return data;
+  }
+
+  @override
+  String toString(){
+    return this.youthFullName;
   }
 }
