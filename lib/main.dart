@@ -44,13 +44,12 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => HomePage(),
         'Youths': (context) => YouthList(),
-        'Weekly Forum Events': (context) => WeeklyForumEventsPage(),
+        //'Weekly Forum Events': (context) => WeeklyForumEventsPage(),
         'Centers': (context) => CenterPage(),
         'Groups': (context) => HomePage(),
-        'Attendance': (context) => HomePage(),
+        'Attendance': (context) => WeeklyForumEventsPage(),
         'Teams': (context) => TeamsPage(),
         'UserForm': (context) => UserForm(),
-        'AttendancePage': (context) => AttendancePage(),
       },
       builder: EasyLoading.init(),
     );

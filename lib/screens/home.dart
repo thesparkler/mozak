@@ -54,7 +54,6 @@ class _HomePageState extends State<HomePage> {
 
     List<String> options = [
       'Youths',
-      'Weekly Forum Events',
       'Centers',
       'Groups',
       'Attendance',

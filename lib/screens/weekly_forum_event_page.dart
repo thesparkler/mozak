@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mozak/model/attendanceTable.dart';
 import 'package:mozak/model/weekly_forum_event.dart';
 import 'package:mozak/utils/api_service.dart';
 import 'package:mozak/model/center.dart' as center;
 
 import '../constants/AppColors.dart';
 import '../utils/app_tools.dart';
+import 'attendancePage.dart';
 
 class WeeklyForumEventsPage extends StatefulWidget {
   const WeeklyForumEventsPage({Key? key}) : super(key: key);
@@ -19,9 +21,10 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
   int index = 0;
   bool showCreatWFECard = false;
   DateTime dateSelected = DateTime.now();
+  DateFormat dateFormat = DateFormat("yyyy-MM-dd");
 
   void onDateChanged(DateTime date) {
-    dateSelected = DateFormat('yyyy-MM-dd').format(date) as DateTime;
+    dateSelected = DateFormat('yyyy-MM-dd').parse(date.toString());
   }
 
   void openCreateWFEPage() {
@@ -45,6 +48,11 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
 
   Future<List<WeeklyForumEvent>> getWFEventList() {
     var obj = ApiService().getWFEvents();
+    return obj;
+  }
+
+  Future<List<center.Center>> getCenterList() {
+    var obj = ApiService().getCenters();
     return obj.then((value) => value);
   }
 
@@ -150,8 +158,8 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
                                 ),
                                 CalendarDatePicker(
                                     initialDate: DateTime.now(),
-                                    firstDate: DateTime.now(),
-                                    lastDate: DateTime.now(),
+                                    firstDate: DateTime(2022),
+                                    lastDate: DateTime(3000),
                                     onDateChanged: onDateChanged),
                                 Row(
                                   mainAxisAlignment:
@@ -193,30 +201,48 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
                   child: CircularProgressIndicator(),
                 );
               }),
+          Padding(
+            padding: const EdgeInsets.only(top: 25.0, left: 25.0, bottom: 10),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Events",
+                style: kGoogleStyleTexts.copyWith(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  color: hexToColor(AppColors.whiteTextColor),
+                ),
+              ),
+            ),
+          ),
           FutureBuilder<List<WeeklyForumEvent>>(
-              future: getWFEventList(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<WeeklyForumEvent>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        '${snapshot.error} occurred',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    );
-                  } else if (snapshot.hasData) {
-                    wfeList = snapshot.data!;
-                    return Column(
-                      children: wfeList.map((e) => getWFERow(e)).toList(),
-                    );
-                  }
+            future: getWFEventList(),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<WeeklyForumEvent>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      '${snapshot.error} occurred',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  );
+                } else if (snapshot.hasData) {
+                  wfeList = snapshot.data!;
+                  wfeList.sort((a, b) => b.date.compareTo(a.date));
+                  return Column(
+                    children: wfeList.map((e) => getWFERow(e)).toList(),
+                  );
                 }
+              }
 
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }),
+              return Center(
+                child: CircularProgressIndicator(
+                  color: hexToColor(AppColors.whiteTextColor),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
@@ -228,42 +254,51 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
     //       onTap: () async {
     //         Navigator.of(context).pushNamed("AttendancePage");
     //       },),
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Row(
-          children: [
-            Container(
+    return InkWell(
+      onTap: () => {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                AttendancePage(event.center, DateTime.parse(event.date))))
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 25.0, top: 8),
+        child: Container(
+          child: Row(
+            children: [
+              Container(
                 child: Text(
-              index.toString() + " ",
-              style: kGoogleStyleTexts.copyWith(
-                fontWeight: FontWeight.w700,
-                fontSize: 20,
-                color: hexToColor(AppColors.whiteTextColor),
+                  index.toString() + " ",
+                  style: kGoogleStyleTexts.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: hexToColor(AppColors.whiteTextColor),
+                  ),
+                ),
               ),
-            )),
-            Container(
-                child: Text(event.center.location + " ",
-                    style: kGoogleStyleTexts.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20,
-                      color: hexToColor(AppColors.whiteTextColor),
-                    ))),
-            Container(
-                child: Text(event.date.toString(),
-                    style: kGoogleStyleTexts.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20,
-                      color: hexToColor(AppColors.whiteTextColor),
-                    )))
-          ],
+              Container(
+                child: Text(
+                  event.center.location + " ",
+                  style: kGoogleStyleTexts.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: hexToColor(AppColors.whiteTextColor),
+                  ),
+                ),
+              ),
+              Container(
+                child: Text(
+                  event.date.toString(),
+                  style: kGoogleStyleTexts.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: hexToColor(AppColors.whiteTextColor),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  Future<List<center.Center>> getCenterList() {
-    var obj = ApiService().getCenters();
-    return obj.then((value) => value);
   }
 }

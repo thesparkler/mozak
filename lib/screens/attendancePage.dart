@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mozak/model/attendanceTable.dart';
+import 'package:mozak/model/center.dart' as center;
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/api_service.dart';
 import 'package:mozak/model/weekly_forum_event.dart';
@@ -7,14 +9,14 @@ import '../constants/AppColors.dart';
 import '../utils/app_tools.dart';
 
 class AttendancePage extends StatefulWidget {
-  const AttendancePage({Key? key}) : super(key: key);
+  AttendancePage(center.Center center, DateTime date);
 
   @override
   State<AttendancePage> createState() => _AttendancePageState();
 }
 
 class _AttendancePageState extends State<AttendancePage> {
-  late List<WeeklyForumEvent> wfeList;
+  late List<AttendanceTable> attendanceTableList;
 
   int index = 0;
   bool showCreateCenterCard = false;
@@ -42,9 +44,9 @@ class _AttendancePageState extends State<AttendancePage> {
     super.initState();
   }
 
-  Future<List<List<WeeklyForumEvent>>> getWfeList() {
-    var obj = ApiService().getCenters();
-    return obj.then((value) => value);
+  Future<List<AttendanceTable>> getAttendanceData() {
+    var obj = ApiService().getAttendanceTable();
+    return obj;
   }
 
   @override
@@ -171,10 +173,10 @@ class _AttendancePageState extends State<AttendancePage> {
             //     : SizedBox(
             //         height: 5,
             //       ),
-            FutureBuilder<List<center.Center>>(
-                future: getCenterList(),
+            FutureBuilder<List<AttendanceTable>>(
+                future: getAttendanceData(),
                 builder: (BuildContext context,
-                    AsyncSnapshot<List<center.Center>> snapshot) {
+                    AsyncSnapshot<List<AttendanceTable>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {
                       return Center(
@@ -184,7 +186,7 @@ class _AttendancePageState extends State<AttendancePage> {
                         ),
                       );
                     } else if (snapshot.hasData) {
-                      centerList = snapshot.data!;
+                      attendanceTableList = snapshot.data!;
                       // return Column(
                       //   children: centerList
                       //       .map((e) => getCenterRow(e.location))
@@ -195,7 +197,7 @@ class _AttendancePageState extends State<AttendancePage> {
                           scrollDirection:
                               axisDirectionToAxis(AxisDirection.down),
                           shrinkWrap: true,
-                          itemCount: centerList.length,
+                          itemCount: attendanceTableList.length,
                           itemBuilder: (context, index) {
                             return Table();
                           });
