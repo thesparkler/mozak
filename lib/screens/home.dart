@@ -57,7 +57,6 @@ class _HomePageState extends State<HomePage> {
       'Centers',
       'Groups',
       'Attendance',
-      'Teams'
     ];
 
     return Scaffold(
