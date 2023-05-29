@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-//import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mozak/constants/AppColors.dart';
-import 'package:mozak/screens/LoginScreen.dart';
-import 'package:mozak/screens/SplashScreen.dart';
-import 'package:mozak/screens/attendancePage.dart';
-import 'package:mozak/screens/teams_page.dart';
-import 'package:mozak/screens/center_page.dart';
+import 'package:mozak/screens/teamsPage.dart';
+import 'package:mozak/screens/centerPage.dart';
 import 'package:mozak/screens/home.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/screens/youthList.dart';
@@ -43,13 +39,14 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
-        'Youths': (context) => YouthList(),
+        'Youths': (context) => YouthList(), //1
         //'Weekly Forum Events': (context) => WeeklyForumEventsPage(),
-        'Centers': (context) => CenterPage(),
-        'Groups': (context) => HomePage(),
-        'Attendance': (context) => WeeklyForumEventsPage(),
+        'Centers': (context) => CenterPage(), //2
+        'Groups': (context) => HomePage(), //3
+        'Attendance': (context) => WeeklyForumEventsPage(), //4
         'Teams': (context) => TeamsPage(),
         'UserForm': (context) => UserForm(),
+        //'AttendancePage': (context) => AttendancePage(),
       },
       builder: EasyLoading.init(),
     );

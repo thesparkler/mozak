@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mozak/model/attendanceTable.dart';
+import 'package:mozak/screens/attendancePage.dart';
 import 'package:mozak/model/weekly_forum_event.dart';
 import 'package:mozak/utils/api_service.dart';
 import 'package:mozak/model/center.dart' as center;
-
 import '../constants/AppColors.dart';
 import '../utils/app_tools.dart';
-import 'attendancePage.dart';
 
 class WeeklyForumEventsPage extends StatefulWidget {
   const WeeklyForumEventsPage({Key? key}) : super(key: key);
@@ -257,8 +255,8 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
     return InkWell(
       onTap: () => {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                AttendancePage(event.center, DateTime.parse(event.date))))
+            builder: (context) => AttendancePage(
+                event))) //(event.center, DateTime.parse(event.date))
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 25.0, top: 8),

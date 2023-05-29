@@ -6,14 +6,14 @@ import 'package:mozak/model/center.dart' as center;
 import '../constants/AppColors.dart';
 import '../utils/app_tools.dart';
 
-class CenterPage extends StatefulWidget {
-  const CenterPage({Key? key}) : super(key: key);
+class TeamsPage extends StatefulWidget {
+  const TeamsPage({Key? key}) : super(key: key);
 
   @override
-  State<CenterPage> createState() => _CenterPageState();
+  State<TeamsPage> createState() => _TeamsPageState();
 }
 
-class _CenterPageState extends State<CenterPage> {
+class _TeamsPageState extends State<TeamsPage> {
   late List<center.Center> centerList;
 
   int index = 0;

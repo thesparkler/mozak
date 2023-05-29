@@ -66,11 +66,42 @@ class _YouthListState extends State<YouthList> {
       backgroundColor: hexToColor(AppColors.appThemeColor),
       body: Column(
         children: [
-          TextButton(
-            onPressed: () => {
-              Navigator.of(context).pushNamed("UserForm"),
-            },
-            child: Text("Add a new Youth"),
+          Container(
+            height: bodyHeight / 18,
+            width: bodyWidth / 2,
+            decoration: BoxDecoration(
+                color: hexToColor(AppColors.paleOrange),
+                backgroundBlendMode: BlendMode.lighten,
+                border: Border.all(
+                  color: hexToColor(AppColors.paleOrange),
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(5.0))),
+            child: TextButton(
+              onPressed: () => {
+                Navigator.of(context).pushNamed("UserForm"),
+              },
+              child: Text(
+                "Add a new Youth",
+                style: kGoogleStyleTexts.copyWith(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                  color: hexToColor(AppColors.whiteTextColor),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 25.0, bottom: 10, left: 25),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text("All Centers",
+                  style: kGoogleStyleTexts.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: hexToColor(AppColors.whiteTextColor),
+                  )),
+            ),
           ),
           FutureBuilder<List<Youth>>(
               future: getYouthList(),
@@ -109,11 +140,26 @@ class _YouthListState extends State<YouthList> {
 
   Widget getYouthRow(String name) {
     index++;
-    return Row(
-      children: [
-        Container(child: Text(index.toString())),
-        Container(child: Text(" $name"))
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 25.0, top: 8),
+      child: Row(
+        children: [
+          Container(
+              child: Text(index.toString(),
+                  style: kGoogleStyleTexts.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: hexToColor(AppColors.whiteTextColor),
+                  ))),
+          Container(
+              child: Text(" $name",
+                  style: kGoogleStyleTexts.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: hexToColor(AppColors.whiteTextColor),
+                  )))
+        ],
+      ),
     );
   }
 }
