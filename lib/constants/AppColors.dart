@@ -1,6 +1,6 @@
 class AppColors {
-  static const appThemeColor = "#353535";
-  //static const appThemeColor = "#181E2C";
+  // static const appThemeColor = "#353535";
+  static const appThemeColor = "#181E2C";
   //static const appThemeColor="#1E2537";
   //static const appThemeColor = "#141A26";
   static const iconColor = "#747880";

@@ -78,147 +78,143 @@ class _CenterPageState extends State<CenterPage> {
         mediaQuery.padding.left -
         mediaQuery.padding.right;
 
-    return SingleChildScrollView(
-      child: Scaffold(
-        appBar: appBar,
-        backgroundColor: hexToColor(AppColors.appThemeColor),
-        body: Column(
-          children: [
-            Container(
-              height: bodyHeight / 18,
-              width: bodyWidth / 2,
-              decoration: BoxDecoration(
+    return Scaffold(
+      appBar: appBar,
+      backgroundColor: hexToColor(AppColors.appThemeColor),
+      body: Column(
+        children: [
+          Container(
+            height: bodyHeight / 18,
+            width: bodyWidth / 2,
+            decoration: BoxDecoration(
+                color: hexToColor(AppColors.paleOrange),
+                backgroundBlendMode: BlendMode.lighten,
+                border: Border.all(
                   color: hexToColor(AppColors.paleOrange),
-                  backgroundBlendMode: BlendMode.lighten,
-                  border: Border.all(
-                    color: hexToColor(AppColors.paleOrange),
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(5.0))),
+            child: TextButton(
+                onPressed: openCreateCenterPage,
+                child: Text(
+                  "Add a new center",
+                  style: kGoogleStyleTexts.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                    color: hexToColor(AppColors.whiteTextColor),
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
-              child: TextButton(
-                  onPressed: openCreateCenterPage,
-                  child: Text(
-                    "Add a new center",
-                    style: kGoogleStyleTexts.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16,
-                      color: hexToColor(AppColors.whiteTextColor),
-                    ),
-                    textAlign: TextAlign.center,
+                  textAlign: TextAlign.center,
+                )),
+          ),
+          showCreateCenterCard
+              ? Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Card(
+                      elevation: 0,
+                      shadowColor: Colors.black,
+                      color: hexToColor(AppColors.paleOrange),
+                      child: Form(
+                          child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  border: Border.all(
+                                    color: hexToColor(
+                                        AppColors.textFieldOutlineBorderColor),
+                                    width: 1.0,
+                                  ),
+                                ),
+                                width: MediaQuery.of(context).size.width,
+                                child: Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: TextField(
+                                      controller: locationController,
+                                      style: kGoogleStyleTexts.copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: hexToColor(
+                                              AppColors.whiteTextColor),
+                                          fontSize: 15.0),
+                                    ))),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              TextButton(
+                                  onPressed: () async {
+                                    closeCreateCenterPage();
+                                  },
+                                  child: Text("Cancel",
+                                      style: kGoogleStyleTexts.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
+                                        color: hexToColor(
+                                            AppColors.whiteTextColor),
+                                      ))),
+                              TextButton(
+                                  onPressed: () async {
+                                    addCenter(
+                                        locationController.text.toString());
+                                    closeCreateCenterPage();
+                                  },
+                                  child: Text("Save",
+                                      style: kGoogleStyleTexts.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
+                                        color: hexToColor(
+                                            AppColors.whiteTextColor),
+                                      ))),
+                            ],
+                          )
+                        ],
+                      ))),
+                )
+              : SizedBox(
+                  height: 5,
+                ),
+          Padding(
+            padding: const EdgeInsets.only(top: 25.0, bottom: 10, left: 25),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text("All Centers",
+                  style: kGoogleStyleTexts.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: hexToColor(AppColors.whiteTextColor),
                   )),
             ),
-            showCreateCenterCard
-                ? Padding(
-                    padding: const EdgeInsets.all(25.0),
-                    child: Card(
-                        elevation: 0,
-                        shadowColor: Colors.black,
-                        color: hexToColor(AppColors.paleOrange),
-                        child: Form(
-                            child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    border: Border.all(
-                                      color: hexToColor(AppColors
-                                          .textFieldOutlineBorderColor),
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 10.0),
-                                      child: TextField(
-                                        controller: locationController,
-                                        style: kGoogleStyleTexts.copyWith(
-                                            fontWeight: FontWeight.w400,
-                                            color: hexToColor(
-                                                AppColors.whiteTextColor),
-                                            fontSize: 15.0),
-                                      ))),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                TextButton(
-                                    onPressed: () async {
-                                      closeCreateCenterPage();
-                                    },
-                                    child: Text("Cancel",
-                                        style: kGoogleStyleTexts.copyWith(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 20,
-                                          color: hexToColor(
-                                              AppColors.whiteTextColor),
-                                        ))),
-                                TextButton(
-                                    onPressed: () async {
-                                      addCenter(
-                                          locationController.text.toString());
-                                      closeCreateCenterPage();
-                                    },
-                                    child: Text("Save",
-                                        style: kGoogleStyleTexts.copyWith(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 20,
-                                          color: hexToColor(
-                                              AppColors.whiteTextColor),
-                                        ))),
-                              ],
-                            )
-                          ],
-                        ))),
-                  )
-                : SizedBox(
-                    height: 5,
-                  ),
-            Padding(
-              padding: const EdgeInsets.only(top: 25.0, bottom: 10, left: 25),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("All Centers",
-                    style: kGoogleStyleTexts.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20,
-                      color: hexToColor(AppColors.whiteTextColor),
-                    )),
-              ),
-            ),
-            FutureBuilder<List<center.Center>>(
-                future: getCenterList(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<center.Center>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text(
-                          '${snapshot.error} occurred',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      );
-                    } else if (snapshot.hasData) {
-                      centerList = snapshot.data!;
-                      centerList
-                          .sort((a, b) => a.location.compareTo(b.location));
-                      return Expanded(
-                        child: Column(
-                          children: centerList
-                              .map((e) => getCenterRow(e.location))
-                              .toList(),
-                        ),
-                      );
-                    }
+          ),
+          FutureBuilder<List<center.Center>>(
+              future: getCenterList(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<center.Center>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        '${snapshot.error} occurred',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    );
+                  } else if (snapshot.hasData) {
+                    centerList = snapshot.data!;
+                    centerList.sort((a, b) => a.location.compareTo(b.location));
+                    return Expanded(
+                      child: Column(
+                        children: centerList
+                            .map((e) => getCenterRow(e.location))
+                            .toList(),
+                      ),
+                    );
                   }
+                }
 
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }),
-          ],
-        ),
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }),
+        ],
       ),
     );
   }
