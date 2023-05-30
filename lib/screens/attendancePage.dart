@@ -17,7 +17,7 @@ class AttendancePage extends StatefulWidget {
 
 class _AttendancePageState extends State<AttendancePage> {
   late List<AttendanceTable> attendanceTableList;
-
+  int selectedID = 0;
   int index = 0;
   //bool showCreateCenterCard = false;
   //TextEditingController locationController = new TextEditingController();
@@ -159,47 +159,45 @@ class _AttendancePageState extends State<AttendancePage> {
                       },
                       displayStringForOption: (Youth option) =>
                           option.youthFullName + " " + option.rollno,
-                      fieldViewBuilder: (BuildContext context,
-                          TextEditingController fieldTextEditingController,
-                          FocusNode fieldFocusNode,
-                          VoidCallback onFieldSubmitted) {
-                        return TextField(
-                          key: _formKey,
-                          focusNode: fieldFocusNode,
-                          controller: fieldTextEditingController,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        );
-                      },
+                      // fieldViewBuilder: (BuildContext context,
+                      //     TextEditingController fieldTextEditingController,
+                      //     FocusNode fieldFocusNode,
+                      //     VoidCallback onFieldSubmitted) {
+                      //   return TextField(
+                      //     key: _formKey,
+                      //     focusNode: fieldFocusNode,
+                      //     controller: fieldTextEditingController,
+                      //     style: const TextStyle(fontWeight: FontWeight.bold),
+                      //   );
+                      // },
                       optionsViewBuilder: (BuildContext context,
                           AutocompleteOnSelected<Youth> onSelected,
                           Iterable<Youth> options) {
                         return Align(
                           alignment: Alignment.center,
-                          child: Material(
-                            child: Container(
-                              width: bodyWidth - 303,
-                              color: hexToColor(AppColors.appThemeColor),
-                              child: ListView.builder(
-                                padding: EdgeInsets.all(10.0),
-                                itemCount: options.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final Youth option = options.elementAt(index);
+                          child: Container(
+                            width: bodyWidth - 30,
+                            color: hexToColor(AppColors.appThemeColor),
+                            child: ListView.builder(
+                              padding: EdgeInsets.all(10.0),
+                              itemCount: options.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final Youth option = options.elementAt(index);
 
-                                  return GestureDetector(
-                                    onTap: () {
-                                      onSelected(option);
-                                    },
-                                    child: ListTile(
-                                      title: Text(
-                                          option.rollno +
-                                              " " +
-                                              option.youthFullName,
-                                          style: const TextStyle(
-                                              color: Colors.white)),
-                                    ),
-                                  );
-                                },
-                              ),
+                                return TextButton(
+                                  onPressed: () {
+                                    onSelected(option);
+                                  },
+                                  child: ListTile(
+                                    title: Text(
+                                        option.rollno +
+                                            " " +
+                                            option.youthFullName,
+                                        style: const TextStyle(
+                                            color: Colors.white)),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         );
@@ -207,6 +205,7 @@ class _AttendancePageState extends State<AttendancePage> {
                       onSelected: (Youth selection) {
                         print(
                             'Selected: ${selection.rollno + " " + selection.youthFullName}');
+                        selectedID = selection.id!;
                       },
                     );
                   }
