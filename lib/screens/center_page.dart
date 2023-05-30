@@ -89,24 +89,32 @@ class _CenterPageState extends State<CenterPage> {
               ? Card(
                   elevation: 50,
                   shadowColor: Colors.black,
-                  color: Colors.greenAccent[100],
+                  color: hexToColor(AppColors.paleOrange),
                   child: Form(
                       child: Column(
                     children: [
                       TextField(controller: locationController),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ElevatedButton(
+                          TextButton(
                               onPressed: () async {
                                 closeCreateCenterPage();
                               },
-                              child: Text("Cancel")),
-                          ElevatedButton(
+                              child: Text("Cancel",style: kGoogleStyleTexts.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                                color: hexToColor(AppColors.whiteTextColor),))),
+                          TextButton(
                               onPressed: () async {
                                 addCenter(locationController.text.toString());
                                 closeCreateCenterPage();
                               },
-                              child: Text("SAVE")),
+                              child: Text("Save",
+                                  style: kGoogleStyleTexts.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 20,
+                                    color: hexToColor(AppColors.whiteTextColor),))),
                         ],
                       )
                     ],
