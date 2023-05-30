@@ -14,7 +14,7 @@ class WeeklyForumEventsPage extends StatefulWidget {
 class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
   late List<WeeklyForumEvent> wfeList;
   int index = 0;
-  bool showCreatWFECard = false;
+  bool showCreateWFECard = false;
   DateTime dateSelected = DateTime.now();
 
   void onDateChanged(DateTime date) {
@@ -22,7 +22,7 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
   }
 
   void openCreateWFEPage() {
-    showCreatWFECard = true;
+    showCreateWFECard = true;
   }
 
   void addWFEvent(center.Center center, DateTime date) {

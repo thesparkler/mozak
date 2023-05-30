@@ -15,6 +15,25 @@ class YouthList extends StatefulWidget {
 class _YouthListState extends State<YouthList> {
   int index = 0;
 
+  String youthCode = "HK";
+
+  List<String> groups = ['HK', 'SY', 'BR', 'CR', 'AB','GK','SK'];
+
+  // List<DropdownMenuItem> dropDown() {
+  //   List<DropdownMenuItem<dynamic>> dropDownItems = [];
+
+  //   for (int i = 0; i < groups.length; i++) {
+  //     String grp = groups[i];
+  //     var newItem = DropdownMenuItem(
+  //       child: Text(grp),
+  //       value: grp,
+  //     );
+  //     // add to the list of menu item
+  //     dropDownItems.add(newItem);
+  //   }
+  //   return dropDownItems.map((e) => null);
+  // }
+
   late List<Youth> youthList;
   Future<List<Youth>> getYouthList() async {
     List<Youth> obj = await ApiService().getAllYouths();
@@ -23,14 +42,11 @@ class _YouthListState extends State<YouthList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    index = 0;
-
     final mediaQuery = MediaQuery.of(context);
 
     final appBar = AppBar(
@@ -49,40 +65,84 @@ class _YouthListState extends State<YouthList> {
 
     return Scaffold(
       appBar: appBar,
-      resizeToAvoidBottomInset: true,
       backgroundColor: hexToColor(AppColors.appThemeColor),
-      body: Column(
-        children: [
-          TextButton(
-            onPressed: () => {
-              Navigator.of(context).pushNamed("UserForm"),
-            },
-            child: Text("Add a new Youth"),
-          ),
-          FutureBuilder<List<Youth>>(
-              future: getYouthList(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<List<Youth>> snapshot) {
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
-                      '${snapshot.error} occurred',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  );
-                } else if (snapshot.hasData) {
-                  youthList = snapshot.data!;
-                  return Column(
-                      children: youthList
-                          .map((e) => getYouthRow(e.youthFullName!))
-                          .toList());
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              }),
-        ],
+      body: Container(
+          height: bodyHeight,
+          width: bodyWidth,
+          padding: EdgeInsets.all(8.0),
+          child: LayoutBuilder(builder: (context, constraints) {
+            return Column(
+              children: [
+                Container(
+                    height: constraints.maxHeight * 0.2,
+                    width: bodyWidth * 0.9,
+                    child: DropdownButton<String>(
+                      value: youthCode,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          youthCode = newValue ?? youthCode;
+                        });
+                      },
+                      items:
+                          groups.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                            value: value,
+                            child: value == youthCode
+                                ? Text(
+                                    value,
+                                    style: const TextStyle(color: Colors.white),
+                                  )
+                                : Text(
+                                    value,
+                                    style: TextStyle(
+                                        color:
+                                            hexToColor(AppColors.paleOrange)),
+                                  ));
+                      }).toList(),
+                    )
+                ),
+                Container(
+                  height: bodyHeight * 0.7,
+                  width: bodyWidth * 0.9,
+                  child: FutureBuilder<List<Youth>>(
+                      future: getYouthList(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Youth>> snapshot) {
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text(
+                              '${snapshot.error} occurred',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          );
+                        } else if (snapshot.hasData) {
+                          youthList = snapshot.data!;
+                          return Container(
+                            height: bodyHeight * 0.8,
+                            width: bodyWidth * 0.9,
+                            child: ListView(
+                                children: youthList
+                                    .where((element) =>
+                                        element.team!.substring(0, 2) == '$youthCode')
+                                    .map((e) => getYouthRow(
+                                        e.rollno!, e.youthFullName!))
+                                    .toList()),
+                          );
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }),
+                )
+              ],
+            );
+          })),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.person_add_alt_1),
+        onPressed: () => {
+          Navigator.of(context).pushNamed("UserForm"),
+        },
       ),
     );
   }
@@ -94,13 +154,13 @@ class _YouthListState extends State<YouthList> {
     super.dispose();
   }
 
-  Widget getYouthRow(String name) {
-    index++;
-    return Row(
-      children: [
-        Container(child: Text(index.toString())),
-        Container(child: Text(" $name"))
-      ],
+  Widget getYouthRow(String rollno, String name) {
+    return ListTile(
+      leading: Text(
+        "$rollno",
+        style: TextStyle(color: Colors.white),
+      ),
+      title: Text("$name", style: TextStyle(color: Colors.white)),
     );
   }
 }
