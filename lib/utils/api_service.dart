@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:mozak/model/attendanceTable.dart';
 
 import '../model/weekly_forum_event.dart';
 import '../model/center.dart' as center;
-import '../model/youth.dart' as youth;
+import '../model/youth.dart';
 import 'constants.dart';
 
 class ApiService {
@@ -24,6 +25,26 @@ class ApiService {
       var jsonObject = jsonDecode(response.body);
       for (var json in jsonObject) {
         list.add(WeeklyForumEvent.fromJson(json));
+      }
+      return list;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Future<List<AttendanceTable>> getAttendanceTable() async {
+    Uri allWeeklyForumEventsUrl =
+        Uri.parse('${Constants.domain}${Constants.allWFEvents}');
+    http.Response response = await http.get(allWeeklyForumEventsUrl);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      List<AttendanceTable> list = [];
+      var jsonObject = jsonDecode(response.body);
+      for (var json in jsonObject) {
+        list.add(AttendanceTable.fromJson(json));
       }
       return list;
     } else {
@@ -54,17 +75,17 @@ class ApiService {
     }
   }
 
-  Future<List<youth.Youth>> getAllYouths() async {
+  Future<List<Youth>> getAllYouths() async {
     Uri allWeeklyForumEventsUrl =
         Uri.parse('${Constants.domain}${Constants.allYouths}');
     http.Response response = await http.get(allWeeklyForumEventsUrl);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      List<youth.Youth> list = [];
+      List<Youth> list = [];
       var jsonObject = jsonDecode(response.body);
       for (var json in jsonObject) {
-        list.add(youth.Youth.fromJson(json));
+        list.add(Youth.fromJson(json));
       }
       return list;
     } else {

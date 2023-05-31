@@ -33,8 +33,21 @@ class _YouthListState extends State<YouthList> {
     final mediaQuery = MediaQuery.of(context);
 
     final appBar = AppBar(
-      title: Text('Youth Data'),
+      title: Text(
+        'Youths',
+        style: kGoogleStyleTexts.copyWith(
+          fontWeight: FontWeight.w700,
+          fontSize: 22,
+          color: hexToColor(AppColors.whiteTextColor),
+        ),
+        textAlign: TextAlign.center,
+      ),
+      iconTheme: IconThemeData(
+        color: hexToColor(AppColors.whiteTextColor),
+      ),
       centerTitle: true,
+      elevation: 0,
+      backgroundColor: hexToColor(AppColors.appThemeColor),
     );
 
     final bodyHeight = mediaQuery.size.height -
@@ -49,11 +62,13 @@ class _YouthListState extends State<YouthList> {
     return Scaffold(
       appBar: appBar,
       backgroundColor: hexToColor(AppColors.appThemeColor),
+
       body: Container(
           height: bodyHeight,
           width: bodyWidth,
           padding: EdgeInsets.all(8.0),
-          child: LayoutBuilder(builder: (context, constraints) {
+          child: LayoutBuilder(
+            builder: (context, constraints) {
             return Column(
               children: [
                 Container(
@@ -81,7 +96,8 @@ class _YouthListState extends State<YouthList> {
                                             hexToColor(AppColors.paleOrange)),
                                   ));
                       }).toList(),
-                    )),
+                    )
+                ),
                 Container(
                   height: bodyHeight * 0.6,
                   width: bodyWidth * 0.9,
@@ -118,20 +134,25 @@ class _YouthListState extends State<YouthList> {
                 )
               ],
             );
-          })),
+          }
+        )
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.person_add_alt_1),
         onPressed: () => {
           Navigator.of(context).pushNamed("UserForm"),
         },
-      ),
+      )
     );
+
   }
+
 
   @override
   void dispose() {
     super.dispose();
   }
+
 
   Widget getYouthRow(Youth e) {
     return ListTile(
@@ -167,6 +188,6 @@ class _YouthListState extends State<YouthList> {
         style: TextStyle(color: Colors.white),
       ),
       title: Text("${e.youthFullName}", style: TextStyle(color: Colors.white)),
-    );
-  }
+  );
+}
 }
