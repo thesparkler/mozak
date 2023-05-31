@@ -13,26 +13,9 @@ class YouthList extends StatefulWidget {
 }
 
 class _YouthListState extends State<YouthList> {
-  int index = 0;
-
   String youthCode = "HK";
 
-  List<String> groups = ['HK', 'SY', 'BR', 'CR', 'AB','GK','SK'];
-
-  // List<DropdownMenuItem> dropDown() {
-  //   List<DropdownMenuItem<dynamic>> dropDownItems = [];
-
-  //   for (int i = 0; i < groups.length; i++) {
-  //     String grp = groups[i];
-  //     var newItem = DropdownMenuItem(
-  //       child: Text(grp),
-  //       value: grp,
-  //     );
-  //     // add to the list of menu item
-  //     dropDownItems.add(newItem);
-  //   }
-  //   return dropDownItems.map((e) => null);
-  // }
+  List<String> groups = ['HK', 'SY', 'BR', 'CR', 'AB'];
 
   late List<Youth> youthList;
   Future<List<Youth>> getYouthList() async {
@@ -90,7 +73,6 @@ class _YouthListState extends State<YouthList> {
                             child: value == youthCode
                                 ? Text(
                                     value,
-                                    style: const TextStyle(color: Colors.white),
                                   )
                                 : Text(
                                     value,
@@ -99,10 +81,9 @@ class _YouthListState extends State<YouthList> {
                                             hexToColor(AppColors.paleOrange)),
                                   ));
                       }).toList(),
-                    )
-                ),
+                    )),
                 Container(
-                  height: bodyHeight * 0.7,
+                  height: bodyHeight * 0.6,
                   width: bodyWidth * 0.9,
                   child: FutureBuilder<List<Youth>>(
                       future: getYouthList(),
@@ -120,12 +101,12 @@ class _YouthListState extends State<YouthList> {
                           return Container(
                             height: bodyHeight * 0.8,
                             width: bodyWidth * 0.9,
-                            child: ListView(
+                            child: ListView(   
                                 children: youthList
                                     .where((element) =>
-                                        element.team!.substring(0, 2) == '$youthCode')
-                                    .map((e) => getYouthRow(
-                                        e.rollno!, e.youthFullName!))
+                                        element.team!.substring(0, 2) ==
+                                        '$youthCode')
+                                    .map((e) => getYouthRow(e))
                                     .toList()),
                           );
                         } else {
@@ -149,18 +130,43 @@ class _YouthListState extends State<YouthList> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    index = 0;
     super.dispose();
   }
 
-  Widget getYouthRow(String rollno, String name) {
+  Widget getYouthRow(Youth e) {
     return ListTile(
+      onTap: (){
+          showModalBottomSheet(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                height: MediaQuery.of(context).size.height * 0.5,
+                width: MediaQuery.of(context).size.width ,
+                child: LayoutBuilder(builder: (context,constraints){
+                  return Column(
+                    children: [
+                      ListTile(
+                        leading: Text("${e.rollno}",style: TextStyle(color: Colors.white),
+                        ),
+                        title: Text("${e.youthFullName}", style: TextStyle(color: Colors.white)),
+                      ),
+                      Text('Email: ${e.emailid}'),
+                      Text('DOB: ${e.dob}'),
+                      Text('Mobile: ${e.mobile1}'),
+                      Text('Status: ${e.status}')
+                    ],
+                  );
+                })
+              );
+            }
+          );
+      },
       leading: Text(
-        "$rollno",
+        "${e.rollno}",
         style: TextStyle(color: Colors.white),
       ),
-      title: Text("$name", style: TextStyle(color: Colors.white)),
+      title: Text("${e.youthFullName}", style: TextStyle(color: Colors.white)),
     );
   }
 }
