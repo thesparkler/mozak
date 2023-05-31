@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mozak/constants/AppColors.dart';
+import 'package:mozak/screens/attendancePage.dart';
 import 'package:mozak/screens/teamsPage.dart';
 import 'package:mozak/screens/centerPage.dart';
 import 'package:mozak/screens/home.dart';
@@ -42,8 +43,9 @@ class MyApp extends StatelessWidget {
         'Youths': (context) => YouthList(), //1
         //'Weekly Forum Events': (context) => WeeklyForumEventsPage(),
         'Centers': (context) => CenterPage(), //2
-        'Groups': (context) => HomePage(), //3
+        'Groups': (context) => TeamsPage(), //3
         'Attendance': (context) => WeeklyForumEventsPage(), //4
+        'EditAttendance': (context) => AttendancePage(), //4
         'Teams': (context) => TeamsPage(),
         'UserForm': (context) => UserForm(),
         //'AttendancePage': (context) => AttendancePage(),

@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:mozak/model/attendanceTable.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/api_service.dart';
-import 'package:mozak/model/weekly_forum_event.dart';
 
 import '../constants/AppColors.dart';
 import '../model/youth.dart';
 import '../utils/app_tools.dart';
 
 class AttendancePage extends StatefulWidget {
-  AttendancePage(WeeklyForumEvent event);
+  AttendancePage();
 
   @override
   State<AttendancePage> createState() => _AttendancePageState();
@@ -19,23 +18,7 @@ class _AttendancePageState extends State<AttendancePage> {
   late List<AttendanceTable> attendanceTableList;
   int selectedID = 0;
   int index = 0;
-  //bool showCreateCenterCard = false;
-  //TextEditingController locationController = new TextEditingController();
-
-  // void openCreateAttendancePage() {
-  //   //showCreateCenterCard = true;
-  //
-  //   setState(() {});
-  // }
-  //
-  // void closeCreateAttendancePage() {
-  //   print("hii");
-  //   setState(() {
-  //     showCreateCenterCard = false;
-  //   });
-  // }
-
-  final _formKey = GlobalKey<FormState>();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -86,6 +69,7 @@ class _AttendancePageState extends State<AttendancePage> {
         mediaQuery.padding.right;
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: appBar,
       backgroundColor: hexToColor(AppColors.appThemeColor),
       // body: ScrollConfiguration(
@@ -131,90 +115,88 @@ class _AttendancePageState extends State<AttendancePage> {
       //     ],
       //   ),
       // ),
-      body: Column(
-        children: [
-          FutureBuilder<List<Youth>>(
-              future: ApiService().getAllYouths(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<List<Youth>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        '${snapshot.error} occurred',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    );
-                  } else if (snapshot.hasData) {
-                    // youthList = snapshot.data!;
-                    return Autocomplete<Youth>(
-                      optionsBuilder: (TextEditingValue textEditingValue) {
-                        return youthList
-                            .where((Youth youth) =>
-                                "${youth.rollno + " " + youth.youthFullName}"
-                                    .toLowerCase()
-                                    .contains(
-                                        textEditingValue.text.toLowerCase()))
-                            .toList();
-                      },
-                      displayStringForOption: (Youth option) =>
-                          option.youthFullName + " " + option.rollno,
-                      // fieldViewBuilder: (BuildContext context,
-                      //     TextEditingController fieldTextEditingController,
-                      //     FocusNode fieldFocusNode,
-                      //     VoidCallback onFieldSubmitted) {
-                      //   return TextField(
-                      //     key: _formKey,
-                      //     focusNode: fieldFocusNode,
-                      //     controller: fieldTextEditingController,
-                      //     style: const TextStyle(fontWeight: FontWeight.bold),
-                      //   );
-                      // },
-                      optionsViewBuilder: (BuildContext context,
-                          AutocompleteOnSelected<Youth> onSelected,
-                          Iterable<Youth> options) {
-                        return Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            width: bodyWidth - 30,
-                            color: hexToColor(AppColors.appThemeColor),
-                            child: ListView.builder(
-                              padding: EdgeInsets.all(10.0),
-                              itemCount: options.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final Youth option = options.elementAt(index);
-
-                                return TextButton(
-                                  onPressed: () {
-                                    onSelected(option);
-                                  },
-                                  child: ListTile(
-                                    title: Text(
-                                        option.rollno +
-                                            " " +
-                                            option.youthFullName,
-                                        style: const TextStyle(
-                                            color: Colors.white)),
-                                  ),
-                                );
-                              },
-                            ),
+      body: ScrollConfiguration(
+        behavior: NoGlowBehaviour(),
+        child: FutureBuilder<List<Youth>>(
+            future: ApiService().getAllYouths(),
+            builder:
+                (BuildContext context, AsyncSnapshot<List<Youth>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      '${snapshot.error} occurred',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  );
+                } else if (snapshot.hasData) {
+                  // youthList = snapshot.data!;
+                  return Autocomplete<Youth>(
+                    optionsBuilder: (TextEditingValue textEditingValue) {
+                      return youthList
+                          .where((Youth youth) =>
+                              "${youth.rollno + " " + youth.youthFullName}"
+                                  .toLowerCase()
+                                  .contains(
+                                      textEditingValue.text.toLowerCase()))
+                          .toList();
+                    },
+                    displayStringForOption: (Youth option) =>
+                        option.youthFullName + " " + option.rollno,
+                    fieldViewBuilder: (BuildContext context,
+                        TextEditingController fieldTextEditingController,
+                        FocusNode fieldFocusNode,
+                        VoidCallback onFieldSubmitted) {
+                      return TextField(
+                        focusNode: fieldFocusNode,
+                        controller: fieldTextEditingController,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      );
+                    },
+                    optionsViewBuilder: (BuildContext context,
+                        AutocompleteOnSelected<Youth> onSelected,
+                        Iterable<Youth> options) {
+                      return Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          height: 500,
+                          width: bodyWidth - 30,
+                          color: hexToColor(AppColors.appThemeColor),
+                          child: ListView.builder(
+                            padding: EdgeInsets.all(10.0),
+                            itemCount: options.length,
+                            itemBuilder: (context, int index) {
+                              Youth option = options.elementAt(index);
+                              return TextButton(
+                                onPressed: () {
+                                  onSelected(option);
+                                },
+                                child: ListTile(
+                                  title: Text(
+                                      option.rollno +
+                                          " " +
+                                          option.youthFullName,
+                                      style:
+                                          const TextStyle(color: Colors.white)),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                      onSelected: (Youth selection) {
-                        print(
-                            'Selected: ${selection.rollno + " " + selection.youthFullName}');
-                        selectedID = selection.id!;
-                      },
-                    );
-                  }
+                        ),
+                      );
+                    },
+                    onSelected: (Youth selection) {
+                      print(
+                          'Selected: ${selection.rollno + " " + selection.youthFullName}');
+                      selectedID = selection.id!;
+                    },
+                  );
                 }
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }),
-        ],
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }),
       ),
     );
   }

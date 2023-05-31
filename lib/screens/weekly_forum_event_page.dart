@@ -8,7 +8,7 @@ import '../constants/AppColors.dart';
 import '../utils/app_tools.dart';
 
 class WeeklyForumEventsPage extends StatefulWidget {
-  const WeeklyForumEventsPage({Key? key}) : super(key: key);
+  WeeklyForumEventsPage({Key? key}) : super(key: key);
 
   @override
   State<WeeklyForumEventsPage> createState() => _WeeklyForumEventsPageState();
@@ -20,6 +20,7 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
   bool showCreatWFECard = false;
   DateTime dateSelected = DateTime.now();
   DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void onDateChanged(DateTime date) {
     dateSelected = DateFormat('yyyy-MM-dd').parse(date.toString());
@@ -84,12 +85,14 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
     final bodyWidth = mediaQuery.size.width -
         mediaQuery.padding.left -
         mediaQuery.padding.right;
-    TextEditingController centerController = new TextEditingController();
+
+    TextEditingController centerController = TextEditingController();
     final List<DropdownMenuEntry<center.Center>> centerEntries =
         <DropdownMenuEntry<center.Center>>[];
     center.Center? selectedCenter;
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: appBar,
       backgroundColor: hexToColor(AppColors.appThemeColor),
       body: Column(
@@ -105,7 +108,9 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(5.0))),
             child: TextButton(
-              onPressed: openCreateWFEPage,
+              onPressed: () async {
+                openCreateWFEPage();
+              },
               child: Text(
                 "New Weekly Forum event",
                 style: kGoogleStyleTexts.copyWith(
@@ -118,8 +123,7 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
           ),
           FutureBuilder(
               future: getCenterList(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<center.Center>> snapshot) {
+              builder: (context, AsyncSnapshot<List<center.Center>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasError) {
                     return Center(
@@ -145,52 +149,58 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
                             shadowColor: Colors.black,
                             color: hexToColor(AppColors.paleOrange),
                             child: Form(
+                                onWillPop: () async {
+                                  print("");
+                                  return true;
+                                },
                                 child: Column(
-                              children: [
-                                DropdownMenu(
-                                  dropdownMenuEntries: centerEntries,
-                                  controller: centerController,
-                                  onSelected: (center.Center? center) {
-                                    selectedCenter = center;
-                                  },
-                                ),
-                                CalendarDatePicker(
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2022),
-                                    lastDate: DateTime(3000),
-                                    onDateChanged: onDateChanged),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    TextButton(
-                                        onPressed: () async {
-                                          openCloseWFEPage();
-                                        },
-                                        child: Text("Cancel",
-                                            style: kGoogleStyleTexts.copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 20,
-                                              color: hexToColor(
-                                                  AppColors.whiteTextColor),
-                                            ))),
-                                    TextButton(
-                                        onPressed: () async {
-                                          addWFEvent(
-                                              selectedCenter!, dateSelected);
-                                          openCloseWFEPage();
-                                        },
-                                        child: Text("Save",
-                                            style: kGoogleStyleTexts.copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 20,
-                                              color: hexToColor(
-                                                  AppColors.whiteTextColor),
-                                            ))),
+                                    DropdownMenu(
+                                      dropdownMenuEntries: centerEntries,
+                                      controller: centerController,
+                                      onSelected: (center.Center? center) {
+                                        selectedCenter = center;
+                                      },
+                                    ),
+                                    CalendarDatePicker(
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2022),
+                                        lastDate: DateTime(3000),
+                                        onDateChanged: onDateChanged),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        TextButton(
+                                            onPressed: () async {
+                                              openCloseWFEPage();
+                                            },
+                                            child: Text("Cancel",
+                                                style:
+                                                    kGoogleStyleTexts.copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 20,
+                                                  color: hexToColor(
+                                                      AppColors.whiteTextColor),
+                                                ))),
+                                        TextButton(
+                                            onPressed: () async {
+                                              addWFEvent(selectedCenter!,
+                                                  dateSelected);
+                                              openCloseWFEPage();
+                                            },
+                                            child: Text("Save",
+                                                style:
+                                                    kGoogleStyleTexts.copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 20,
+                                                  color: hexToColor(
+                                                      AppColors.whiteTextColor),
+                                                ))),
+                                      ],
+                                    )
                                   ],
-                                )
-                              ],
-                            )))
+                                )))
                         : Container();
                   }
                 }
@@ -215,8 +225,7 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
           ),
           FutureBuilder<List<WeeklyForumEvent>>(
             future: getWFEventList(),
-            builder: (BuildContext context,
-                AsyncSnapshot<List<WeeklyForumEvent>> snapshot) {
+            builder: (context, AsyncSnapshot<List<WeeklyForumEvent>> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
                   return Center(
@@ -254,43 +263,36 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
     //       },),
     return InkWell(
       onTap: () => {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => AttendancePage(
-                event))) //(event.center, DateTime.parse(event.date))
+        Navigator.of(context).pushNamed(
+            "EditAttendance") //(event.center, DateTime.parse(event.date))
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 25.0, top: 8),
         child: Container(
           child: Row(
             children: [
-              Container(
-                child: Text(
-                  index.toString() + " ",
-                  style: kGoogleStyleTexts.copyWith(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                    color: hexToColor(AppColors.whiteTextColor),
-                  ),
+              Text(
+                index.toString() + " ",
+                style: kGoogleStyleTexts.copyWith(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  color: hexToColor(AppColors.whiteTextColor),
                 ),
               ),
-              Container(
-                child: Text(
-                  event.center.location + " ",
-                  style: kGoogleStyleTexts.copyWith(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                    color: hexToColor(AppColors.whiteTextColor),
-                  ),
+              Text(
+                event.center.location + " ",
+                style: kGoogleStyleTexts.copyWith(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  color: hexToColor(AppColors.whiteTextColor),
                 ),
               ),
-              Container(
-                child: Text(
-                  event.date.toString(),
-                  style: kGoogleStyleTexts.copyWith(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                    color: hexToColor(AppColors.whiteTextColor),
-                  ),
+              Text(
+                event.date.toString(),
+                style: kGoogleStyleTexts.copyWith(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  color: hexToColor(AppColors.whiteTextColor),
                 ),
               ),
             ],
