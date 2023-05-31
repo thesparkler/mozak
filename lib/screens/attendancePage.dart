@@ -42,6 +42,8 @@ class _AttendancePageState extends State<AttendancePage> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     index = 0;
+    var showOptions = false;
+
     final appBar = AppBar(
       title: Text(
         'Attendance Details',
@@ -73,111 +75,97 @@ class _AttendancePageState extends State<AttendancePage> {
       key: _scaffoldKey,
       appBar: appBar,
       backgroundColor: hexToColor(AppColors.appThemeColor),
-      // body: ScrollConfiguration(
-      //   behavior: NoGlowBehaviour(),
-      //   child: Column(
-      //     children: [
-      //       FutureBuilder<List<AttendanceTable>>(
-      //           future: getAttendanceData(),
-      //           builder: (BuildContext context,
-      //               AsyncSnapshot<List<AttendanceTable>> snapshot) {
-      //             if (snapshot.connectionState == ConnectionState.done) {
-      //               if (snapshot.hasError) {
-      //                 return Center(
-      //                   child: Text(
-      //                     '${snapshot.error} occurred',
-      //                     style: TextStyle(fontSize: 18),
-      //                   ),
-      //                 );
-      //               } else if (snapshot.hasData) {
-      //                 attendanceTableList = snapshot.data!;
-      //                 // return Column(
-      //                 //   children: centerList
-      //                 //       .map((e) => getCenterRow(e.location))
-      //                 //       .toList(),
-      //                 // );
-      //                 // return ListView.builder(
-      //                 //     physics: const ClampingScrollPhysics(),
-      //                 //     scrollDirection:
-      //                 //         axisDirectionToAxis(AxisDirection.down),
-      //                 //     shrinkWrap: true,
-      //                 //     itemCount: attendanceTableList.length,
-      //                 //     itemBuilder: (context, index) {
-      //                 //       return Table();
-      //                 //     });
-      //
-      //               }
-      //             }
-      //
-      //             return Center(
-      //               child: CircularProgressIndicator(),
-      //             );
-      //           }),
-      //     ],
-      //   ),
-      // ),
-      body: ScrollConfiguration(
-        behavior: NoGlowBehaviour(),
-        child: Autocomplete<Youth>(
-          optionsBuilder: (TextEditingValue textEditingValue) {
-            return youthList
-                .where((Youth youth) =>
-                    "${youth.rollno + " " + youth.youthFullName}"
-                        .toLowerCase()
-                        .contains(textEditingValue.text.toLowerCase()))
-                .toList();
-          },
-          displayStringForOption: (Youth option) =>
-              option.youthFullName + " " + option.rollno,
-          fieldViewBuilder: (BuildContext context,
-              TextEditingController fieldTextEditingController,
-              FocusNode fieldFocusNode,
-              VoidCallback onFieldSubmitted) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                focusNode: fieldFocusNode,
-                controller: fieldTextEditingController,
-                style: TextStyle(
-                    color: hexToColor(AppColors.whiteTextColor),
-                    fontWeight: FontWeight.bold),
-              ),
-            );
-          },
-          optionsViewBuilder: (BuildContext context,
-              AutocompleteOnSelected<Youth> onSelected,
-              Iterable<Youth> options) {
-            return Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                height: 200,
-                width: bodyWidth - 20,
-                color: hexToColor(AppColors.appThemeColor),
-                child: ListView.builder(
-                  padding: EdgeInsets.all(10.0),
-                  itemCount: options.length,
-                  itemBuilder: (context, int index) {
-                    Youth option = options.elementAt(index);
-                    return TextButton(
-                      onPressed: () {
-                        onSelected(option);
-                      },
-                      child: ListTile(
-                        title: Text(option.rollno + " " + option.youthFullName,
-                            style: const TextStyle(color: Colors.white)),
+      body: Column(
+        children: [
+          ScrollConfiguration(
+            behavior: NoGlowBehaviour(),
+            child: Autocomplete<Youth>(
+              optionsBuilder: (TextEditingValue textEditingValue) {
+                return youthList
+                    .where((Youth youth) =>
+                        "${youth.rollno + " " + youth.youthFullName}"
+                            .toLowerCase()
+                            .contains(textEditingValue.text.toLowerCase()))
+                    .toList();
+              },
+              displayStringForOption: (Youth option) =>
+                  option.youthFullName + " " + option.rollno,
+              fieldViewBuilder: (BuildContext context,
+                  TextEditingController fieldTextEditingController,
+                  FocusNode fieldFocusNode,
+                  VoidCallback onFieldSubmitted) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white, width: 5.0),
                       ),
-                    );
-                  },
-                ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blueAccent, width: 5.0),
+                      ),
+
+                    ),
+                    focusNode: fieldFocusNode,
+                    controller: fieldTextEditingController,
+                    style: TextStyle(
+                        color: hexToColor(AppColors.whiteTextColor),
+                        fontWeight: FontWeight.bold),
+                  ),
+                );
+              },
+              optionsViewBuilder: (BuildContext context,
+                  AutocompleteOnSelected<Youth> onSelected,
+                  Iterable<Youth> options) {
+                return Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    height: 200,
+                    width: bodyWidth - 20,
+                    color: hexToColor(AppColors.appThemeColor),
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(10.0),
+                      itemCount: options.length,
+                      itemBuilder: (context, int index) {
+                        Youth option = options.elementAt(index);
+                        return TextButton(
+                          onPressed: () {
+                            onSelected(option);
+                          },
+                          child: ListTile(
+                            title: Text(option.rollno + " " + option.youthFullName,
+                                style: const TextStyle(color: Colors.white)),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              },
+              onSelected: (Youth selection) {
+                print(
+                    'Selected: ${selection.rollno + " " + selection.youthFullName}');
+                selectedID = selection.id!;
+
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Icon(
+                Icons.cancel,
+                color: Colors.redAccent,
+                size: 70.0,
               ),
-            );
-          },
-          onSelected: (Youth selection) {
-            print(
-                'Selected: ${selection.rollno + " " + selection.youthFullName}');
-            selectedID = selection.id!;
-          },
-        ),
+              Icon(
+                Icons.thumb_up_sharp,
+                color: Colors.yellowAccent,
+                size: 70.0,
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
