@@ -16,9 +16,11 @@ class AttendancePage extends StatefulWidget {
 
 class _AttendancePageState extends State<AttendancePage> {
   late List<AttendanceTable> attendanceTableList;
+  late Youth selectedYouth;
   int selectedID = 0;
   int index = 0;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  var showOptions = false;
 
   @override
   void initState() {
@@ -42,7 +44,6 @@ class _AttendancePageState extends State<AttendancePage> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     index = 0;
-    var showOptions = false;
 
     final appBar = AppBar(
       title: Text(
@@ -130,6 +131,10 @@ class _AttendancePageState extends State<AttendancePage> {
                         Youth option = options.elementAt(index);
                         return TextButton(
                           onPressed: () {
+                            setState(() {
+                              showOptions = true;
+                              selectedYouth = option;
+                            });
                             onSelected(option);
                           },
                           child: ListTile(
@@ -150,18 +155,32 @@ class _AttendancePageState extends State<AttendancePage> {
               },
             ),
           ),
-          Row(
+          if(showOptions) Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(
-                Icons.cancel,
-                color: Colors.redAccent,
-                size: 70.0,
+              GestureDetector(
+                onTap: (){
+                  print("done");
+
+                  setState(() {
+                    showOptions = false;
+                  });
+                },
+                child: Icon(
+                  Icons.cancel,
+                  color: Colors.redAccent,
+                  size: 70.0,
+                ),
               ),
-              Icon(
-                Icons.thumb_up_sharp,
-                color: Colors.yellowAccent,
-                size: 70.0,
+              GestureDetector(
+                onTap: (){
+                  print(selectedYouth);
+                },
+                child: Icon(
+                  Icons.thumb_up_sharp,
+                  color: Colors.yellowAccent,
+                  size: 70.0,
+                ),
               ),
             ],
           )
