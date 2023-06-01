@@ -124,4 +124,21 @@ class ApiService {
     );
     return response;
   }
+
+  Future<http.Response> markAttendance(Youth selectedYouth, WeeklyForumEvent event) async {
+    Uri createWFEUrl = Uri.parse(
+        '${Constants.domain}${Constants.markAttendance}'
+            '?youth_id=${selectedYouth.id}'
+            '&weekly_forum_event_id=${event.id}');
+    http.Response response = await http.post(
+      createWFEUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+
+      }),
+    );
+    return response;
+  }
 }

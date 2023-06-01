@@ -16,5 +16,5 @@ class Constants {
   static String youthByEventId = "/youthByEventId";
   static String attendanceByEventId = "/attendanceByEventId";
   static String attendanceByYouthId = "/attendanceByYouthId";
-  static String markAttendance = "/markAttendance?youth_id=2&weekly_forum_event_id=2";
+  static String markAttendance = "/markAttendance";
 }
