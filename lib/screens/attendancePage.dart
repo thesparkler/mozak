@@ -17,37 +17,43 @@ class AttendancePage extends StatefulWidget {
 
 class _AttendancePageState extends State<AttendancePage> {
   late List<AttendanceTable> attendanceTableList;
+  late Youth selectedYouth;
   int selectedID = 0;
   int index = 0;
   bool aftSelection = false;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  bool showOptions = false;
+  TextEditingController fieldTextEditingController = new TextEditingController();
+  FocusNode fieldFocusNode = new FocusNode();
+  GlobalKey key = new GlobalKey();
 
   @override
   void initState() {
     getYouthList();
-    getAttendanceData();
+    // getAttendanceData();
     super.initState();
   }
 
   late List<Youth> youthList;
-  late List<Youth> selectedYouths;
+  // late List<Youth> selectedYouths;
 
   void getYouthList() async {
     youthList = await ApiService().getAllYouths();
   }
 
-  void getAttendanceData() async {
-    attendanceTableList = await ApiService().getAttendanceTable();
-    for (int i = 0; i < attendanceTableList.length; i++)
-      selectedYouths.add(attendanceTableList[i].youth!);
-    print(selectedYouths.toString());
-    print(youthList.toString());
-  }
+  // void getAttendanceData() async {
+  //   attendanceTableList = await ApiService().getAttendanceTable();
+  //   for (int i = 0; i < attendanceTableList.length; i++)
+  //     selectedYouths.add(attendanceTableList[i].youth!);
+  //   print(selectedYouths.toString());
+  //   print(youthList.toString());
+  // }
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     index = 0;
+
     final appBar = AppBar(
       title: Text(
         'Attendance Details',
@@ -122,95 +128,173 @@ class _AttendancePageState extends State<AttendancePage> {
       //     ],
       //   ),
       // ),
-      body: ScrollConfiguration(
-        behavior: NoGlowBehaviour(),
-        child: RawAutocomplete<Youth>(
-          optionsBuilder: (TextEditingValue textEditingValue) {
-            return youthList
-                .where((Youth youth) =>
-                    "${youth.rollno + " " + youth.youthFullName}"
-                        .toLowerCase()
-                        .contains(textEditingValue.text.toLowerCase()))
-                .toList();
-          },
-          displayStringForOption: (Youth option) =>
-              option.rollno + " " + option.youthFullName,
-          fieldViewBuilder: (BuildContext context,
-              TextEditingController fieldTextEditingController,
-              FocusNode fieldFocusNode,
-              VoidCallback onFieldSubmitted) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Search With Code or Name",
-                  hintStyle: kGoogleStyleTexts.copyWith(
-                      color: hexToColor(AppColors.grey), fontSize: 18),
-                  suffixIcon: IconButton(
-                    onPressed: () => fieldTextEditingController.clear(),
-                    icon: Icon(Icons.clear_rounded),
-                    padding: EdgeInsets.all(8),
-                    visualDensity: VisualDensity(),
+      body: Column(
+        children: [
+          TextField(
+            autofocus: true,
+            focusNode: fieldFocusNode,
+            controller: fieldTextEditingController,
+                  decoration: InputDecoration(
+                    hintText: "Search With Code or Name",
+                    hintStyle: kGoogleStyleTexts.copyWith(
+                        color: hexToColor(AppColors.grey), fontSize: 18),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        fieldTextEditingController.clear();
+                        setState(() {
+                          showOptions = false;
+                        });
+
+
+                      },
+                      icon: Icon(Icons.clear_rounded),
+                      padding: EdgeInsets.all(8),
+                      visualDensity: VisualDensity(),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white, width: 5.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.blueAccent, width: 5.0),
+                    ),
+                  ),
+
+                  style: TextStyle(
+                      color: hexToColor(AppColors.whiteTextColor),
+                      fontWeight: FontWeight.bold),
+                ),
+
+          RawAutocomplete<Youth>(
+            key: key,
+            textEditingController: fieldTextEditingController,
+            focusNode: fieldFocusNode,
+            optionsBuilder: (TextEditingValue textEditingValue) {
+              return youthList
+                  .where((Youth youth) =>
+                      "${youth.rollno + " " + youth.youthFullName}"
+                          .toLowerCase()
+                          .contains(textEditingValue.text.toLowerCase()))
+                  .toList();
+            },
+            displayStringForOption: (Youth option) =>
+                option.rollno + " " + option.youthFullName,
+            // fieldViewBuilder: (BuildContext context,
+            //     fieldTextEditingController,
+            //     fieldFocusNode,
+            //     VoidCallback onFieldSubmitted) {
+            //   return Padding(
+            //     padding: const EdgeInsets.all(8.0),
+            //     child: TextField(
+            //       decoration: InputDecoration(
+            //         hintText: "Search With Code or Name",
+            //         hintStyle: kGoogleStyleTexts.copyWith(
+            //             color: hexToColor(AppColors.grey), fontSize: 18),
+            //         suffixIcon: IconButton(
+            //           onPressed: () => fieldTextEditingController.clear(),
+            //           icon: Icon(Icons.clear_rounded),
+            //           padding: EdgeInsets.all(8),
+            //           visualDensity: VisualDensity(),
+            //         ),
+            //         enabledBorder: OutlineInputBorder(
+            //           borderSide: BorderSide(color: Colors.white, width: 5.0),
+            //         ),
+            //         focusedBorder: OutlineInputBorder(
+            //           borderSide:
+            //               BorderSide(color: Colors.blueAccent, width: 5.0),
+            //         ),
+            //       ),
+            //       // focusNode: fieldFocusNode,
+            //       controller: fieldTextEditingController,
+            //       style: TextStyle(
+            //           color: hexToColor(AppColors.whiteTextColor),
+            //           fontWeight: FontWeight.bold),
+            //     ),
+            //   );
+            // },
+            optionsViewBuilder: (BuildContext context,
+                AutocompleteOnSelected<Youth> onSelected,
+                Iterable<Youth> options) {
+              return Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: hexToColor(AppColors.appThemeColor),
+                    border: Border.fromBorderSide(BorderSide()),
+                  ),
+                  height: 350,
+                  width: bodyWidth - 20,
+                  child: Scrollbar(
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(4.0),
+                      itemCount: options.length,
+                      itemBuilder: (context, int index) {
+                        Youth option = options.elementAt(index);
+                        // bool selected = selectedYouths.contains(youthList[index]);
+                        return TextButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.amber),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              showOptions = true;
+                              selectedYouth = option;
+                            });
+                            onSelected(option);
+                          },
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(
+                                option.rollno + " " + option.youthFullName,
+                                style: kGoogleStyleTexts.copyWith(
+                                    fontSize: 20,
+                                    color: hexToColor(
+                                        AppColors.whiteTextColor))),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
-                focusNode: fieldFocusNode,
-                controller: fieldTextEditingController,
-                style: TextStyle(
-                    color: hexToColor(AppColors.whiteTextColor),
-                    fontWeight: FontWeight.bold),
-              ),
-            );
-          },
-          optionsViewBuilder: (BuildContext context,
-              AutocompleteOnSelected<Youth> onSelected,
-              Iterable<Youth> options) {
-            return Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: hexToColor(AppColors.appThemeColor),
-                  border: Border.fromBorderSide(BorderSide()),
-                ),
-                height: 350,
-                width: bodyWidth - 20,
-                child: Scrollbar(
-                  child: ListView.builder(
-                    padding: EdgeInsets.all(4.0),
-                    itemCount: options.length,
-                    itemBuilder: (context, int index) {
-                      Youth option = options.elementAt(index);
-                      bool selected = selectedYouths.contains(youthList[index]);
-                      return TextButton(
-                        style: ButtonStyle(
-                          backgroundColor: selected
-                              ? MaterialStateProperty.all(Colors.orange)
-                              : MaterialStateProperty.all(Colors.amber),
-                        ),
-                        onPressed: () {
-                          onSelected(option);
-                        },
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: Text(
-                              option.rollno + " " + option.youthFullName,
-                              style: kGoogleStyleTexts.copyWith(
-                                  fontSize: 20,
-                                  color: hexToColor(AppColors.whiteTextColor))),
-                        ),
-                      );
-                    },
-                  ),
+              );
+            },
+            onSelected: (Youth selection) {
+              aftSelection = true;
+              print(
+                  'Selected: ${selection.rollno + " " + selection.youthFullName}\nselectedYouthID = ${selection.id!}');
+              selectedID = selection.id!;
+            },
+          ),
+          if(showOptions) Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  fieldTextEditingController.clear();
+                  setState(() {
+                    showOptions = false;
+                  });
+                },
+                child: Icon(
+                  Icons.cancel,
+                  color: Colors.redAccent,
+                  size: 70.0,
                 ),
               ),
-            );
-          },
-          onSelected: (Youth selection) {
-            aftSelection = true;
-            print(
-                'Selected: ${selection.rollno + " " + selection.youthFullName}\nselectedYouthID = ${selection.id!}');
-            selectedID = selection.id!;
-          },
-        ),
+              GestureDetector(
+                onTap: () {
+                  print(selectedYouth);
+                },
+                child: Icon(
+                  Icons.thumb_up_sharp,
+                  color: Colors.yellowAccent,
+                  size: 70.0,
+                ),
+              )
+            ],
+          )
+        ],
       ),
     );
   }
