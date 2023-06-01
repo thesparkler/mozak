@@ -9,7 +9,8 @@ import '../model/youth.dart';
 import '../utils/app_tools.dart';
 
 class AttendancePage extends StatefulWidget {
-  AttendancePage(WeeklyForumEvent event);
+  WeeklyForumEvent event;
+  AttendancePage(this.event);
 
   @override
   State<AttendancePage> createState() => _AttendancePageState();
@@ -20,7 +21,6 @@ class _AttendancePageState extends State<AttendancePage> {
   late Youth selectedYouth;
   int selectedID = 0;
   int index = 0;
-  bool aftSelection = false;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool showOptions = false;
   TextEditingController fieldTextEditingController = new TextEditingController();
@@ -48,6 +48,14 @@ class _AttendancePageState extends State<AttendancePage> {
   //   print(selectedYouths.toString());
   //   print(youthList.toString());
   // }
+
+  void clearSearchField () {
+      fieldTextEditingController.clear();
+      setState(() {
+        showOptions = false;
+      });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -135,18 +143,11 @@ class _AttendancePageState extends State<AttendancePage> {
             focusNode: fieldFocusNode,
             controller: fieldTextEditingController,
                   decoration: InputDecoration(
-                    hintText: "Search With Code or Name",
+                    hintText: "Search with code or name",
                     hintStyle: kGoogleStyleTexts.copyWith(
                         color: hexToColor(AppColors.grey), fontSize: 18),
                     suffixIcon: IconButton(
-                      onPressed: () {
-                        fieldTextEditingController.clear();
-                        setState(() {
-                          showOptions = false;
-                        });
-
-
-                      },
+                      onPressed: clearSearchField,
                       icon: Icon(Icons.clear_rounded),
                       padding: EdgeInsets.all(8),
                       visualDensity: VisualDensity(),
@@ -259,23 +260,15 @@ class _AttendancePageState extends State<AttendancePage> {
                 ),
               );
             },
-            onSelected: (Youth selection) {
-              aftSelection = true;
-              print(
-                  'Selected: ${selection.rollno + " " + selection.youthFullName}\nselectedYouthID = ${selection.id!}');
-              selectedID = selection.id!;
+            onSelected: (Youth youth) {
+              selectedYouth = youth;
             },
           ),
           if(showOptions) Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                onTap: () {
-                  fieldTextEditingController.clear();
-                  setState(() {
-                    showOptions = false;
-                  });
-                },
+                onTap: clearSearchField,
                 child: Icon(
                   Icons.cancel,
                   color: Colors.redAccent,
@@ -283,8 +276,10 @@ class _AttendancePageState extends State<AttendancePage> {
                 ),
               ),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   print(selectedYouth);
+                  clearSearchField();
+                  await ApiService().markAttendance(selectedYouth, widget.event);
                 },
                 child: Icon(
                   Icons.thumb_up_sharp,
