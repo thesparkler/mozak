@@ -9,7 +9,7 @@ import '../model/youth.dart';
 import '../utils/app_tools.dart';
 
 class AttendancePage extends StatefulWidget {
-  WeeklyForumEvent event;
+  final WeeklyForumEvent event;
   AttendancePage(this.event);
 
   @override
@@ -19,6 +19,8 @@ class AttendancePage extends StatefulWidget {
 class _AttendancePageState extends State<AttendancePage> {
   late List<AttendanceTable> attendanceTableList;
   late Youth selectedYouth;
+  late List<Youth> youthList;
+
   int selectedID = 0;
   int index = 0;
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -33,9 +35,6 @@ class _AttendancePageState extends State<AttendancePage> {
     // getAttendanceData();
     super.initState();
   }
-
-  late List<Youth> youthList;
-  // late List<Youth> selectedYouths;
 
   void getYouthList() async {
     youthList = await ApiService().getAllYouths();
@@ -64,7 +63,7 @@ class _AttendancePageState extends State<AttendancePage> {
 
     final appBar = AppBar(
       title: Text(
-        'Attendance Details',
+        '${widget.event.center}  ${widget.event.date}',
         style: kGoogleStyleTexts.copyWith(
           fontWeight: FontWeight.w700,
           fontSize: 22,
