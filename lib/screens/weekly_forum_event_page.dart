@@ -257,14 +257,11 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
 
   Widget getWFERow(WeeklyForumEvent event) {
     index++;
-    //InkWell(
-    //       onTap: () async {
-    //         Navigator.of(context).pushNamed("AttendancePage");
-    //       },),
     return InkWell(
       onTap: () => {
-        Navigator.of(context).pushNamed(
-            "EditAttendance") //(event.center, DateTime.parse(event.date))
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => AttendancePage(
+                event))) //(event.center, DateTime.parse(event.date))
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 25.0, top: 8),

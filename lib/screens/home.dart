@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../constants/AppColors.dart';
 import '../model/attendanceTable.dart';
 import '../model/youth.dart';
+import '../utils/NoGlowBehaviour.dart';
 import '../utils/api_service.dart';
 import '../utils/app_tools.dart';
 
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: hexToColor(AppColors.appThemeColor),
     ));
     super.initState();
@@ -76,44 +77,51 @@ class _HomePageState extends State<HomePage> {
       key: _scaffoldKey,
       appBar: appBar,
       backgroundColor: hexToColor(AppColors.appThemeColor),
-      body: Column(
-        children: [
-          Container(
-            height: bodyHeight,
-            width: bodyWidth,
-            padding: const EdgeInsets.all(20.0),
-            child: GridView.builder(
-                itemCount: options.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 1.2,
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 20),
-                itemBuilder: (context, index) {
-                  return Card(
-                    color: hexToColor(AppColors.paleOrange),
-                    elevation: 0,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: TextButton(
-                        onPressed: () async {
-                          goto(options[index]);
-                        },
-                        child: Text(
-                          '${options[index]}',
-                          style: kGoogleStyleTexts.copyWith(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                            color: hexToColor(AppColors.whiteTextColor),
+      body: ScrollConfiguration(
+        behavior: NoGlowBehaviour(),
+        child: Column(
+          children: [
+            Container(
+              height: bodyHeight,
+              width: bodyWidth,
+              padding: const EdgeInsets.all(20.0),
+              child: GridView.builder(
+                  itemCount: options.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 1.1304347826086,
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20),
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () async {
+                        goto(options[index]);
+                      },
+                      child: Card(
+                        surfaceTintColor: hexToColor(AppColors.appThemeColor),
+                        color: hexToColor(AppColors.homeGridColor),
+                        elevation: 0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Text(
+                              '${options[index]}',
+                              style: kGoogleStyleTexts.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 18,
+                                color: hexToColor(AppColors.whiteTextColor),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                          textAlign: TextAlign.center,
                         ),
                       ),
-                    ),
-                  );
-                }),
-          ),
-        ],
+                    );
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }
