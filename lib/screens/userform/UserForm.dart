@@ -29,7 +29,7 @@ class UserForm extends StatefulWidget {
 }
 
 class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
-  int currStep = 6;
+  int currStep = 1;
   int stepCount = 9;
   UserFormModel model = UserFormModel();
   final PageController _controller = PageController();
@@ -84,7 +84,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
     String? msg;
     switch (currStep) {
       case 1:
-        msg = model.validateStepOneGender();
+        //msg = model.validateStepOneGender();
         break;
       case 2:
         msg = model.validateStepTwoNamesField();

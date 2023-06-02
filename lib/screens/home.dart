@@ -20,9 +20,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
-      statusBarColor: hexToColor(AppColors.appThemeColor),
-    ));
+    // SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
+    //   statusBarColor: hexToColor(AppColors.appThemeColor),
+    // ));
     super.initState();
   }
 

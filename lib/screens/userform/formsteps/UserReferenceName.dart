@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:mozak/model/youth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mozak/constants/AppColors.dart';
@@ -8,6 +8,7 @@ import 'package:mozak/model/UserFormModel.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/app_tools.dart';
 import 'package:flutter/services.dart';
+import 'package:mozak/utils/api_service.dart';
 
 class UserReferenceName extends StatefulWidget {
   final UserFormModel model;
@@ -24,20 +25,22 @@ class _UserReferenceNameState extends State<UserReferenceName> {
   String? _selectedCode;
   String inTeamRef = "";
   String selectedMandal = "Bramhadarshan";
-  String selectedTL = "Aditya Jejurkar BR01";
+  String selectedTL = "Aditya Jejurkar BR0101";
   TextEditingController referenceName = TextEditingController();
 
-  final List<String> _grpCodeList = [
-    "Bramhadarshan",
-    "Charanraj",
-    "Dasatva",
-    "Gurukrupa",
-    "Harikrupa",
-    "Santkrupa",
-    "Sarvamangal",
-    "Samanvay",
-  ];
+  // final List<String> _grpCodeList = [
+  //   "Aksharbramha",
+  //   "Bramhadarshan",
+  //   "Charanraj",
+  //   "Dasatva",
+  //   "Gurukrupa",
+  //   "Harikrupa",
+  //   "Santkrupa",
+  //   "Sarvamangal",
+  //   "Samanvay",
+  // ];
   final Map<String, String> codeMap = {
+    "Aksharbramha":"AB",
     "Bramhadarshan": "BR",
     "Charanraj": "CR",
     "Dasatva": "DS",
@@ -48,6 +51,27 @@ class _UserReferenceNameState extends State<UserReferenceName> {
     "Samanvay": "SY",
   };
 
+  late List<Youth> youthList;
+  late List<Youth> currentTLList;
+  late Youth selectedobj;
+  Future<List<Youth>> getYouthList() async {
+    youthList = await ApiService().getAllYouths();
+
+    return youthList;
+  }
+
+  Stream<List<Youth>> _bids() => (() {
+        late final StreamController<List<Youth>> _attendanceStream;
+        _attendanceStream = StreamController<List<Youth>>(
+          onListen: () async {
+            _attendanceStream.add(await ApiService().getAllYouths());
+            _attendanceStream.close();
+          },
+        );
+        return _attendanceStream.stream;
+      })();
+
+/*
   final List<String> mandalBR = [
     "Aditya Jejurkar BR01",
     "Akshay Shelar BR02",
@@ -138,40 +162,47 @@ class _UserReferenceNameState extends State<UserReferenceName> {
     "Kishor Patel	SY06",
     "Shilpesh Tawde	SY07",
   ];
-  late List<String> currentTLList;
+  */
+
+
 
   @override
   void initState() {
-    referenceName.text = widget.model.getInTeamRef()!;
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    selectedMandal = widget.model.getRefGrp();
-    _selectedCode = codeMap[selectedMandal]!;
-    if (_selectedCode == "BR") {
-      currentTLList = mandalBR;
-      selectedTL = widget.model.getReferenceName();
-    } else if (_selectedCode == "CR") {
-      currentTLList = mandalCR;
-      selectedTL = widget.model.getReferenceName();
-    } else if (_selectedCode == "DS") {
-      currentTLList = mandalDS;
-      selectedTL = widget.model.getReferenceName();
-    } else if (_selectedCode == "GK") {
-      currentTLList = mandalGK;
-      selectedTL = widget.model.getReferenceName();
-    } else if (_selectedCode == "HK") {
-      currentTLList = mandalHK;
-      selectedTL = widget.model.getReferenceName();
-    } else if (_selectedCode == "SK") {
-      currentTLList = mandalSK;
-      selectedTL = widget.model.getReferenceName();
-    } else if (_selectedCode == "SM") {
-      currentTLList = mandalSM;
-      selectedTL = widget.model.getReferenceName();
-    } else {
-      currentTLList = mandalSY;
-      selectedTL = widget.model.getReferenceName();
-    }
-    widget.model.setReferenceName(selectedTL);
+    getYouthList().whenComplete(() => {
+      
+referenceName.text = widget.model.getInTeamRef()!,
+    
+    selectedMandal = widget.model.getRefGrp(),
+
+    widget.model.setRefGrp(codeMap[selectedMandal]!),
+    _selectedCode = codeMap[selectedMandal]!,
+    currentTLList = youthList
+                      .where((element) =>
+                          element.team!.substring(0, 2) ==
+                          '$_selectedCode' && element.rollno.substring(4,6) == '01').toList(),
+                          selectedobj=currentTLList[0],
+                          
+    selectedTL = currentTLList[0].youthFullName+" "+currentTLList[0].rollno.toString(),
+    
+    widget.model.setReferenceName(selectedTL),
+
+    });
+    // referenceName.text = widget.model.getInTeamRef()!;
+    // SystemChannels.textInput.invokeMethod('TextInput.hide');
+    // selectedMandal = widget.model.getRefGrp();
+  
+    // widget.model.setRefGrp(codeMap[selectedMandal]!);
+    // _selectedCode = codeMap[selectedMandal]!;
+    // currentTLList = youthList
+    //                   .where((element) =>
+    //                       element.team!.substring(0, 2) ==
+    //                       '$_selectedCode' && element.rollno.substring(4,6) == '01').toList();
+    //                       selectedobj=currentTLList[0];
+                          
+    // selectedTL = currentTLList[0].youthFullName+" "+currentTLList[0].rollno.toString();
+    
+    // widget.model.setReferenceName(selectedTL);
     super.initState();
   }
 
@@ -206,6 +237,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                     child: Column(
                       children: [
                         _grpCodeDropDownField(),
+                        _teamLeaderDropDownFeild(),
                       ],
                     )),
               ),
@@ -278,62 +310,47 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           width: MediaQuery.of(context).size.width,
           child: Padding(
             padding: const EdgeInsets.only(left: 10.0),
-            child: DropdownButton(
-              icon: const SizedBox.shrink(),
-              dropdownColor: hexToColor(AppColors.appThemeColor),
-              style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w400,
-                  color: hexToColor(AppColors.whiteTextColor),
-                  fontSize: 17.0),
-              underline: DropdownButtonHideUnderline(child: Container()),
-              items: _grpCodeList.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                    value: value,
-                    child: value == selectedMandal
-                        ? Text(
-                            value,
-                            style: const TextStyle(color: Colors.white),
-                          )
-                        : Text(
-                            value,
-                            style: TextStyle(
-                                color: hexToColor(AppColors.paleOrange)),
-                          ));
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedMandal = newValue!;
-                  widget.model.setRefGrp(newValue);
-                  _selectedCode = codeMap[selectedMandal]!;
-                  if (_selectedCode == "BR") {
-                    currentTLList = mandalBR;
-                    selectedTL = currentTLList[0].toString();
-                  } else if (_selectedCode == "CR") {
-                    currentTLList = mandalCR;
-                    selectedTL = currentTLList[0].toString();
-                  } else if (_selectedCode == "DS") {
-                    currentTLList = mandalDS;
-                    selectedTL = currentTLList[0].toString();
-                  } else if (_selectedCode == "GK") {
-                    currentTLList = mandalGK;
-                    selectedTL = currentTLList[0];
-                  } else if (_selectedCode == "HK") {
-                    currentTLList = mandalHK;
-                    selectedTL = currentTLList[0];
-                  } else if (_selectedCode == "SK") {
-                    currentTLList = mandalSK;
-                    selectedTL = currentTLList[0];
-                  } else if (_selectedCode == "SM") {
-                    currentTLList = mandalSM;
-                    selectedTL = currentTLList[0];
-                  } else {
-                    currentTLList = mandalSY;
-                    selectedTL = currentTLList[0];
-                  }
-                  widget.model.setReferenceName(selectedTL);
-                });
-              },
-              value: selectedMandal,
+            child: StreamBuilder<Object>(
+              stream: _bids(),
+              builder: (context, snapshot) {
+                return DropdownButton(
+                  icon: const SizedBox.shrink(),
+                  dropdownColor: hexToColor(AppColors.appThemeColor),
+                  style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w400,
+                      color: hexToColor(AppColors.whiteTextColor),
+                      fontSize: 17.0),
+                  underline: DropdownButtonHideUnderline(child: Container()),
+                  items: codeMap.keys.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                        value: value,
+                        child: value == selectedMandal
+                            ? Text(
+                                value,
+                                style: const TextStyle(color: Colors.white),
+                              )
+                            : Text(
+                                value,
+                                style: TextStyle(
+                                    color: hexToColor(AppColors.paleOrange)),
+                              ));
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedMandal = newValue!;
+                      widget.model.setRefGrp(newValue);
+                      _selectedCode = codeMap[selectedMandal]!;
+                      currentTLList = youthList
+                                        .where((element) =>
+                                            element.team!.substring(0, 2) ==
+                                            '$_selectedCode' && element.rollno.substring(4,6) == '01').toList();
+                      selectedTL = currentTLList[0].youthFullName+" "+currentTLList[0].rollno.toString();
+                      widget.model.setReferenceName(selectedTL);
+                    });
+                  },
+                  value: selectedMandal,
+                );
+              }
             ),
           ),
         ),
@@ -381,7 +398,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           width: MediaQuery.of(context).size.width,
           child: Padding(
             padding: const EdgeInsets.only(left: 10.0),
-            child: DropdownButton(
+            child: DropdownButton<Youth>(
               icon: const SizedBox.shrink(),
               dropdownColor: hexToColor(AppColors.appThemeColor),
               style: GoogleFonts.montserrat(
@@ -390,30 +407,32 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                   fontSize: 17.0),
               underline: DropdownButtonHideUnderline(child: Container()),
               items:
-                  currentTLList.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
+                  currentTLList.map<DropdownMenuItem<
+                  Youth>>((Youth value) {
+                return DropdownMenuItem<Youth>(
                     value: value,
-                    child: value == selectedTL
+                    child: value.youthFullName +" "+value.rollno == selectedTL
                         ? Text(
-                            value,
+                            value.youthFullName +" "+value.rollno,
                             style: const TextStyle(color: Colors.white),
                           )
                         : Text(
-                            value,
+                            value.youthFullName +" "+value.rollno,
                             style: TextStyle(
                                 color: hexToColor(AppColors.paleOrange)),
                           ));
               }).toList(),
-              onChanged: (String? newValue) {
+              onChanged: (Youth? newValue) {
                 setState(() {
-                  selectedTL = newValue!;
-                  widget.model.setReferenceName(newValue);
+                  selectedobj=newValue!;
+                  selectedTL = newValue.youthFullName +" "+newValue.rollno;
+                  widget.model.setReferenceName(newValue.rollno);
                   Timer(Duration(seconds: 1), () {
                     widget.next();
                   });
                 });
               },
-              value: selectedTL,
+              value: selectedobj,
             ),
           ),
         ),

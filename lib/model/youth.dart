@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class Youth {
-  int? id;
+  int id;
   String rollno;
   String? team;
   String youthFullName;
@@ -14,9 +14,9 @@ class Youth {
   String? pincode;
 
   Youth(
-      {
-        required this.id,
-        required this.rollno,
+    {
+      this.id = 0,
+      required this.rollno,
       this.team,
       required this.youthFullName,
       this.dob,
@@ -28,7 +28,7 @@ class Youth {
       this.pincode});
 
   Youth.fromJson(Map<String, dynamic> json)
-  :rollno=json['rollno'],
+  :id=json['id'],rollno=json['rollno'],
   youthFullName=json['youthFullName']
 
   {

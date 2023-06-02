@@ -8,6 +8,7 @@ class Constants {
   static String allCenters = "/allCenters";
   static String allGroups = "";
   static String allTeams = "";
+  static String regYouth = "/registerYouth";
 
   static String createCenter = "/createCenter";
   static String createWFEvent = "/createWFEvent";
