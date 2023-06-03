@@ -49,8 +49,10 @@ class _LoginPageState extends State<LoginPage> {
           showSnackBar(AppStrings.validationSuccessText,
               hexToColor(AppColors.greenAccent));
 
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => UserForm())); //HomePage
+          // Navigator.of(context).push(
+          //     MaterialPageRoute(builder: (context) => UserForm()));
+
+          Navigator.of(context).pushNamed("HomePage"); //HomePage
 
           EasyLoading.dismiss();
         } else {
@@ -345,6 +347,7 @@ class _LoginPageState extends State<LoginPage> {
                                       SizedBox(
                                         height: maxLines * 25.0,
                                         child: TextFormField(
+                                            initialValue: "SY04",
                                             onSaved: (val) => _email = val!,
                                             keyboardType:
                                                 TextInputType.emailAddress,
@@ -404,6 +407,7 @@ class _LoginPageState extends State<LoginPage> {
                                       SizedBox(
                                         height: maxLines * 25.0,
                                         child: TextFormField(
+                                            initialValue: "dasnadas",
                                             onSaved: (val) => _password = val!,
                                             keyboardType: TextInputType.text,
                                             style: GoogleFonts.montserrat(

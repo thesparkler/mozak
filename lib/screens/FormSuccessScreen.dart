@@ -17,8 +17,7 @@ class FormSuccessScreen extends StatefulWidget {
 
 class FormSuccessScreenState extends State<FormSuccessScreen> {
   Future<bool> _onBackPressed() async {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const UserForm()));
+    Navigator.of(context).popAndPushNamed("YouthList");
     return false;
   }
 
@@ -29,17 +28,15 @@ class FormSuccessScreenState extends State<FormSuccessScreen> {
   }
 
   Future<bool> _onWillPop() {
-  Navigator.pushReplacement(context,
-      MaterialPageRoute(builder: (context) {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return UserForm();
-  }));
-  return Future.value(true);
-}
+    }));
+    return Future.value(true);
+  }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-
       onWillPop: _onWillPop,
       child: Scaffold(
           backgroundColor: hexToColor(AppColors.appThemeColor),
@@ -79,8 +76,8 @@ class FormSuccessScreenState extends State<FormSuccessScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const UserForm()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const UserForm()));
                 },
                 child: Padding(
                   padding:
