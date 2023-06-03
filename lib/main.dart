@@ -9,6 +9,7 @@ import 'package:mozak/screens/home.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/screens/youthList.dart';
 import 'package:mozak/screens/weekly_forum_event_page.dart';
+import 'package:mozak/screens/youthRegistration.dart';
 import 'package:mozak/utils/app_tools.dart';
 
 void main() async {
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         'EditAttendance': (context) => AttendancePage(), //4
         'Teams': (context) => TeamsPage(),
         'UserForm': (context) => UserForm(),
+        'new youth':(context) => YouthRegistration()
         //'AttendancePage': (context) => AttendancePage(),
       },
       builder: EasyLoading.init(),
