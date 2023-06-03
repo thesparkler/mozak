@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
     ]);
-
+    
     return MaterialApp(
       theme: ThemeData(disabledColor: hexToColor(AppColors.grey)),
       debugShowCheckedModeBanner: false,

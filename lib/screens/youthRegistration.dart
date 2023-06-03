@@ -122,7 +122,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                       child: TextFormField(
                         decoration: InputDecoration(border: OutlineInputBorder()),
                       ),
-                      
                     ),
                     Container(
                       height: constraint.maxHeight * 0.1,
