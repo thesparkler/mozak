@@ -14,7 +14,7 @@ class TeamsPage extends StatefulWidget {
 }
 
 class _TeamsPageState extends State<TeamsPage> {
-  late List<center.Center> centerList;
+  late List<center.CenterData> centerList;
 
   int index = 0;
   bool showCreateCenterCard = false;
@@ -42,7 +42,7 @@ class _TeamsPageState extends State<TeamsPage> {
     super.initState();
   }
 
-  Future<List<center.Center>> getCenterList() {
+  Future<List<center.CenterData>> getCenterList() {
     var obj = ApiService().getCenters();
     return obj.then((value) => value);
   }
@@ -185,10 +185,10 @@ class _TeamsPageState extends State<TeamsPage> {
                   )),
             ),
           ),
-          FutureBuilder<List<center.Center>>(
+          FutureBuilder<List<center.CenterData>>(
               future: getCenterList(),
               builder: (BuildContext context,
-                  AsyncSnapshot<List<center.Center>> snapshot) {
+                  AsyncSnapshot<List<center.CenterData>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasError) {
                     return Center(

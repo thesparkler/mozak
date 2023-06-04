@@ -76,17 +76,17 @@ class ApiService {
   }
 
   // In following code Center class is creating conflict with a class of same name in Flutter lib.
-  Future<List<center.Center>> getCenters() async {
+  Future<List<center.CenterData>> getCenters() async {
     Uri allWeeklyForumEventsUrl =
         Uri.parse('${Constants.domain}${Constants.allCenters}');
     http.Response response = await http.get(allWeeklyForumEventsUrl);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      List<center.Center> list = [];
+      List<center.CenterData> list = [];
       var jsonObject = jsonDecode(response.body);
       for (var json in jsonObject) {
-        list.add(center.Center.fromJson(json));
+        list.add(center.CenterData.fromJson(json));
       }
       return list;
     } else {
@@ -157,7 +157,8 @@ class ApiService {
     return response;
   }
 
-  Future<http.Response> setWFEvent(center.Center center, String date) async {
+  Future<http.Response> setWFEvent(
+      center.CenterData center, String date) async {
     Uri createWFEUrl = Uri.parse(
         '${Constants.domain}${Constants.createWFEvent}?centerId=${center.id}');
     http.Response response = await http.post(

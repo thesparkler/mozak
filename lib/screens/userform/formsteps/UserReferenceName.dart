@@ -347,7 +347,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                           ));
               }).toList(),
               onChanged: (String? newValue) async {
-                setState(() async {
+                setState(() {
                   selectedMandal = newValue!;
                   widget.model.setRefGrp(newValue);
                   _selectedCode = codeMap[selectedMandal];
@@ -402,6 +402,9 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           ),
         ),
         Container(
+          constraints: BoxConstraints(
+            maxHeight: double.infinity,
+          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             border: Border.all(
@@ -413,7 +416,8 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           child: Padding(
             padding: const EdgeInsets.only(left: 10.0),
             child: DropdownButton<Youth>(
-              //isExpanded: true,
+              isExpanded: true,
+              menuMaxHeight: 500,
               icon: SizedBox.shrink(),
               dropdownColor: hexToColor(AppColors.appThemeColor),
               style: GoogleFonts.montserrat(
@@ -424,25 +428,31 @@ class _UserReferenceNameState extends State<UserReferenceName> {
               items: currentTLList.map<DropdownMenuItem<Youth>>((value) {
                 return DropdownMenuItem<Youth>(
                     value: value,
-                    child: (value.rollno) == selectedTL
-                        ? Text(
-                            value.rollno + " " + value.youthFullName,
-                            style: const TextStyle(color: Colors.white),
-                          )
-                        : Text(
-                            value.rollno + " " + value.youthFullName,
-                            style: TextStyle(
-                                color: hexToColor(AppColors.paleOrange)),
-                          ));
+                    child:
+                        (value.rollno + " " + value.youthFullName) == selectedTL
+                            ? Text(
+                                value.rollno + " " + value.youthFullName,
+                                style: TextStyle(
+                                  color: hexToColor(AppColors.whiteTextColor),
+                                ),
+                                softWrap: true,
+                              )
+                            : Text(
+                                value.rollno + " " + value.youthFullName,
+                                style: TextStyle(
+                                  color: hexToColor(AppColors.paleOrange),
+                                ),
+                                softWrap: true,
+                              ));
               }).toList(),
               onChanged: (Youth? newValue) {
                 selectedObj = newValue!;
                 setState(() {
                   selectedTL = newValue.rollno + " " + newValue.youthFullName;
                   widget.model.setReferenceName(newValue.rollno);
-                  // Timer(Duration(seconds: 1), () {
-                  //   widget.next();
-                  // });
+                  Timer(Duration(seconds: 1), () {
+                    widget.next();
+                  });
                 });
               },
               value: selectedObj,

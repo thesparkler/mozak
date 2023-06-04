@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/api_service.dart';
-import 'package:mozak/model/center.dart' as center;
 
 import '../constants/AppColors.dart';
+import '../model/center.dart';
 import '../utils/app_tools.dart';
 
 class CenterPage extends StatefulWidget {
@@ -14,7 +14,7 @@ class CenterPage extends StatefulWidget {
 }
 
 class _CenterPageState extends State<CenterPage> {
-  late List<center.Center> centerList;
+  late List<CenterData> centerList;
 
   int index = 0;
   bool showCreateCenterCard = false;
@@ -27,7 +27,6 @@ class _CenterPageState extends State<CenterPage> {
   }
 
   void closeCreateCenterPage() {
-    print("hii");
     setState(() {
       showCreateCenterCard = false;
     });
@@ -42,7 +41,7 @@ class _CenterPageState extends State<CenterPage> {
     super.initState();
   }
 
-  Future<List<center.Center>> getCenterList() {
+  Future<List<CenterData>> getCenterList() {
     var obj = ApiService().getCenters();
     return obj.then((value) => value);
   }
@@ -69,14 +68,14 @@ class _CenterPageState extends State<CenterPage> {
       backgroundColor: hexToColor(AppColors.appThemeColor),
     );
 
-    final bodyHeight = mediaQuery.size.height -
-        appBar.preferredSize.height -
-        mediaQuery.padding.top -
-        mediaQuery.padding.bottom;
-
-    final bodyWidth = mediaQuery.size.width -
-        mediaQuery.padding.left -
-        mediaQuery.padding.right;
+    // final bodyHeight = mediaQuery.size.height -
+    //     appBar.preferredSize.height -
+    //     mediaQuery.padding.top -
+    //     mediaQuery.padding.bottom;
+    //
+    // final bodyWidth = mediaQuery.size.width -
+    //     mediaQuery.padding.left -
+    //     mediaQuery.padding.right;
 
     return ScrollConfiguration(
       behavior: NoGlowBehaviour(),
@@ -85,10 +84,11 @@ class _CenterPageState extends State<CenterPage> {
         backgroundColor: hexToColor(AppColors.appThemeColor),
         body: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 height: 40,
-                width: bodyWidth / 2,
+                width: MediaQuery.of(context).size.width / 2,
                 decoration: BoxDecoration(
                     color: hexToColor(AppColors.paleOrange),
                     backgroundBlendMode: BlendMode.lighten,
@@ -159,18 +159,21 @@ class _CenterPageState extends State<CenterPage> {
                                                 AppColors.whiteTextColor),
                                           ))),
                                   TextButton(
-                                      onPressed: () async {
-                                        addCenter(
-                                            locationController.text.toString());
-                                        closeCreateCenterPage();
-                                      },
-                                      child: Text("Save",
-                                          style: kGoogleStyleTexts.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 20,
-                                            color: hexToColor(
-                                                AppColors.whiteTextColor),
-                                          ))),
+                                    onPressed: () async {
+                                      addCenter(
+                                          locationController.text.toString());
+                                      closeCreateCenterPage();
+                                    },
+                                    child: Text(
+                                      "Save",
+                                      style: kGoogleStyleTexts.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
+                                        color: hexToColor(
+                                            AppColors.whiteTextColor),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               )
                             ],
@@ -191,43 +194,47 @@ class _CenterPageState extends State<CenterPage> {
                       )),
                 ),
               ),
-              FutureBuilder<List<center.Center>>(
-                  future: getCenterList(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<center.Center>> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: Text(
-                            '${snapshot.error} occurred',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        );
-                      } else if (snapshot.hasData) {
-                        centerList = snapshot.data!;
-                        centerList
-                            .sort((a, b) => a.location.compareTo(b.location));
-                        return Expanded(
-                          child: Column(
+              Align(
+                alignment: Alignment.centerLeft,
+                child: FutureBuilder<List<CenterData>>(
+                    future: getCenterList(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<CenterData>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text(
+                              '${snapshot.error} occurred',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          );
+                        } else if (snapshot.hasData) {
+                          centerList = snapshot.data!;
+                          centerList
+                              .sort((a, b) => a.location.compareTo(b.location));
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: centerList
                                 .map((e) => getCenterRow(e.location))
                                 .toList(),
-                          ),
-                        );
+                          );
+                        }
                       }
-                    }
 
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 35),
-                      child: Center(
-                        child: LinearProgressIndicator(
-                          color: hexToColor(AppColors.appThemeColor),
-                          backgroundColor: hexToColor(AppColors.whiteTextColor),
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 35),
+                        child: Center(
+                          child: LinearProgressIndicator(
+                            color: hexToColor(AppColors.appThemeColor),
+                            backgroundColor:
+                                hexToColor(AppColors.whiteTextColor),
+                          ),
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+              ),
             ],
           ),
         ),
@@ -247,21 +254,24 @@ class _CenterPageState extends State<CenterPage> {
     return Padding(
       padding: const EdgeInsets.only(left: 25.0, top: 8),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-              child: Text(index.toString(),
-                  style: kGoogleStyleTexts.copyWith(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                    color: hexToColor(AppColors.whiteTextColor),
-                  ))),
+            child: Text(index.toString(),
+                style: kGoogleStyleTexts.copyWith(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  color: hexToColor(AppColors.whiteTextColor),
+                )),
+          ),
           Container(
-              child: Text(" $name",
-                  style: kGoogleStyleTexts.copyWith(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                    color: hexToColor(AppColors.whiteTextColor),
-                  )))
+            child: Text(" $name",
+                style: kGoogleStyleTexts.copyWith(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  color: hexToColor(AppColors.whiteTextColor),
+                )),
+          )
         ],
       ),
     );

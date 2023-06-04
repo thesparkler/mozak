@@ -5,6 +5,7 @@ import 'package:mozak/screens/attendancePage.dart';
 import 'package:mozak/model/weekly_forum_event.dart';
 import 'package:mozak/utils/api_service.dart';
 import 'package:mozak/model/center.dart' as center;
+import 'package:mozak/utils/youthData.dart';
 import '../constants/AppAssets.dart';
 import '../constants/AppColors.dart';
 import '../constants/AppStrings.dart';
@@ -44,23 +45,13 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
     setState(() {});
   }
 
-  void addWFEvent(center.Center center, DateTime date) {
+  void addWFEvent(center.CenterData center, DateTime date) {
     ApiService().setWFEvent(center, DateFormat('yyyy-MM-dd').format(date));
   }
 
   @override
   void initState() {
     super.initState();
-  }
-
-  Future<List<WeeklyForumEvent>> getWFEventList() {
-    var obj = ApiService().getWFEvents();
-    return obj;
-  }
-
-  Future<List<center.Center>> getCenterList() {
-    var obj = ApiService().getCenters();
-    return obj.then((value) => value);
   }
 
   @override
@@ -95,9 +86,9 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
         mediaQuery.padding.right;
 
     TextEditingController centerController = TextEditingController();
-    final List<DropdownMenuEntry<center.Center>> centerEntries =
-        <DropdownMenuEntry<center.Center>>[];
-    center.Center? selectedCenter;
+    final List<DropdownMenuEntry<center.CenterData>> centerEntries =
+        <DropdownMenuEntry<center.CenterData>>[];
+    center.CenterData? selectedCenter;
 
     return ScrollConfiguration(
       behavior: NoGlowBehaviour(),
@@ -132,11 +123,11 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
                   ),
                 ),
               ),
-              AlertDialog(),
+              //AlertDialog(),
               FutureBuilder(
-                  future: getCenterList(),
-                  builder:
-                      (context, AsyncSnapshot<List<center.Center>> snapshot) {
+                  future: YouthData.instance.getCenterList(),
+                  builder: (context,
+                      AsyncSnapshot<List<center.CenterData>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasError) {
                         return Center(
@@ -149,7 +140,7 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
                         // if we got our data
                       } else if (snapshot.hasData) {
                         // print(snapshot.data);
-                        List<center.Center>? centerList = snapshot.data;
+                        List<center.CenterData>? centerList = snapshot.data;
                         for (var center in centerList!) {
                           // print(center);
                           centerEntries.add(DropdownMenuEntry(
@@ -185,7 +176,7 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
                                             dropdownMenuEntries: centerEntries,
                                             controller: centerController,
                                             onSelected:
-                                                (center.Center? center) {
+                                                (center.CenterData? center) {
                                               selectedCenter = center;
                                             },
                                             menuStyle: MenuStyle(),
@@ -270,7 +261,7 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
                 ),
               ),
               FutureBuilder<List<WeeklyForumEvent>>(
-                future: getWFEventList(),
+                future: YouthData.instance.getWFEventList(),
                 builder:
                     (context, AsyncSnapshot<List<WeeklyForumEvent>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {

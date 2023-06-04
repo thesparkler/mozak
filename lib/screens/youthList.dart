@@ -33,7 +33,7 @@ class _YouthListState extends State<YouthList> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
+    //final mediaQuery = MediaQuery.of(context);
     final appBar = AppBar(
       title: Text(
         'Youths',
@@ -115,6 +115,7 @@ class _YouthListState extends State<YouthList> {
                               youthList = snapshot.data!;
                               return ListView(
                                   shrinkWrap: true,
+                                  physics: ScrollPhysics(),
                                   children: youthList
                                       .where((element) =>
                                           element.team!.substring(0, 2) ==
@@ -237,31 +238,17 @@ class _YouthListState extends State<YouthList> {
             }) //(event.center, DateTime.parse(event.date))
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 25.0, top: 8),
+        padding: const EdgeInsets.only(left: 20.0, top: 8, right: 20),
         child: Container(
           width: MediaQuery.of(context).size.width,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                e.rollno + " ",
-                softWrap: true,
-                style: kGoogleStyleTexts.copyWith(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                  color: hexToColor(AppColors.whiteTextColor),
-                ),
-              ),
-              Text(
-                e.youthFullName.toString(),
-                softWrap: true,
-                style: kGoogleStyleTexts.copyWith(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                  color: hexToColor(AppColors.whiteTextColor),
-                ),
-              ),
-            ],
+          child: Text(
+            e.rollno + " " + e.youthFullName.toString(),
+            softWrap: true,
+            style: kGoogleStyleTexts.copyWith(
+              fontWeight: FontWeight.w700,
+              fontSize: 20,
+              color: hexToColor(AppColors.whiteTextColor),
+            ),
           ),
         ),
       ),

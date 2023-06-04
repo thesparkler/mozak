@@ -1,12 +1,16 @@
 import 'package:flutter/Material.dart';
+import 'package:mozak/model/center.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/weekly_forum_event.dart';
 import '../model/youth.dart';
 import 'api_service.dart';
 
 class YouthData {
   //String token = "";
   var youthList = <Youth>[];
+  var centerList = <CenterData>[];
+  var wfeList = <WeeklyForumEvent>[];
 
   /// private constructor
   YouthData._sharedInstance();
@@ -26,6 +30,18 @@ class YouthData {
     if (youthList.isEmpty) {
       youthList = await ApiService().getAllYouths();
     }
-    return youthList as List<Youth>;
+    return youthList;
+  }
+
+  Future<List<WeeklyForumEvent>> getWFEventList() async {
+    if (wfeList.isEmpty) {
+      wfeList = await ApiService().getWFEvents();
+    }
+    return wfeList;
+  }
+
+  Future<List<CenterData>> getCenterList() async {
+    if (centerList.isEmpty) centerList = await ApiService().getCenters();
+    return centerList;
   }
 }

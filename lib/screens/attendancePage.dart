@@ -157,39 +157,6 @@ class _AttendancePageState extends State<AttendancePage> {
                 },
                 displayStringForOption: (Youth option) =>
                     option.rollno + " " + option.youthFullName,
-                // fieldViewBuilder: (BuildContext context,
-                //     fieldTextEditingController,
-                //     fieldFocusNode,
-                //     VoidCallback onFieldSubmitted) {
-                //   return Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: TextField(
-                //       decoration: InputDecoration(
-                //         hintText: "Search With Code or Name",
-                //         hintStyle: kGoogleStyleTexts.copyWith(
-                //             color: hexToColor(AppColors.grey), fontSize: 18),
-                //         suffixIcon: IconButton(
-                //           onPressed: () => fieldTextEditingController.clear(),
-                //           icon: Icon(Icons.clear_rounded),
-                //           padding: EdgeInsets.all(8),
-                //           visualDensity: VisualDensity(),
-                //         ),
-                //         enabledBorder: OutlineInputBorder(
-                //           borderSide: BorderSide(color: Colors.white, width: 5.0),
-                //         ),
-                //         focusedBorder: OutlineInputBorder(
-                //           borderSide:
-                //               BorderSide(color: Colors.blueAccent, width: 5.0),
-                //         ),
-                //       ),
-                //       // focusNode: fieldFocusNode,
-                //       controller: fieldTextEditingController,
-                //       style: TextStyle(
-                //           color: hexToColor(AppColors.whiteTextColor),
-                //           fontWeight: FontWeight.bold),
-                //     ),
-                //   );
-                // },
                 optionsViewBuilder: (BuildContext context,
                     AutocompleteOnSelected<Youth> onSelected,
                     Iterable<Youth> options) {
