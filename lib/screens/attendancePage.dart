@@ -5,6 +5,7 @@ import 'package:mozak/model/attendanceTable.dart';
 import 'package:mozak/model/weekly_forum_event.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/api_service.dart';
+import 'package:mozak/utils/youthData.dart';
 
 import '../constants/AppColors.dart';
 import '../model/youth.dart';
@@ -31,25 +32,39 @@ class _AttendancePageState extends State<AttendancePage> {
   GlobalKey key = new GlobalKey();
   late List<Youth> youthList;
   late List<Youth> eventMarkedAttendance;
+  var youths = {
+    "CR": {
+      "01": [],
+    },
+    "GK": {
+      "01": [],
+      "02": [],
+      "03": [],
+      "04": [],
+      "05": [],
+      "06": [],
+    }
+  };
 
-  Future<void> getData() async {
-    await getYouthList();
-    // await getMarkedList();
-  }
+  // Future<void> getData() async {
+  //   await getYouthList();
+  //   // await getMarkedList();
+  // }
 
   @override
   void initState() {
-    getData().whenComplete(() async {
-      print("Done");
-    });
+    // getData().whenComplete(() async {
+    //   print("Done");
+    // });
+    // print(youths);
     super.initState();
   }
 
-  Future getYouthList() async {
-    youthList = await ApiService().getAllYouths();
-  }
+  // Future getYouthList() async {
+  //   youthList = await ApiService().getAllYouths();
+  // }
 
-  getMarkedList() async => await ApiService().getMarkedYouths(widget.event.id);
+  //getMarkedList() async => await ApiService().getMarkedYouths(widget.event.id);
 
   Stream<List<Youth>> _bids(int id) => (() {
         late final StreamController<List<Youth>> _attendanceStream;
@@ -148,7 +163,7 @@ class _AttendancePageState extends State<AttendancePage> {
                 textEditingController: fieldTextEditingController,
                 focusNode: fieldFocusNode,
                 optionsBuilder: (TextEditingValue textEditingValue) {
-                  return youthList
+                  return YouthData.instance.youthList
                       .where((Youth youth) =>
                           "${youth.rollno + " " + youth.youthFullName}"
                               .toLowerCase()
@@ -164,12 +179,13 @@ class _AttendancePageState extends State<AttendancePage> {
                     alignment: Alignment.topCenter,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: hexToColor(AppColors.appThemeColor),
+                        color: Colors.transparent,
                       ),
-                      height: 350,
+                      //height: 350,
                       width: bodyWidth - 20,
                       child: Scrollbar(
                         child: ListView.builder(
+                          shrinkWrap: true,
                           padding: EdgeInsets.all(4.0),
                           itemCount: options.length,
                           itemBuilder: (context, int index) {
@@ -196,11 +212,12 @@ class _AttendancePageState extends State<AttendancePage> {
                               child: ListTile(
                                 contentPadding: EdgeInsets.zero,
                                 title: Text(
-                                    option.rollno + " " + option.youthFullName,
-                                    style: kGoogleStyleTexts.copyWith(
-                                        fontSize: 20,
-                                        color: hexToColor(
-                                            AppColors.whiteTextColor))),
+                                  option.rollno + " " + option.youthFullName,
+                                  style: kGoogleStyleTexts.copyWith(
+                                    fontSize: 20,
+                                    color: hexToColor(AppColors.whiteTextColor),
+                                  ),
+                                ),
                               ),
                             );
                           },
@@ -318,7 +335,7 @@ class _AttendancePageState extends State<AttendancePage> {
                                   },
                                 ),
                               )
-                            : CircularProgressIndicator(
+                            : LinearProgressIndicator(
                                 color: hexToColor(AppColors.whiteTextColor),
                               );
                       }),

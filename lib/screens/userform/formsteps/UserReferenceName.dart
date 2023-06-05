@@ -60,21 +60,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
   var currentTLList = [];
   late Youth selectedObj;
 
-  Future getYouthList() async {
-    youthList = await ApiService().getAllYouths();
-    currentTLList = youthList
-        .where((element) =>
-            (element.rollno.substring(0, 2) ==
-                '$_selectedCode'.toUpperCase()) &&
-            (element.rollno.substring(4, 6) == '01'))
-        .toList();
-
-    print(youthList[0].rollno);
-    print(currentTLList[0].rollno);
-
-    print("Milgaya");
-  }
-
   Future getCurrentTlList() async {
     youthList = YouthData.instance.youthList as List<Youth>;
     currentTLList = youthList
@@ -373,6 +358,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
   }
 
   Widget _teamLeaderDropDownFeild() {
+    String tlName;
     return Column(
       children: [
         Padding(
@@ -402,9 +388,9 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           ),
         ),
         Container(
-          constraints: BoxConstraints(
-            maxHeight: double.infinity,
-          ),
+          // constraints: BoxConstraints(
+          //   maxHeight: double.infinity,
+          // ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             border: Border.all(
@@ -426,24 +412,24 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                   fontSize: 17.0),
               underline: DropdownButtonHideUnderline(child: Container()),
               items: currentTLList.map<DropdownMenuItem<Youth>>((value) {
+                tlName = value.rollno + " " + value.youthFullName;
                 return DropdownMenuItem<Youth>(
                     value: value,
-                    child:
-                        (value.rollno + " " + value.youthFullName) == selectedTL
-                            ? Text(
-                                value.rollno + " " + value.youthFullName,
-                                style: TextStyle(
-                                  color: hexToColor(AppColors.whiteTextColor),
-                                ),
-                                softWrap: true,
-                              )
-                            : Text(
-                                value.rollno + " " + value.youthFullName,
-                                style: TextStyle(
-                                  color: hexToColor(AppColors.paleOrange),
-                                ),
-                                softWrap: true,
-                              ));
+                    child: tlName == selectedTL
+                        ? Text(
+                            tlName,
+                            style: TextStyle(
+                              color: hexToColor(AppColors.whiteTextColor),
+                            ),
+                            softWrap: true,
+                          )
+                        : Text(
+                            tlName,
+                            style: TextStyle(
+                              color: hexToColor(AppColors.paleOrange),
+                            ),
+                            softWrap: true,
+                          ));
               }).toList(),
               onChanged: (Youth? newValue) {
                 selectedObj = newValue!;

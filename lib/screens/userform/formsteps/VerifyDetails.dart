@@ -130,23 +130,21 @@ class VerifyDetailsState extends State<VerifyDetails> {
               ),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Expanded(
-                  child: AutoSizeText(
-                    "A" +
-                        "  " +
-                        age.toString() +
-                        " yrs old " +
-                        (userGender.toLowerCase() == "male"
-                            ? (age > 16 ? "yuvak" : "boy")
-                            : (age > 16 ? "yuvati" : "girl")) +
-                        " from " +
-                        userCityAddress,
-                    style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w400,
-                        color: hexToColor(AppColors.whiteTextColor),
-                        fontSize: 20.0,
-                        height: 1.8),
-                  ),
+                child: AutoSizeText(
+                  "A" +
+                      "  " +
+                      age.toString() +
+                      " yrs old " +
+                      (userGender.toLowerCase() == "male"
+                          ? (age > 16 ? "yuvak" : "boy")
+                          : (age > 16 ? "yuvati" : "girl")) +
+                      " from " +
+                      userCityAddress,
+                  style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w400,
+                      color: hexToColor(AppColors.whiteTextColor),
+                      fontSize: 20.0,
+                      height: 1.8),
                 ),
               ),
               Padding(
