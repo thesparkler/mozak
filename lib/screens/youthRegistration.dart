@@ -5,8 +5,6 @@ import '../utils/api_service.dart';
 import '../utils/app_tools.dart';
 import 'package:email_validator/email_validator.dart';
 
-
-
 final Map<String, String> group = {
     "Aksharbramh":"AB",
     "Bramhadarshan": "BR",
@@ -240,7 +238,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                         onChanged: (String? value) {
                           setState(() {
                             dropdownValue = value!;
-
                           });
                         },
                         items: 
