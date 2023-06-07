@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
+import 'package:mozak/model/youth.dart';
+import 'package:mozak/utils/youthData.dart';
 import '../constants/AppColors.dart';
 import '../utils/api_service.dart';
 import '../utils/app_tools.dart';
@@ -26,16 +30,23 @@ class YouthRegistration extends StatefulWidget {
 
 class _YouthRegistrationState extends State<YouthRegistration> {
 
+  var youth = Youth(rollno: '', youthFullName: '');
   String youthCode = group.values.first;
   String dropdownValue = group.keys.first;
+  var dropdownValue1 ;
+  var currentList  = <Youth>[];
 
   DateTime? pickedDate;
   var datecontroller=TextEditingController(text: "");
   var date;
   var selected;
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
+    currentList = YouthData.instance.youthList.where((element) => element.rollno.substring(0,2) == '${group[dropdownValue]}' && element.rollno.substring(4,6) == '01').toList();
+    dropdownValue1=currentList[0];
     super.initState();
   }
 
@@ -56,6 +67,26 @@ class _YouthRegistrationState extends State<YouthRegistration> {
     }
 
   }
+  
+
+  void _trySubmit(BuildContext context) async{
+    final isValid = _formKey.currentState!.validate();
+    FocusScope.of(context).unfocus();
+
+    if (isValid) {
+      _formKey.currentState!.save();
+      EasyLoading.instance
+        ..backgroundColor = Colors.white10
+        ..userInteractions = false;
+      EasyLoading.show(status: "Please Wait.....!");
+      await ApiService().setYouth(youth);
+      YouthData.instance.youthList=[];
+      //await YouthData.instance.getYouthList();
+      Navigator.of(context).pop();
+      EasyLoading.dismiss();
+    }
+  }
+
 
   
   @override
@@ -97,6 +128,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           width: bodyWidth,
           padding: EdgeInsets.all(8.0),
           child: Form(
+            key: _formKey,
             child: LayoutBuilder(
               builder: (context,constraint)
               {
@@ -119,6 +151,11 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                   .hasMatch(value))
                               ? 'Invalid name'
                               : null,
+                        onSaved: (value)
+                        {
+                          print('$value');
+                          youth.youthFullName = value.toString();
+                        },
                       ),
                     ),
                     Container(
@@ -133,11 +170,19 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           prefixText: '+91',
                           border: OutlineInputBorder(),
                         ),
+                //         inputFormatters: <TextInputFormatter>[
+                //   LengthLimitingTextInputFormatter(10),
+                // ],
                         validator: (value) => 
                           (!RegExp(r'(^(?:[+0]9)?[0-9]{10}$)').hasMatch(value!) || value.length == 0)
                           ? 'Invalid phone number'
                           : null,
                         keyboardType: TextInputType.phone,
+                        onSaved: (value)
+                        {
+                          print('$value');
+                          youth.mobile1 = value.toString();
+                        },
                       )
                     ),
                     Container(
@@ -155,6 +200,11 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                         validator: (value) => !EmailValidator.validate(value!, true)
                             ? 'Invalid email id'
                             : null,
+                        onSaved: (value)
+                        {
+                          print('$value');
+                          youth.emailid = value.toString();
+                        },
                       )
                     ),
                     Container(
@@ -168,11 +218,19 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           hintText: 'Enter your pincode',
                           border: OutlineInputBorder(),
                         ),
+                        // inputFormatters: <TextInputFormatter>[
+                        //   LengthLimitingTextInputFormatter(6),
+                        // ],
                         validator: (value) => 
-                          (!RegExp(r'(^(?:[+0]9)?[0-9]{10}$)').hasMatch(value!) || value.length > 6)
+                          (!RegExp(r'(^(?:[+0]9)?[0-9]{6}$)').hasMatch(value!) || value.length > 6)
                           ? 'Invalid pincode'
                           : null,
                         keyboardType: TextInputType.phone,
+                        onSaved: (value)
+                        {
+                          print('$value');
+                          youth.pincode = value.toString();
+                        },
                       )
                     ),
                     Container(
@@ -187,9 +245,16 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           labelText: 'DOB',
                           border: OutlineInputBorder(),
                         ),
+                        validator: (value)=> value != null ? null : 'Please select DOB',
                         readOnly: true,
                         onTap: ()=>pickDate(context),
-                      )
+                        onSaved: (value)
+                        {
+                          print('$value');
+                          youth.dob = value.toString();
+                        },
+                      ),
+                      
                     ),
                     Container(
                       height: constraint.maxHeight * 0.09,
@@ -209,7 +274,9 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                         onChanged: (String? value) {
                           setState(() {
                             dropdownValue = value!;
-
+                            currentList = YouthData.instance.youthList.where((element) => element.rollno.substring(0,2) == '${group[dropdownValue]}' && element.rollno.substring(4,6) == '01').toList();
+                            dropdownValue1=currentList[0];
+                            print('$dropdownValue');
                           });
                         },
                         items:group.keys.map<DropdownMenuItem<String>>((String value) {
@@ -218,6 +285,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                             child: Text(value),
                           );
                         }).toList(),
+                        
                       )
                     ),
                     Container(
@@ -231,18 +299,29 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           width: 1.0,
                         ),
                       ),
-                      child:DropdownButton<String>(
+                      child:DropdownButton<Youth>(
+                        isExpanded: true,
                         underline: SizedBox(), 
-                        value: dropdownValue,
+                        value: dropdownValue1,
                         icon: SizedBox.shrink(),
-                        onChanged: (String? value) {
+                        onChanged: (Youth? value) {
                           setState(() {
-                            dropdownValue = value!;
+                            dropdownValue1 = value!;
+                            print('${dropdownValue1.rollno.toString()}');
+                            youth.tlCode = dropdownValue1.rollno.toString();
+                            youth.team = dropdownValue1.rollno.substring(0,4);
+                            youth.rollno= youth.team.toString()+"0A";
                           });
                         },
-                        items: 
-                      )
+                        items: currentList.map<DropdownMenuItem<Youth>>((Youth value) {
+                          return DropdownMenuItem<Youth>(
+                            value: value,
+                            child: Text(value.rollno+" "+value.youthFullName,softWrap: true,overflow: TextOverflow.fade,),
+                          );
+                        }).toList(),
+                      ),
                     ),
+                    ElevatedButton(onPressed:() => _trySubmit(context), child: Text('Submit'))
                   ],
                 );
               },)
@@ -253,11 +332,3 @@ class _YouthRegistrationState extends State<YouthRegistration> {
   }
 }
  
-/*
-group.keys.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-*/

@@ -107,16 +107,16 @@ class ApiService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        "rollno": "HK1004",
-        "team": "HK10",
-        "youthFullName": "Urvesh Anand Patil",
-        "dob": "1990-01-25",
-        "mobile1": "9594310389",
+        "rollno":youth.rollno,
+        "team": youth.team.toString(),
+        "youthFullName": youth.youthFullName,
+        "dob": youth.dob.toString(),
+        "mobile1": youth.mobile1.toString(),
         "mobile2": "",
-        "emailid": "pramod77484@gmail.com",
-        "status": "regular",
-        "tlCode": "HK1001",
-        "pincode": "400086"
+        "emailid": youth.emailid.toString(),
+        "status": "new",
+        "tlCode": youth.tlCode.toString(),
+        "pincode": youth.pincode.toString()
       }),
     );
     return response;

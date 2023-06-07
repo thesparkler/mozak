@@ -112,6 +112,7 @@ class _YouthListState extends State<YouthList> {
                               );
                             } else if (snapshot.hasData) {
                               youthList = snapshot.data!;
+                              youthList.sort((a,b)=>a.rollno.compareTo(b.rollno));
                               return ListView(
                                   shrinkWrap: true,
                                   physics: ScrollPhysics(),
@@ -144,7 +145,7 @@ class _YouthListState extends State<YouthList> {
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.person_add_alt_1),
             onPressed: () => {
-              Navigator.of(context).pushNamed("UserForm"),
+              Navigator.of(context).pushNamed("new youth"),
             },
           )),
     );
@@ -240,13 +241,18 @@ class _YouthListState extends State<YouthList> {
         padding: const EdgeInsets.only(left: 20.0, top: 8, right: 20),
         child: Container(
           width: MediaQuery.of(context).size.width,
-          child: Text(
-            e.rollno + " " + e.youthFullName.toString(),
-            softWrap: true,
-            style: kGoogleStyleTexts.copyWith(
-              fontWeight: FontWeight.w700,
-              fontSize: 20,
-              color: hexToColor(AppColors.whiteTextColor),
+          child: Card(
+            color: hexToColor(AppColors.appThemeColor),
+           elevation: 3,
+            child: Text(
+              e.rollno + " " + e.youthFullName.toString(),
+              softWrap: true,
+              overflow: TextOverflow.ellipsis,
+              style: kGoogleStyleTexts.copyWith(
+                fontWeight: FontWeight.w700,
+                fontSize: 20,
+                color: hexToColor(AppColors.whiteTextColor),
+              ),
             ),
           ),
         ),
