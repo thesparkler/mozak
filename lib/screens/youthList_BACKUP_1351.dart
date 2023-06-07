@@ -60,6 +60,96 @@ class _YouthListState extends State<YouthList> {
     //     mediaQuery.padding.left -
     //     mediaQuery.padding.right;
 
+<<<<<<< HEAD
+    final bodyWidth = mediaQuery.size.width -
+        mediaQuery.padding.left -
+        mediaQuery.padding.right;
+
+    return Scaffold(
+      appBar: appBar,
+      backgroundColor: hexToColor(AppColors.appThemeColor),
+
+      body: Container(
+          height: bodyHeight,
+          width: bodyWidth,
+          padding: EdgeInsets.all(8.0),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+            return Column(
+              children: [
+                Container(
+                    height: constraints.maxHeight * 0.2,
+                    width: bodyWidth * 0.9,
+                    child: DropdownButton<String>(
+                      value: youthCode,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          youthCode = newValue ?? youthCode;
+                        });
+                      },
+                      items:
+                          groups.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                            value: value,
+                            child: value == youthCode
+                                ? Text(
+                                    value,
+                                  )
+                                : Text(
+                                    value,
+                                    style: TextStyle(
+                                        color:
+                                            hexToColor(AppColors.paleOrange)),
+                                  ));
+                      }).toList(),
+                    )
+                ),
+                Container(
+                  height: bodyHeight * 0.6,
+                  width: bodyWidth * 0.9,
+                  child: FutureBuilder<List<Youth>>(
+                      future: getYouthList(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Youth>> snapshot) {
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text(
+                              '${snapshot.error} occurred',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          );
+                        } else if (snapshot.hasData) {
+                          youthList = snapshot.data!;
+                          return Container(
+                            height: bodyHeight * 0.8,
+                            width: bodyWidth * 0.9,
+                            child: ListView(   
+                                children: youthList
+                                    .where((element) =>
+                                        element.team!.substring(0, 2) ==
+                                        '$youthCode')
+                                    .map((e) => getYouthRow(e))
+                                    .toList()),
+                          );
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }),
+                )
+              ],
+            );
+          }
+        )
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.person_add_alt_1),
+        onPressed: () => {
+          Navigator.of(context).pushNamed("new youth"),
+        },
+      )
+=======
     return ScrollConfiguration(
       behavior: NoGlowBehaviour(),
       child: Scaffold(
@@ -147,6 +237,7 @@ class _YouthListState extends State<YouthList> {
               Navigator.of(context).pushNamed("UserForm"),
             },
           )),
+>>>>>>> AttendancePagesandStats
     );
   }
 

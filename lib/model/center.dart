@@ -1,10 +1,10 @@
-class Center{
+class CenterData {
   late int id;
   late String location;
 
-  Center({required this.id, required this.location});
+  CenterData({required this.id, required this.location});
 
-  Center.fromJson(Map<String, dynamic> json) {
+  CenterData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     location = json['location'];
   }
@@ -17,7 +17,7 @@ class Center{
   }
 
   @override
-  toString(){
-    return  this.location;
+  toString() {
+    return this.location;
   }
 }

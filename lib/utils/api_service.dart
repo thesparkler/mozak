@@ -54,18 +54,18 @@ class ApiService {
     }
   }
 
-  // In following code Center class is creating conflict with a class of same name in Flutter lib.
-  Future<List<center.Center>> getCenters() async {
+  Future<List<Youth>> getMarkedYouths(int eventID) async {
     Uri allWeeklyForumEventsUrl =
-        Uri.parse('${Constants.domain}${Constants.allCenters}');
+        Uri.parse('${Constants.domain}${Constants.youthByEventId}/$eventID');
+    print(allWeeklyForumEventsUrl.toString());
     http.Response response = await http.get(allWeeklyForumEventsUrl);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      List<center.Center> list = [];
+      List<Youth> list = [];
       var jsonObject = jsonDecode(response.body);
       for (var json in jsonObject) {
-        list.add(center.Center.fromJson(json));
+        list.add(Youth.fromJson(json));
       }
       return list;
     } else {
@@ -73,6 +73,53 @@ class ApiService {
       // then throw an exception.
       throw Exception('Failed to load album');
     }
+  }
+
+  // In following code Center class is creating conflict with a class of same name in Flutter lib.
+  Future<List<center.CenterData>> getCenters() async {
+    Uri allWeeklyForumEventsUrl =
+        Uri.parse('${Constants.domain}${Constants.allCenters}');
+    http.Response response = await http.get(allWeeklyForumEventsUrl);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      List<center.CenterData> list = [];
+      var jsonObject = jsonDecode(response.body);
+      for (var json in jsonObject) {
+        list.add(center.CenterData.fromJson(json));
+      }
+      return list;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Future<http.Response> setYouth(
+    Youth youth,
+  ) async {
+    Uri createWFEUrl =
+        Uri.parse('${Constants.domain}${Constants.registerYouth}');
+    http.Response response = await http.post(
+      createWFEUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "rollno": "HK1004",
+        "team": "HK10",
+        "youthFullName": "Urvesh Anand Patil",
+        "dob": "1990-01-25",
+        "mobile1": "9594310389",
+        "mobile2": "",
+        "emailid": "pramod77484@gmail.com",
+        "status": "regular",
+        "tlCode": "HK1001",
+        "pincode": "400086"
+      }),
+    );
+    return response;
   }
 
   Future<List<Youth>> getAllYouths() async {
@@ -110,7 +157,8 @@ class ApiService {
     return response;
   }
 
-  Future<http.Response> setWFEvent(center.Center center, String date) async {
+  Future<http.Response> setWFEvent(
+      center.CenterData center, String date) async {
     Uri createWFEUrl = Uri.parse(
         '${Constants.domain}${Constants.createWFEvent}?centerId=${center.id}');
     http.Response response = await http.post(
@@ -121,6 +169,21 @@ class ApiService {
       body: jsonEncode(<String, String>{
         'date': date.toString(),
       }),
+    );
+    return response;
+  }
+
+  Future<http.Response> markAttendance(int selectedYouthId, int eventID) async {
+    Uri createWFEUrl =
+        Uri.parse('${Constants.domain}${Constants.markAttendance}'
+            'youth_id=$selectedYouthId'
+            '&weekly_forum_event_id=$eventID');
+    http.Response response = await http.post(
+      createWFEUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{}),
     );
     return response;
   }

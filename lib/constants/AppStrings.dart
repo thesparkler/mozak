@@ -51,6 +51,7 @@ class AppStrings {
       "I would like to know\nyour date of birth?";
   static const String tapHereText = "Tap Here";
   static const String dobFieldText = "Date of Birth";
+  static const String eventDate = "Weekly Forum Date";
   static const String dobFieldHintText = "YYYY-MM-DD";
   static const String contactDetailsTitleText =
       "Now, We want your\ncontact details so that\nwe can stay in touch";
@@ -87,16 +88,14 @@ class AppStrings {
   static const String courseFieldText = "Standard / Course";
   static const String courseFieldHintText = "B.Sc, B.Com, B.A, B.Tech, etc";
   static const String justLastQuestionText = "Just last question";
-  static const String referenceNameTitleText =
-      "Reference and Team";
+  static const String referenceNameTitleText = "Reference and Team";
   static const String teamLeadFieldText = "Reference Name";
   static const String teamLeadFieldHintText = "Bhulkoo";
   static const String thankYouText = "Thank you!";
   static const String submittedResponse = "We have submitted\nyour response";
   static const String backToLogin = "Back to Form";
   static const String verifyDetails = "Verify your Details";
-  static const String contactMeByPhoneOrMail =
-      "My phone number and email id";
+  static const String contactMeByPhoneOrMail = "My phone number and email id";
   static const String myBloodType = "My blood type is";
   static const String tlNameBelonging = "My Team Leader is ";
   static const String teamBelonging = "My mandal is ";
