@@ -33,6 +33,8 @@ class _YouthRegistrationState extends State<YouthRegistration> {
   var youth = Youth(rollno: '', youthFullName: '');
   String youthCode = group.values.first;
   String dropdownValue = group.keys.first;
+  bool  isNew = false;
+
   var dropdownValue1 ;
   var currentList  = <Youth>[];
 
@@ -79,9 +81,12 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         ..backgroundColor = Colors.white10
         ..userInteractions = false;
       EasyLoading.show(status: "Please Wait.....!");
-      await ApiService().setYouth(youth);
+      var response = await ApiService().setYouth(youth);
+
+    
+      
+      response = await ApiService().setRollno(response.id,isNew);
       YouthData.instance.youthList=[];
-      //await YouthData.instance.getYouthList();
       Navigator.of(context).pop();
       EasyLoading.dismiss();
     }
@@ -218,9 +223,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           hintText: 'Enter your pincode',
                           border: OutlineInputBorder(),
                         ),
-                        // inputFormatters: <TextInputFormatter>[
-                        //   LengthLimitingTextInputFormatter(6),
-                        // ],
                         validator: (value) => 
                           (!RegExp(r'(^(?:[+0]9)?[0-9]{6}$)').hasMatch(value!) || value.length > 6)
                           ? 'Invalid pincode'
@@ -321,6 +323,31 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                         }).toList(),
                       ),
                     ),
+                    Container(
+                      height: constraint.maxHeight * 0.09,
+                      width: constraint.maxWidth *0.8,
+                      padding: EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        border: Border.all(
+                          color: hexToColor(AppColors.textFieldOutlineBorderColor),
+                          width: 1.0,
+                        )
+                      ),
+                      child: RadioListTile<bool>(
+                        toggleable: true,
+                        value: true,
+                        title: Text('Create Temporary Rollno'), 
+                        groupValue: isNew, 
+                        onChanged: (value)
+                        {
+                          setState(() {
+                            isNew = !isNew;
+                            print('.................$isNew');
+                          });
+                        }
+                      ),
+                      ),
                     ElevatedButton(onPressed:() => _trySubmit(context), child: Text('Submit'))
                   ],
                 );
