@@ -123,6 +123,72 @@ class _HomePageState extends State<HomePage>
         //     ),
         //   ),
         // ),
+        Align(
+          alignment: Alignment.topRight,
+          child: Stack(
+            children: [
+              Container(
+                height: 500,
+                width: 500,
+                //child: Image.asset("assets/images/Frame_6.png"),
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(colors: [
+                    hexToColor(AppColors.paleOrange).withOpacity(0.75),
+                    hexToColor(AppColors.appThemeColor).withOpacity(0),
+                  ], center: Alignment(0.9, -1), radius: 0.6, focalRadius: 3),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(top: 40.0, left: 150, right: 20),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: CarouselSlider(
+                      items: image,
+                      options: CarouselOptions(
+                        height: 50,
+                        aspectRatio: 1.5,
+                        viewportFraction: 1,
+                        initialPage: 0,
+                        enableInfiniteScroll: true,
+                        reverse: false,
+                        autoPlay: true,
+                        autoPlayInterval: Duration(seconds: 3),
+                        autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: true,
+                        enlargeFactor: 0.3,
+                        scrollDirection: Axis.horizontal,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // PageView.builder(
+              //     itemCount: 4,
+              //     physics: ScrollPhysics(),
+              //     itemBuilder: (context, int index) {
+              //       return Align(
+              //         alignment: Alignment.topRight,
+              //         child: Container(
+              //           width: mediaQuery.size.width - 200,
+              //           height: 138,
+              //           child: Padding(
+              //             padding: EdgeInsets.zero,
+              //             child: Align(
+              //               alignment: Alignment.center,
+              //               child: Image.asset(
+              //                 image[index],
+              //                 height: 48,
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       );
+              //     })
+            ],
+          ),
+        ),
         ScrollConfiguration(
           behavior: NoGlowBehaviour(),
           child: Scaffold(
@@ -204,7 +270,7 @@ class _HomePageState extends State<HomePage>
                               ),
                             ),
                             SizedBox(
-                              width: 400,
+                              width: 360,
                               child: Card(
                                 color: hexToColor(AppColors.paleOrange)
                                     .withOpacity(0.3),
@@ -438,12 +504,12 @@ class _HomePageState extends State<HomePage>
                             gradient: RadialGradient(
                                 colors: [
                                   hexToColor(AppColors.paleOrange)
-                                      .withOpacity(0.75),
+                                      .withOpacity(0.8),
                                   hexToColor(AppColors.appThemeColor)
                                       .withOpacity(0),
                                 ],
                                 center: Alignment(0.9, -1),
-                                radius: 0.6,
+                                radius: 0.54,
                                 focalRadius: 3),
                           ),
                           child: Padding(
@@ -461,13 +527,13 @@ class _HomePageState extends State<HomePage>
                                   enableInfiniteScroll: true,
                                   reverse: false,
                                   autoPlay: true,
-                                  autoPlayInterval: Duration(seconds: 3),
+                                  autoPlayInterval: Duration(seconds: 10),
                                   autoPlayAnimationDuration:
-                                      Duration(milliseconds: 800),
-                                  autoPlayCurve: Curves.fastOutSlowIn,
+                                      Duration(seconds: 2),
+                                  autoPlayCurve: Curves.easeIn,
                                   enlargeCenterPage: true,
                                   enlargeFactor: 0.3,
-                                  scrollDirection: Axis.horizontal,
+                                  scrollDirection: Axis.vertical,
                                 ),
                               ),
                             ),
