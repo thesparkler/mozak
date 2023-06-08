@@ -89,6 +89,11 @@ class _YouthListState extends State<YouthList> {
                                 child: value == youthCode
                                     ? Text(
                                         value,
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20
+                                  ),
                                       )
                                     : Text(
                                         value,
