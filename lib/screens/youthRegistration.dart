@@ -84,8 +84,9 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       var response = await ApiService().setYouth(youth);
 
     
+      
+      response = await ApiService().setRollno(response.id,isNew);
       YouthData.instance.youthList=[];
-      //await YouthData.instance.getYouthList();
       Navigator.of(context).pop();
       EasyLoading.dismiss();
     }
