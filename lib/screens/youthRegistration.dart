@@ -30,7 +30,8 @@ class YouthRegistration extends StatefulWidget {
 
 class _YouthRegistrationState extends State<YouthRegistration> {
 
-  var youth = Youth(rollno: '', youthFullName: '');
+  //var youth = Youth(rollno: '', youthFullName: '');
+  late Youth youth;
   String youthCode = group.values.first;
   String dropdownValue = group.keys.first;
   bool  isNew = false;
@@ -47,7 +48,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
 
   @override
   void initState() {
-    currentList = YouthData.instance.youthList.where((element) => element.rollno.substring(0,2) == '${group[dropdownValue]}' && element.rollno.substring(4,6) == '01').toList();
+    currentList = YouthData.instance.youthList.where((element) => element.rollno?.substring(0,2) == '${group[dropdownValue]}' && element.rollno?.substring(4,6) == '01').toList();
     dropdownValue1=currentList[0];
     super.initState();
   }
@@ -276,7 +277,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                         onChanged: (String? value) {
                           setState(() {
                             dropdownValue = value!;
-                            currentList = YouthData.instance.youthList.where((element) => element.rollno.substring(0,2) == '${group[dropdownValue]}' && element.rollno.substring(4,6) == '01').toList();
+                            currentList = YouthData.instance.youthList.where((element) => element.rollno?.substring(0,2) == '${group[dropdownValue]}' && element.rollno?.substring(4,6) == '01').toList();
                             dropdownValue1=currentList[0];
                             print('$dropdownValue');
                           });
@@ -312,13 +313,13 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                             print('${dropdownValue1.rollno.toString()}');
                             youth.tlCode = dropdownValue1.rollno.toString();
                             youth.team = dropdownValue1.rollno.substring(0,4);
-                            youth.rollno= youth.team.toString()+"0A";
+                            // youth.rollno= youth.team.toString()+"0A";
                           });
                         },
                         items: currentList.map<DropdownMenuItem<Youth>>((Youth value) {
                           return DropdownMenuItem<Youth>(
                             value: value,
-                            child: Text(value.rollno+" "+value.youthFullName,softWrap: true,overflow: TextOverflow.fade,),
+                            child: Text(value.rollno!+" "+value.youthFullName,softWrap: true,overflow: TextOverflow.fade,),
                           );
                         }).toList(),
                       ),

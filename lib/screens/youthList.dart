@@ -109,15 +109,24 @@ class _YouthListState extends State<YouthList> {
                           builder: (BuildContext context,
                               AsyncSnapshot<List<Youth>> snapshot) {
                             if (snapshot.hasError) {
+                              print(snapshot.error);
                               return Center(
                                 child: Text(
-                                  '${snapshot.error} occurred',
+                                  'Some error occurred. Please contact SITH',
                                   style: TextStyle(fontSize: 18),
                                 ),
                               );
                             } else if (snapshot.hasData) {
                               youthList = snapshot.data!;
-                              youthList.sort((a,b)=>a.rollno.compareTo(b.rollno));
+                              youthList.sort((a,b){
+                               if(a.rollno != null && b.rollno !=null){
+                                 String aRoll = a.rollno??"";
+                                 String bRoll = b.rollno??"";
+                                 return aRoll.compareTo(bRoll);
+                               } else{
+                                  return 1; //
+                               }
+                              });
                               return ListView(
                                   shrinkWrap: true,
                                   physics: ScrollPhysics(),

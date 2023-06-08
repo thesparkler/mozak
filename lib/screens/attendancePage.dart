@@ -165,13 +165,13 @@ class _AttendancePageState extends State<AttendancePage> {
                 optionsBuilder: (TextEditingValue textEditingValue) {
                   return YouthData.instance.youthList
                       .where((Youth youth) =>
-                          "${youth.rollno + " " + youth.youthFullName}"
+                          "${youth.rollno??"" + " " + youth.youthFullName}"
                               .toLowerCase()
                               .contains(textEditingValue.text.toLowerCase()))
                       .toList();
                 },
                 displayStringForOption: (Youth option) =>
-                    option.rollno + " " + option.youthFullName,
+                    option.rollno??"" + " " + option.youthFullName,
                 optionsViewBuilder: (BuildContext context,
                     AutocompleteOnSelected<Youth> onSelected,
                     Iterable<Youth> options) {
@@ -212,7 +212,7 @@ class _AttendancePageState extends State<AttendancePage> {
                               child: ListTile(
                                 contentPadding: EdgeInsets.zero,
                                 title: Text(
-                                  option.rollno + " " + option.youthFullName,
+                                  option.rollno??"" + " " + option.youthFullName,
                                   style: kGoogleStyleTexts.copyWith(
                                     fontSize: 20,
                                     color: hexToColor(AppColors.whiteTextColor),
@@ -227,7 +227,7 @@ class _AttendancePageState extends State<AttendancePage> {
                   );
                 },
                 onSelected: (Youth youth) {
-                  selectedID = youth.id!;
+                  selectedID = youth.id;
                   selectedYouth = youth;
                 },
               ),
@@ -319,7 +319,7 @@ class _AttendancePageState extends State<AttendancePage> {
                                       child: ListTile(
                                         contentPadding: EdgeInsets.zero,
                                         title: Text(
-                                          option.rollno +
+                                          option.rollno??"" +
                                               " " +
                                               option.youthFullName,
                                           style: kGoogleStyleTexts.copyWith(
