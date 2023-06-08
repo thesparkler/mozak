@@ -51,38 +51,37 @@ class _HomePageState extends State<HomePage>
     List<AttendanceTable> attendanceTableList;
     var image = [
       Align(
-        alignment: Alignment.topRight,
+        alignment: Alignment.centerRight,
         child: Image.asset(
           AppAssets.seva,
-          height: 50,
+          height: 40,
         ),
       ),
       Align(
-        alignment: Alignment.topRight,
+        alignment: Alignment.centerRight,
         child: Image.asset(
           AppAssets.smruti,
-          height: 50,
+          height: 45,
         ),
       ),
       Align(
-        alignment: Alignment.topRight,
+        alignment: Alignment.centerRight,
         child: Image.asset(
           AppAssets.suhradbhav,
-          height: 50,
+          height: 60,
         ),
       ),
       Align(
-        alignment: Alignment.topRight,
+        alignment: Alignment.centerRight,
         child: Image.asset(
           AppAssets.swadharma,
-          height: 50,
+          height: 40,
         ),
       ),
     ];
 
     return Stack(
       children: [
-
         Align(
           alignment: Alignment.topRight,
           child: Stack(
@@ -108,7 +107,7 @@ class _HomePageState extends State<HomePage>
                         height: 50,
                         aspectRatio: 1.5,
                         viewportFraction: 1,
-                        initialPage: 0,
+                        initialPage: 2,
                         enableInfiniteScroll: true,
                         reverse: false,
                         autoPlay: true,
@@ -123,8 +122,6 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
               ),
-
-
             ],
           ),
         ),
@@ -478,7 +475,6 @@ class _HomePageState extends State<HomePage>
                             ),
                           ),
                         ),
-
                       ],
                     ),
                   ), //BackgroundAnimation

@@ -14,9 +14,8 @@ class Youth {
   String? pincode;
 
   Youth(
-    {
-      this.id = 0,
-      this.rollno,
+      {this.id = 0,
+      this.rollno = "",
       this.team,
       required this.youthFullName,
       this.dob,
@@ -28,10 +27,9 @@ class Youth {
       this.pincode});
 
   Youth.fromJson(Map<String, dynamic> json)
-  :id=json['id'],rollno=json['rollno'],
-  youthFullName=json['youthFullName']
-
-  {
+      : id = json['id'],
+        rollno = json['rollno'],
+        youthFullName = json['youthFullName'] {
     id = json['id'];
     rollno = json['rollno'];
     team = json['team'];
@@ -62,7 +60,7 @@ class Youth {
   }
 
   @override
-  String toString(){
+  String toString() {
     return this.youthFullName;
   }
 }
