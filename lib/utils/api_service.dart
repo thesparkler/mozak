@@ -96,9 +96,7 @@ class ApiService {
     }
   }
 
-  Future<Youth> setYouth(
-    Youth youth,
-  ) async {
+  Future<Youth> setYouth(Youth youth,) async {
     Uri createWFEUrl =
         Uri.parse('${Constants.domain}${Constants.registerYouth}');
     http.Response response = await http.post(
@@ -106,18 +104,19 @@ class ApiService {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        "rollno":youth.rollno,
-        "team": youth.team.toString(),
-        "youthFullName": youth.youthFullName,
-        "dob": youth.dob.toString(),
-        "mobile1": youth.mobile1.toString(),
-        "mobile2": "",
-        "emailid": youth.emailid.toString(),
-        "status": "new",
-        "tlCode": youth.tlCode.toString(),
-        "pincode": youth.pincode.toString()
-      }),
+      body: youth.toJson()
+      // body: jsonEncode(<String, String>{
+      //   "rollno":youth.rollno,
+      //   "team": youth.team.toString(),
+      //   "youthFullName": youth.youthFullName,
+      //   "dob": youth.dob.toString(),
+      //   "mobile1": youth.mobile1.toString(),
+      //   "mobile2": "",
+      //   "emailid": youth.emailid.toString(),
+      //   "status": "new",
+      //   "tlCode": youth.tlCode.toString(),
+      //   "pincode": youth.pincode.toString()
+      // }),
     );
     //return response;
 

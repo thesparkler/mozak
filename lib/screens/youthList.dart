@@ -250,7 +250,7 @@ class _YouthListState extends State<YouthList> {
             color: hexToColor(AppColors.appThemeColor),
            elevation: 3,
             child: Text(
-              e.rollno + " " + e.youthFullName.toString(),
+              e.rollno??"" + " " + e.youthFullName.toString(),
               softWrap: true,
               overflow: TextOverflow.ellipsis,
               style: kGoogleStyleTexts.copyWith(

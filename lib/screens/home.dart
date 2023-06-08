@@ -44,33 +44,6 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    // final appBar = AppBar(
-    //   title: Padding(
-    //     padding: const EdgeInsets.only(left: 8.0),
-    //     child: Text(
-    //       'Dashboard',
-    //       style: kGoogleStyleTexts.copyWith(
-    //         fontWeight: FontWeight.w500,
-    //         fontSize: 25,
-    //         fontFamily: "inter",
-    //         color: hexToColor(AppColors.whiteTextColor),
-    //       ),
-    //       textAlign: TextAlign.left,
-    //     ),
-    //   ),
-    //   // iconTheme: IconThemeData(
-    //   //   color: hexToColor(AppColors.whiteTextColor),
-    //   // ),
-    //   automaticallyImplyLeading: false,
-    //   elevation: 0,
-    //   backgroundColor: hexToColor(AppColors.appThemeColor),
-    // );
-
-    // final bodyHeight = mediaQuery.size.height -
-    //     appBar.preferredSize.height -
-    //     mediaQuery.padding.top -
-    //     mediaQuery.padding.bottom;
-
     final bodyWidth = mediaQuery.size.width -
         mediaQuery.padding.left -
         mediaQuery.padding.right;
@@ -109,20 +82,7 @@ class _HomePageState extends State<HomePage>
 
     return Stack(
       children: [
-        // Scaffold(
-        //   backgroundColor: hexToColor(AppColors.appThemeColor),
-        //   body: BackdropFilter(
-        //     filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-        //     child: Container(
-        //       decoration: BoxDecoration(
-        //         shape: BoxShape.circle,
-        //         color: hexToColor(AppColors.paleOrange),
-        //       ),
-        //       height: 60,
-        //       width: 60,
-        //     ),
-        //   ),
-        // ),
+
         Align(
           alignment: Alignment.topRight,
           child: Stack(
@@ -164,28 +124,7 @@ class _HomePageState extends State<HomePage>
                 ),
               ),
 
-              // PageView.builder(
-              //     itemCount: 4,
-              //     physics: ScrollPhysics(),
-              //     itemBuilder: (context, int index) {
-              //       return Align(
-              //         alignment: Alignment.topRight,
-              //         child: Container(
-              //           width: mediaQuery.size.width - 200,
-              //           height: 138,
-              //           child: Padding(
-              //             padding: EdgeInsets.zero,
-              //             child: Align(
-              //               alignment: Alignment.center,
-              //               child: Image.asset(
-              //                 image[index],
-              //                 height: 48,
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //       );
-              //     })
+
             ],
           ),
         ),
@@ -222,7 +161,7 @@ class _HomePageState extends State<HomePage>
                         child: CarouselSlider(
                           items: [
                             SizedBox(
-                              width: 400,
+                              width: 360,
                               child: Card(
                                 color: hexToColor(AppColors.paleOrange)
                                     .withOpacity(0.3),
@@ -540,28 +479,6 @@ class _HomePageState extends State<HomePage>
                           ),
                         ),
 
-                        // PageView.builder(
-                        //     itemCount: 4,
-                        //     physics: ScrollPhysics(),
-                        //     itemBuilder: (context, int index) {
-                        //       return Align(
-                        //         alignment: Alignment.topRight,
-                        //         child: Container(
-                        //           width: mediaQuery.size.width - 200,
-                        //           height: 138,
-                        //           child: Padding(
-                        //             padding: EdgeInsets.zero,
-                        //             child: Align(
-                        //               alignment: Alignment.center,
-                        //               child: Image.asset(
-                        //                 image[index],
-                        //                 height: 48,
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       );
-                        //     })
                       ],
                     ),
                   ), //BackgroundAnimation

@@ -16,7 +16,7 @@ class Youth {
   Youth(
     {
       this.id = 0,
-      required this.rollno,
+      this.rollno,
       this.team,
       required this.youthFullName,
       this.dob,
