@@ -117,105 +117,102 @@ class _HomePageState extends State<HomePage>
                       alignment: Alignment.center,
                       height: constraints.maxHeight * 0.3,
                       width: bodyWidth,
-                      child: SizedBox(
-                        //380
-                        child: CarouselSlider(
-                          items: [
-                            SizedBox(
-                              width: constraints.maxWidth * 0.8,
-                              child: Card(
-                                color: hexToColor(AppColors.paleOrange)
-                                    .withOpacity(0.3),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(20),
-                                  ),
-                                ),
-                                child: Image.asset(
-                                  AppAssets.seva,
-                                  height: 50,
+                      child: CarouselSlider(
+                        items: [
+                          SizedBox(
+                            width: constraints.maxWidth * 0.8,
+                            child: Card(
+                              color: hexToColor(AppColors.paleOrange)
+                                  .withOpacity(0.3),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              width: constraints.maxWidth * 0.8,
-                              child: Card(
-                                color: hexToColor(AppColors.paleOrange)
-                                    .withOpacity(0.3),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(20),
-                                  ),
-                                ),
-                                child: Image.asset(
-                                  AppAssets.basEktuRajiTha,
-                                  height: 50,
-                                ),
+                              child: Image.asset(
+                                AppAssets.seva,
+                                height: 50,
                               ),
                             ),
-                            SizedBox(
-                              width: constraints.maxWidth * 0.8,
-                              child: Card(
-                                color: hexToColor(AppColors.paleOrange)
-                                    .withOpacity(0.3),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(20),
-                                  ),
-                                ),
-                                child: Image.asset(
-                                  AppAssets.suhradbhav,
-                                  height: 50,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: constraints.maxWidth * 0.8,
-                              child: Card(
-                                color: hexToColor(AppColors.paleOrange)
-                                    .withOpacity(0.3),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(20),
-                                  ),
-                                ),
-                                child: Image.asset(
-                                  AppAssets.swadharma,
-                                  height: 50,
-                                ),
-                              ),
-                            ),
-                          ],
-                          options: CarouselOptions(
-                            height: constraints.maxHeight * 0.2,
-                            aspectRatio: 16 / 9,
-                            viewportFraction: 0.8,
-                            initialPage: 1,
-                            enableInfiniteScroll: false,
-                            reverse: false,
-                            autoPlay: false,
-                            autoPlayInterval: Duration(seconds: 3),
-                            autoPlayAnimationDuration:
-                                Duration(milliseconds: 800),
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            enlargeCenterPage: true,
-                            enlargeFactor: 0.3,
-                            scrollDirection: Axis.horizontal,
                           ),
+                          SizedBox(
+                            width: constraints.maxWidth * 0.8,
+                            child: Card(
+                              color: hexToColor(AppColors.paleOrange)
+                                  .withOpacity(0.3),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20),
+                                ),
+                              ),
+                              child: Image.asset(
+                                AppAssets.basEktuRajiTha,
+                                height: 50,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: constraints.maxWidth * 0.8,
+                            child: Card(
+                              color: hexToColor(AppColors.paleOrange)
+                                  .withOpacity(0.3),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20),
+                                ),
+                              ),
+                              child: Image.asset(
+                                AppAssets.suhradbhav,
+                                height: 50,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: constraints.maxWidth * 0.8,
+                            child: Card(
+                              color: hexToColor(AppColors.paleOrange)
+                                  .withOpacity(0.3),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20),
+                                ),
+                              ),
+                              child: Image.asset(
+                                AppAssets.swadharma,
+                                height: 50,
+                              ),
+                            ),
+                          ),
+                        ],
+                        options: CarouselOptions(
+                          height: constraints.maxHeight * 0.2,
+                          aspectRatio: 16 / 9,
+                          viewportFraction: 0.8,
+                          initialPage: 1,
+                          enableInfiniteScroll: false,
+                          reverse: false,
+                          autoPlay: false,
+                          autoPlayInterval: Duration(seconds: 3),
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          enlargeFactor: 0.3,
+                          scrollDirection: Axis.horizontal,
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 25),
+                      padding: const EdgeInsets.only(bottom: 46 / 720 * 800),
                       child: Container(
                         alignment: Alignment.bottomCenter,
                         height: bodyHeight * 254 / 720,
-                        width: bodyWidth,
+                        width: bodyWidth * 282 / 320,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 InkWell(
                                   onTap: () async {
@@ -244,8 +241,7 @@ class _HomePageState extends State<HomePage>
                                                 MainAxisAlignment.end,
                                             children: [
                                               SizedBox(
-                                                width: 70,
-                                                height: 70,
+                                                width: 40,
                                                 child: Container(
                                                   child: Image.asset(
                                                     AppAssets
@@ -298,8 +294,7 @@ class _HomePageState extends State<HomePage>
                                                 MainAxisAlignment.end,
                                             children: [
                                               SizedBox(
-                                                width: 70,
-                                                height: 70,
+                                                width: 40,
                                                 child: Container(
                                                   child: Image.asset(
                                                     AppAssets
@@ -359,7 +354,7 @@ class _HomePageState extends State<HomePage>
                                                 child: Image.asset(
                                                   AppAssets
                                                       .weeklyForumEventLogoDashboard,
-                                                  height: 70,
+                                                  height: 40,
                                                 ),
                                               ),
                                             ),
@@ -414,7 +409,7 @@ class _HomePageState extends State<HomePage>
                 ),
                 child: Padding(
                   padding:
-                      const EdgeInsets.only(top: 40.0, left: 150, right: 20),
+                      const EdgeInsets.only(top: 50.0, left: 150, right: 20),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: CarouselSlider(
@@ -427,7 +422,7 @@ class _HomePageState extends State<HomePage>
                         enableInfiniteScroll: true,
                         reverse: false,
                         autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 10),
+                        autoPlayInterval: Duration(seconds: 2),
                         autoPlayAnimationDuration: Duration(seconds: 2),
                         autoPlayCurve: Curves.easeIn,
                         enlargeCenterPage: true,
@@ -440,7 +435,7 @@ class _HomePageState extends State<HomePage>
               ),
             ],
           ),
-        ),
+        ), //SevaSmrutiSuhradbhavSwadharma
       ],
     );
   }
