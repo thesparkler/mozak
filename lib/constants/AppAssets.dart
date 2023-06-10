@@ -7,6 +7,7 @@ class AppAssets {
   static const smruti = "assets/images/smruti.png";
   static const suhradbhav = "assets/images/suhradbhav.png";
   static const swadharma = "assets/images/swadharma.png";
+  static const basEktuRajiTha = "assets/images/basEkTuRajiTha.png";
   static const centersLogoDashboard = "assets/images/centersLogoDashboard.png";
   static const weeklyForumEventLogoDashboard =
       "assets/images/weeklyForumEventLogoDashboard.png";

@@ -10,16 +10,16 @@ import '../utils/app_tools.dart';
 import 'package:email_validator/email_validator.dart';
 
 final Map<String, String> group = {
-    "Aksharbramh":"AB",
-    "Bramhadarshan": "BR",
-    "Charanraj": "CR",
-    "Dasatva": "DS",
-    "Gurukrupa": "GK",
-    "Harikrupa": "HK",
-    "Santkrupa": "SK",
-    "Sarvamangal": "SM",
-    "Samanvay": "SY",
-  };
+  "Aksharbramh": "AB",
+  "Bramhadarshan": "BR",
+  "Charanraj": "CR",
+  "Dasatva": "DS",
+  "Gurukrupa": "GK",
+  "Harikrupa": "HK",
+  "Santkrupa": "SK",
+  "Sarvamangal": "SM",
+  "Samanvay": "SY",
+};
 
 class YouthRegistration extends StatefulWidget {
   const YouthRegistration({Key? key}) : super(key: key);
@@ -34,13 +34,13 @@ class _YouthRegistrationState extends State<YouthRegistration> {
   late Youth youth;
   String youthCode = group.values.first;
   String dropdownValue = group.keys.first;
-  bool  isNew = false;
+  bool isNew = false;
 
-  var dropdownValue1 ;
-  var currentList  = <Youth>[];
+  var dropdownValue1;
+  var currentList = <Youth>[];
 
   DateTime? pickedDate;
-  var datecontroller=TextEditingController(text: "");
+  var datecontroller = TextEditingController(text: "");
   var date;
   var selected;
 
@@ -53,26 +53,25 @@ class _YouthRegistrationState extends State<YouthRegistration> {
     super.initState();
   }
 
-  void pickDate(BuildContext context) async{
+  void pickDate(BuildContext context) async {
     selected = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(), //get today's date
-                  firstDate:DateTime(1934), //DateTime.now() - not to allow to choose before today.
-                  lastDate: DateTime.now(),
-                );
+      context: context,
+      initialDate: DateTime.now(), //get today's date
+      firstDate: DateTime(
+          1934), //DateTime.now() - not to allow to choose before today.
+      lastDate: DateTime.now(),
+    );
 
-     if (selected != null) {
+    if (selected != null) {
       var formatter = DateFormat('yyyy-MM-dd');
 
       setState(() {
         date = datecontroller.text = formatter.format(selected);
       });
     }
-
   }
-  
 
-  void _trySubmit(BuildContext context) async{
+  void _trySubmit(BuildContext context) async {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
 
@@ -83,18 +82,14 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         ..userInteractions = false;
       EasyLoading.show(status: "Please Wait.....!");
       var response = await ApiService().setYouth(youth);
-
-    
-      
-      response = await ApiService().setRollno(response.id,isNew);
-      YouthData.instance.youthList=[];
+      response = await ApiService().setRollno(response.id, isNew);
+      print("added youth: " + response.rollno + response.youthFullName);
+      YouthData.instance.youthList = [];
       Navigator.of(context).pop();
       EasyLoading.dismiss();
     }
   }
 
-
-  
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -134,140 +129,174 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           width: bodyWidth,
           padding: EdgeInsets.all(8.0),
           child: Form(
-            key: _formKey,
-            child: LayoutBuilder(
-              builder: (context,constraint)
-              {
-                return Column(
-                  children: [
-                    Container(
-                      height: constraint.maxHeight * 0.1,
-                      width: constraint.maxWidth *0.8,
-                      padding: EdgeInsets.all(5.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Name',
-                          hintText: 'Enter Full Name',
-                          border: OutlineInputBorder()
+              key: _formKey,
+              child: LayoutBuilder(
+                builder: (context, constraint) {
+                  return Column(
+                    children: [
+                      Container(
+                        height: constraint.maxHeight * 0.1,
+                        width: constraint.maxWidth * 0.8,
+                        padding: EdgeInsets.all(5.0),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                              labelText: 'Name',
+                              hintText: 'Enter Full Name',
+                              border: OutlineInputBorder()),
+                          keyboardType: TextInputType.text,
+                          validator: (value) => value!.isEmpty
+                              ? 'Please enter your name'
+                              : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
+                                      .hasMatch(value))
+                                  ? 'Invalid name'
+                                  : null,
+                          onSaved: (value) {
+                            print('$value');
+                            youth.youthFullName = value.toString();
+                          },
                         ),
-                        keyboardType: TextInputType.text,
-                        validator: (value) => value!.isEmpty
-                          ? 'Please enter your name'
-                          : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
-                                  .hasMatch(value))
-                              ? 'Invalid name'
-                              : null,
-                        onSaved: (value)
-                        {
-                          print('$value');
-                          youth.youthFullName = value.toString();
-                        },
                       ),
-                    ),
-                    Container(
-                      height: constraint.maxHeight * 0.1,
-                      width: constraint.maxWidth *0.8,
-                      padding: EdgeInsets.all(5.0),
-                      child: TextFormField(
-                        key: ValueKey('Mobile Number'),
-                        decoration: InputDecoration(
-                          labelText: 'Phone.No',
-                          hintText: 'Enter your mobile number',
-                          prefixText: '+91',
-                          border: OutlineInputBorder(),
+                      Container(
+                          height: constraint.maxHeight * 0.1,
+                          width: constraint.maxWidth * 0.8,
+                          padding: EdgeInsets.all(5.0),
+                          child: TextFormField(
+                            key: ValueKey('Mobile Number'),
+                            decoration: InputDecoration(
+                              labelText: 'Phone.No',
+                              hintText: 'Enter your mobile number',
+                              prefixText: '+91',
+                              border: OutlineInputBorder(),
+                            ),
+                            //         inputFormatters: <TextInputFormatter>[
+                            //   LengthLimitingTextInputFormatter(10),
+                            // ],
+                            validator: (value) =>
+                                (!RegExp(r'(^(?:[+0]9)?[0-9]{10}$)')
+                                            .hasMatch(value!) ||
+                                        value.length == 0)
+                                    ? 'Invalid phone number'
+                                    : null,
+                            keyboardType: TextInputType.phone,
+                            onSaved: (value) {
+                              print('$value');
+                              youth.mobile1 = value.toString();
+                            },
+                          )),
+                      Container(
+                          height: constraint.maxHeight * 0.1,
+                          width: constraint.maxWidth * 0.8,
+                          padding: EdgeInsets.all(5.0),
+                          child: TextFormField(
+                            key: ValueKey('Email-Id'),
+                            decoration: InputDecoration(
+                              labelText: 'Email Id',
+                              hintText: 'Enter your email address',
+                              border: OutlineInputBorder(),
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) =>
+                                !EmailValidator.validate(value!, true)
+                                    ? 'Invalid email id'
+                                    : null,
+                            onSaved: (value) {
+                              print('$value');
+                              youth.emailid = value.toString();
+                            },
+                          )),
+                      Container(
+                          height: constraint.maxHeight * 0.1,
+                          width: constraint.maxWidth * 0.8,
+                          padding: EdgeInsets.all(5.0),
+                          child: TextFormField(
+                            key: ValueKey('Pincode'),
+                            decoration: InputDecoration(
+                              labelText: 'Pincode',
+                              hintText: 'Enter your pincode',
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (value) =>
+                                (!RegExp(r'(^(?:[+0]9)?[0-9]{6}$)')
+                                            .hasMatch(value!) ||
+                                        value.length > 6)
+                                    ? 'Invalid pincode'
+                                    : null,
+                            keyboardType: TextInputType.phone,
+                            onSaved: (value) {
+                              print('$value');
+                              youth.pincode = value.toString();
+                            },
+                          )),
+                      Container(
+                        height: constraint.maxHeight * 0.1,
+                        width: constraint.maxWidth * 0.8,
+                        padding: EdgeInsets.all(5.0),
+                        child: TextFormField(
+                          controller: datecontroller,
+                          style: TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.calendar_month),
+                            labelText: 'DOB',
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: (value) =>
+                              value != null ? null : 'Please select DOB',
+                          readOnly: true,
+                          onTap: () => pickDate(context),
+                          onSaved: (value) {
+                            print('$value');
+                            youth.dob = value.toString();
+                          },
                         ),
-                //         inputFormatters: <TextInputFormatter>[
-                //   LengthLimitingTextInputFormatter(10),
-                // ],
-                        validator: (value) => 
-                          (!RegExp(r'(^(?:[+0]9)?[0-9]{10}$)').hasMatch(value!) || value.length == 0)
-                          ? 'Invalid phone number'
-                          : null,
-                        keyboardType: TextInputType.phone,
-                        onSaved: (value)
-                        {
-                          print('$value');
-                          youth.mobile1 = value.toString();
-                        },
-                      )
-                    ),
-                    Container(
-                      height: constraint.maxHeight * 0.1,
-                      width: constraint.maxWidth *0.8,
-                      padding: EdgeInsets.all(5.0),
-                      child: TextFormField(
-                        key: ValueKey('Email-Id'),
-                        decoration: InputDecoration(
-                          labelText: 'Email Id',
-                          hintText: 'Enter your email address',
-                          border: OutlineInputBorder(),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) => !EmailValidator.validate(value!, true)
-                            ? 'Invalid email id'
-                            : null,
-                        onSaved: (value)
-                        {
-                          print('$value');
-                          youth.emailid = value.toString();
-                        },
-                      )
-                    ),
-                    Container(
-                      height: constraint.maxHeight * 0.1,
-                      width: constraint.maxWidth *0.8,
-                      padding: EdgeInsets.all(5.0),
-                      child: TextFormField(
-                        key: ValueKey('Pincode'),
-                        decoration: InputDecoration(
-                          labelText: 'Pincode',
-                          hintText: 'Enter your pincode',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) => 
-                          (!RegExp(r'(^(?:[+0]9)?[0-9]{6}$)').hasMatch(value!) || value.length > 6)
-                          ? 'Invalid pincode'
-                          : null,
-                        keyboardType: TextInputType.phone,
-                        onSaved: (value)
-                        {
-                          print('$value');
-                          youth.pincode = value.toString();
-                        },
-                      )
-                    ),
-                    Container(
-                      height: constraint.maxHeight * 0.1,
-                      width: constraint.maxWidth *0.8,
-                      padding: EdgeInsets.all(5.0),
-                      child: TextFormField(
-                        controller: datecontroller,
-                        style: TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.calendar_month),
-                          labelText: 'DOB',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value)=> value != null ? null : 'Please select DOB',
-                        readOnly: true,
-                        onTap: ()=>pickDate(context),
-                        onSaved: (value)
-                        {
-                          print('$value');
-                          youth.dob = value.toString();
-                        },
                       ),
-                      
-                    ),
-                    Container(
-                      height: constraint.maxHeight * 0.09,
-                      width: constraint.maxWidth *0.8,
-                      padding: EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-                        border: Border.all(
-                          color: hexToColor(AppColors.textFieldOutlineBorderColor),
-                          width: 1.0,
+                      Container(
+                          height: constraint.maxHeight * 0.09,
+                          width: constraint.maxWidth * 0.8,
+                          padding: EdgeInsets.all(5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                            border: Border.all(
+                              color: hexToColor(
+                                  AppColors.textFieldOutlineBorderColor),
+                              width: 1.0,
+                            ),
+                          ),
+                          child: DropdownButton<String>(
+                            underline: SizedBox(),
+                            value: dropdownValue,
+                            icon: SizedBox.shrink(),
+                            onChanged: (String? value) {
+                              setState(() {
+                                dropdownValue = value!;
+                                currentList = YouthData.instance.youthList
+                                    .where((element) =>
+                                        element.rollno.substring(0, 2) ==
+                                            '${group[dropdownValue]}' &&
+                                        element.rollno.substring(4, 6) == '01')
+                                    .toList();
+                                dropdownValue1 = currentList[0];
+                                print('$dropdownValue');
+                              });
+                            },
+                            items: group.keys
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          )),
+                      Container(
+                        height: constraint.maxHeight * 0.09,
+                        width: constraint.maxWidth * 0.8,
+                        padding: EdgeInsets.all(5.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.0),
+                          border: Border.all(
+                            color: hexToColor(
+                                AppColors.textFieldOutlineBorderColor),
+                            width: 1.0,
+                          ),
                         ),
                       ),
                       child:DropdownButton<String>(
@@ -349,14 +378,15 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                         }
                       ),
                       ),
-                    ElevatedButton(onPressed:() => _trySubmit(context), child: Text('Submit'))
-                  ],
-                );
-              },)
-          ),
+                      ElevatedButton(
+                          onPressed: () => _trySubmit(context),
+                          child: Text('Submit'))
+                    ],
+                  );
+                },
+              )),
         ),
       ),
     );
   }
 }
- 

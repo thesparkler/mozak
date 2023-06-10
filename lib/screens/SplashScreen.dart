@@ -56,34 +56,31 @@ class _SplashScreenState extends State<SplashScreen>
           //     ),
           //   ),
           // ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 80.0),
-            child: Align(
-              alignment: Alignment.center,
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  text: AppStrings.splashScreenTextOne,
-                  style: TextStyle(
+          Align(
+            alignment: Alignment.center,
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                text: AppStrings.splashScreenTextOne,
+                style: TextStyle(
+                    color: hexToColor(AppColors.whiteTextColor),
+                    fontSize: 26.0,
+                    fontFamily: 'FocusGrotesk',
+                    fontWeight: FontWeight.w800,
+                    height: 1.7,
+                    letterSpacing: 1.4),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: AppStrings.splashScreenTextTwo,
+                    style: TextStyle(
+                      fontSize: 21,
                       color: hexToColor(AppColors.whiteTextColor),
-                      fontSize: 26.0,
                       fontFamily: 'FocusGrotesk',
-                      fontWeight: FontWeight.w800,
-                      height: 1.7,
-                      letterSpacing: 1.4),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: AppStrings.splashScreenTextTwo,
-                      style: TextStyle(
-                        fontSize: 21,
-                        color: hexToColor(AppColors.whiteTextColor),
-                        fontFamily: 'FocusGrotesk',
-                        fontWeight: FontWeight.w300,
-                        letterSpacing: 1.3,
-                      ),
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: 1.3,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

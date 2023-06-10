@@ -64,7 +64,7 @@ class Youth {
   }
 
   @override
-  String toString(){
+  String toString() {
     return this.youthFullName;
   }
 }
