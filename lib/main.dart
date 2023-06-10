@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
     ]);
-    
+
     return MaterialApp(
       theme: ThemeData(disabledColor: hexToColor(AppColors.grey)),
       debugShowCheckedModeBanner: false,
@@ -50,10 +50,10 @@ class MyApp extends StatelessWidget {
         //'Weekly Forum Events': (context) => WeeklyForumEventsPage(),
         'Centers': (context) => CenterPage(), //2
         'Groups': (context) => TeamsPage(), //3
-        'Attendance': (context) => WeeklyForumEventsPage(), //4
+        'Weekly Forum Event': (context) => WeeklyForumEventsPage(), //4
         'Teams': (context) => TeamsPage(),
         'UserForm': (context) => UserForm(),
-        'new youth':(context) => YouthRegistration()
+        'new youth': (context) => YouthRegistration()
         //'AttendancePage': (context) => AttendancePage(),
       },
       builder: EasyLoading.init(),
