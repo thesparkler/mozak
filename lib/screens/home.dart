@@ -397,7 +397,9 @@ class _HomePageState extends State<HomePage>
                                                 child: Container(
                                                   padding: EdgeInsets.symmetric(
                                                       horizontal:
-                                                          7 / 324 * bodyWidth),
+                                                          7 / 324 * bodyWidth,
+                                                      vertical:
+                                                          3 / 324 * bodyWidth),
                                                   height: bodyHeight * 21 / 720,
                                                   child: Row(
                                                     mainAxisAlignment:
