@@ -17,8 +17,25 @@ import 'package:mozak/utils/app_tools.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  EasyLoading.init();
+
   runApp(const MyApp());
+  configLoading();
+}
+
+void configLoading() {
+  EasyLoading.instance
+    //..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.white70
+    ..backgroundColor = Colors.grey.shade100
+    ..indicatorColor = Colors.white70
+    ..textColor = Colors.white70
+    //..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = false
+    ..dismissOnTap = false;
 }
 
 class MyApp extends StatelessWidget {

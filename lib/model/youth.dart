@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class Youth {
   int id;
   String rollno;

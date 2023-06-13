@@ -89,7 +89,7 @@ class _AttendancePageState extends State<AttendancePage> {
 
     final appBar = AppBar(
       title: Text(
-        'Attendance Details',
+        '${widget.event.center}  ${widget.event.date}',
         style: kGoogleStyleTexts.copyWith(
           fontWeight: FontWeight.w700,
           fontSize: 22,

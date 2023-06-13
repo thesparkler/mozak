@@ -73,6 +73,14 @@ class _YouthRegistrationState extends State<YouthRegistration> {
     }
   }
 
+  showSnackBar(String text, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(text),
+      backgroundColor: color,
+      duration: Duration(milliseconds: 1000),
+    ));
+  }
+
   void _trySubmit(BuildContext context) async {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
@@ -84,11 +92,16 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         ..userInteractions = false;
       EasyLoading.show(status: "Please Wait.....!");
       var response = await ApiService().setYouth(youth);
-      // response = await ApiService().setRollno(response.id, isNew);
-      print("added youth: " + response.rollno + response.youthFullName);
-      YouthData.instance.youthList = [];
-      Navigator.of(context).pop();
-      EasyLoading.dismiss();
+      try {
+        response = await ApiService().setRollno(response.id, isNew);
+        print("added youth: " + response.rollno + response.youthFullName);
+        YouthData.instance.youthList = [];
+        Navigator.of(context).pop();
+        EasyLoading.dismiss();
+      } catch (e) {
+        showSnackBar(e.toString(), hexToColor(AppColors.paleRed));
+        EasyLoading.dismiss();
+      }
     }
   }
 
