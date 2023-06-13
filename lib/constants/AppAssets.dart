@@ -8,6 +8,8 @@ class AppAssets {
   static const suhradbhav = "assets/images/suhradbhav.png";
   static const swadharma = "assets/images/swadharma.png";
   static const basEktuRajiTha = "assets/images/basEkTuRajiTha.png";
+  static const locationLogo = "assets/images/locationLogo.png";
+  static const streamLogo = "assets/images/stream1.png";
   static const centersLogoDashboard = "assets/images/centersLogoDashboard.png";
   static const weeklyForumEventLogoDashboard =
       "assets/images/weeklyForumEventLogoDashboard.png";

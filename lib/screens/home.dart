@@ -100,12 +100,12 @@ class _HomePageState extends State<HomePage>
                         alignment: Alignment.bottomLeft,
                         height: constraints.maxHeight * 0.1,
                         width: bodyWidth,
-                        padding: EdgeInsets.only(left: 25),
+                        padding: EdgeInsets.only(left: 360 * 19 / 324),
                         child: Text(
                           'Dashboard',
                           style: kGoogleStyleTexts.copyWith(
                             fontWeight: FontWeight.w500,
-                            fontSize: 25,
+                            fontSize: bodyHeight * 21 / 720,
                             fontFamily: "inter",
                             color: hexToColor(AppColors.whiteTextColor),
                           ),
@@ -120,7 +120,8 @@ class _HomePageState extends State<HomePage>
                       child: CarouselSlider(
                         items: [
                           SizedBox(
-                            width: constraints.maxWidth * 0.8,
+                            height: constraints.maxHeight * 143 / 720,
+                            width: constraints.maxWidth * 282 / 324,
                             child: Card(
                               color: hexToColor(AppColors.paleOrange)
                                   .withOpacity(0.3),
@@ -136,7 +137,8 @@ class _HomePageState extends State<HomePage>
                             ),
                           ),
                           SizedBox(
-                            width: constraints.maxWidth * 0.8,
+                            height: constraints.maxWidth * 143 / 720,
+                            width: constraints.maxWidth * 282 / 324,
                             child: Card(
                               color: hexToColor(AppColors.paleOrange)
                                   .withOpacity(0.3),
@@ -152,7 +154,8 @@ class _HomePageState extends State<HomePage>
                             ),
                           ),
                           SizedBox(
-                            width: constraints.maxWidth * 0.8,
+                            height: constraints.maxWidth * 143 / 720,
+                            width: constraints.maxWidth * 282 / 324,
                             child: Card(
                               color: hexToColor(AppColors.paleOrange)
                                   .withOpacity(0.3),
@@ -168,7 +171,8 @@ class _HomePageState extends State<HomePage>
                             ),
                           ),
                           SizedBox(
-                            width: constraints.maxWidth * 0.8,
+                            height: constraints.maxWidth * 143 / 720,
+                            width: constraints.maxWidth * 282 / 324,
                             child: Card(
                               color: hexToColor(AppColors.paleOrange)
                                   .withOpacity(0.3),
@@ -185,9 +189,8 @@ class _HomePageState extends State<HomePage>
                           ),
                         ],
                         options: CarouselOptions(
-                          height: constraints.maxHeight * 0.2,
-                          aspectRatio: 16 / 9,
-                          viewportFraction: 0.8,
+                          aspectRatio: 282 / 143,
+                          viewportFraction: 0.85,
                           initialPage: 1,
                           enableInfiniteScroll: false,
                           reverse: false,
@@ -197,7 +200,7 @@ class _HomePageState extends State<HomePage>
                               Duration(milliseconds: 800),
                           autoPlayCurve: Curves.fastOutSlowIn,
                           enlargeCenterPage: true,
-                          enlargeFactor: 0.3,
+                          enlargeFactor: 0.2,
                           scrollDirection: Axis.horizontal,
                         ),
                       ),
@@ -231,17 +234,16 @@ class _HomePageState extends State<HomePage>
                                       color:
                                           hexToColor(AppColors.homeGridColor),
                                       elevation: 0,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 20.0),
-                                        child: Align(
-                                          alignment: Alignment.bottomCenter,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Container(
+                                          height: bodyHeight * (71 / 720),
                                           child: Column(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               SizedBox(
-                                                width: 40,
+                                                width: bodyWidth * 40 / 324,
                                                 child: Container(
                                                   child: Image.asset(
                                                     AppAssets
@@ -254,7 +256,8 @@ class _HomePageState extends State<HomePage>
                                                 style:
                                                     kGoogleStyleTexts.copyWith(
                                                   fontWeight: FontWeight.w700,
-                                                  fontSize: 15,
+                                                  fontSize:
+                                                      12 / 720 * bodyHeight,
                                                   color: hexToColor(
                                                       AppColors.whiteTextColor),
                                                 ),
@@ -284,17 +287,16 @@ class _HomePageState extends State<HomePage>
                                       color:
                                           hexToColor(AppColors.homeGridColor),
                                       elevation: 0,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 20.0),
-                                        child: Align(
-                                          alignment: Alignment.bottomCenter,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Container(
+                                          height: 71 / 720 * bodyHeight,
                                           child: Column(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               SizedBox(
-                                                width: 40,
+                                                width: bodyWidth * 40 / 324,
                                                 child: Container(
                                                   child: Image.asset(
                                                     AppAssets
@@ -307,7 +309,8 @@ class _HomePageState extends State<HomePage>
                                                 style:
                                                     kGoogleStyleTexts.copyWith(
                                                   fontWeight: FontWeight.w700,
-                                                  fontSize: 15,
+                                                  fontSize:
+                                                      12 / 720 * bodyHeight,
                                                   color: hexToColor(
                                                       AppColors.whiteTextColor),
                                                 ),
@@ -338,46 +341,107 @@ class _HomePageState extends State<HomePage>
                                       hexToColor(AppColors.appThemeColor),
                                   color: hexToColor(AppColors.homeGridColor),
                                   elevation: 0,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 20),
-                                    child: Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Container(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            SizedBox(
-                                              child: Container(
-                                                child: Image.asset(
-                                                  AppAssets
-                                                      .weeklyForumEventLogoDashboard,
-                                                  height: 40,
-                                                ),
-                                              ),
-                                            ),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '${options[3]}',
-                                                  style: kGoogleStyleTexts
-                                                      .copyWith(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 15,
-                                                    color: hexToColor(AppColors
-                                                        .whiteTextColor),
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                  child: Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: bodyWidth * 25 / 324,
                                         ),
-                                      ),
+                                        SizedBox(
+                                          child: Container(
+                                            child: Image.asset(
+                                              AppAssets
+                                                  .weeklyForumEventLogoDashboard,
+                                              height: bodyWidth * 40 / 324,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: bodyWidth * 20 / 324,
+                                        ),
+                                        SizedBox(
+                                          height: bodyWidth * 45 / 324,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${options[3]}',
+                                                style:
+                                                    kGoogleStyleTexts.copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize:
+                                                      (12 / 720) * bodyHeight,
+                                                  color: hexToColor(
+                                                      AppColors.whiteTextColor),
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              Card(
+                                                margin: EdgeInsets.zero,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius
+                                                        .all(Radius.circular(
+                                                            20 / 324 * 360))),
+                                                surfaceTintColor: hexToColor(
+                                                    AppColors.appThemeColor),
+                                                color: hexToColor(
+                                                    AppColors.appThemeColor),
+                                                elevation: 0,
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          7 / 324 * bodyWidth,
+                                                      vertical:
+                                                          3 / 324 * bodyWidth),
+                                                  height: bodyHeight * 21 / 720,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Image.asset(
+                                                        AppAssets.streamLogo,
+                                                        height: bodyHeight *
+                                                            13 /
+                                                            720,
+                                                      ),
+                                                      SizedBox(
+                                                        width:
+                                                            5 / 324 * bodyWidth,
+                                                      ),
+                                                      Text(
+                                                        'Today\'s Sabha at Bhandup(W)',
+                                                        style: kGoogleStyleTexts
+                                                            .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 8.82 /
+                                                              720 *
+                                                              bodyHeight,
+                                                          color: hexToColor(
+                                                              AppColors
+                                                                  .todaysForum),
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
