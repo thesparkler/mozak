@@ -31,7 +31,6 @@ class _AttendancePageState extends State<AttendancePage> {
   TextEditingController fieldTextEditingController = TextEditingController();
   FocusNode fieldFocusNode = new FocusNode();
   GlobalKey key = new GlobalKey();
-  late List<Youth> youthList;
   late List<Youth> eventMarkedAttendance;
   var youths = <String, dynamic>{
     "CR": {
@@ -61,13 +60,8 @@ class _AttendancePageState extends State<AttendancePage> {
     super.initState();
   }
 
-<<<<<<<<< Temporary merge branch 1
-  void getYouthList() async {
-    youthList = await ApiService().getAllYouths();
-=========
   getYouthList() async {
     await YouthData.instance.getYouthList();
->>>>>>>>> Temporary merge branch 2
   }
 
   //getMarkedList() async => await ApiService().getMarkedYouths(widget.event.id);
@@ -176,13 +170,13 @@ class _AttendancePageState extends State<AttendancePage> {
                   getYouthList();
                   return YouthData.instance.youthList
                       .where((Youth youth) =>
-                          "${youth.rollno + " " + youth.youthFullName}"
+                          "${youth.rollno! + " " + youth.youthFullName.toString()}"
                               .toLowerCase()
                               .contains(textEditingValue.text.toLowerCase()))
                       .toList();
                 },
                 displayStringForOption: (Youth option) =>
-                    option.rollno + " " + option.youthFullName,
+                    option.rollno! + " " + option.youthFullName.toString(),
                 optionsViewBuilder: (BuildContext context,
                     AutocompleteOnSelected<Youth> onSelected,
                     Iterable<Youth> options) {
@@ -227,7 +221,9 @@ class _AttendancePageState extends State<AttendancePage> {
                               child: ListTile(
                                 contentPadding: EdgeInsets.zero,
                                 title: Text(
-                                  option.rollno + " " + option.youthFullName,
+                                  option.rollno! +
+                                      " " +
+                                      option.youthFullName.toString(),
                                   style: kGoogleStyleTexts.copyWith(
                                     fontSize: 20,
                                     color: hexToColor(AppColors.whiteTextColor),
@@ -242,7 +238,7 @@ class _AttendancePageState extends State<AttendancePage> {
                   );
                 },
                 onSelected: (Youth youth) {
-                  selectedID = youth.id;
+                  selectedID = youth.id!;
                   selectedYouth = youth;
                 },
               ),
@@ -357,9 +353,9 @@ class _AttendancePageState extends State<AttendancePage> {
                                   child: ListTile(
                                     contentPadding: EdgeInsets.zero,
                                     title: Text(
-                                      option.rollno +
+                                      option.rollno! +
                                           " " +
-                                          option.youthFullName,
+                                          option.youthFullName.toString(),
                                       style: kGoogleStyleTexts.copyWith(
                                         fontSize: 18,
                                         color: hexToColor(

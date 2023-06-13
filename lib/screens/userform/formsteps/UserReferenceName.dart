@@ -60,7 +60,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
   late Youth selectedObj;
 
   Future getCurrentTlList() async {
-    youthList = YouthData.instance.youthList as List<Youth>;
+    youthList = YouthData.instance.youthList;
     currentTLList = youthList
         .where((element) =>
             (element.rollno?.substring(0, 2) ==
@@ -338,7 +338,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                   widget.model.setRefGrp(newValue);
                   currentTLList = youthList
                       .where((element) =>
-                          (element.team.substring(0, 2) == '$_selectedCode') &&
+                          (element.team?.substring(0, 2) == '$_selectedCode') &&
                           (element.rollno?.substring(4, 6) == '01'))
                       .toList();
                   selectedTL = currentTLList[0].rollno.toString() +
@@ -433,8 +433,9 @@ class _UserReferenceNameState extends State<UserReferenceName> {
               onChanged: (Youth? newValue) {
                 selectedObj = newValue!;
                 setState(() {
-                  selectedTL = newValue.rollno??"" + " " + newValue.youthFullName;
-                  widget.model.setReferenceName(newValue.rollno??"");
+                  selectedTL = newValue.rollno ??
+                      "" + " " + newValue.youthFullName.toString();
+                  widget.model.setReferenceName(newValue.rollno ?? "");
                   Timer(Duration(seconds: 1), () {
                     widget.next();
                   });

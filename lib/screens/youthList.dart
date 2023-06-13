@@ -4,7 +4,6 @@ import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import '../utils/youthData.dart';
 import '../constants/AppColors.dart';
-import '../utils/api_service.dart';
 import '../utils/app_tools.dart';
 
 class YouthList extends StatefulWidget {
@@ -66,97 +65,101 @@ class _YouthListState extends State<YouthList> {
       child: Scaffold(
           appBar: appBar,
           backgroundColor: hexToColor(AppColors.appThemeColor),
-          body: SingleChildScrollView(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(8.0),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  return Column(
-                    children: [
-                      Container(
-                          alignment: Alignment.topLeft,
-                          child: DropdownButton<String>(
-                            value: youthCode,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                youthCode = newValue ?? youthCode;
-                              });
-                            },
-                            items: groups
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: value == youthCode
-                                    ? Text(
-                                        value,
-                                        style: TextStyle(
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
-                                      )
-                                    : Text(
-                                        value,
-                                        style: TextStyle(
-                                            color: hexToColor(
-                                                AppColors.paleOrange)),
-                                      ),
-                              );
-                            }).toList(),
-                          )),
-                      FutureBuilder<List<Youth>>(
-                          future: YouthData.instance.getYouthList(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<List<Youth>> snapshot) {
-                            if (snapshot.hasError) {
-                              print(snapshot.error);
-                              return Center(
-                                child: Text(
-                                  'Some error occurred. Please contact SITH',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                    color: Colors.white
+          body: RefreshIndicator(
+            onRefresh: () async {
+              YouthData.instance.youthList = [];
+            },
+            child: SingleChildScrollView(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.all(8.0),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Column(
+                      children: [
+                        Container(
+                            alignment: Alignment.topLeft,
+                            child: DropdownButton<String>(
+                              value: youthCode,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  youthCode = newValue ?? youthCode;
+                                });
+                              },
+                              items: groups.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: value == youthCode
+                                      ? Text(
+                                          value,
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20),
+                                        )
+                                      : Text(
+                                          value,
+                                          style: TextStyle(
+                                              color: hexToColor(
+                                                  AppColors.paleOrange)),
+                                        ),
+                                );
+                              }).toList(),
+                            )),
+                        FutureBuilder<List<Youth>>(
+                            future: YouthData.instance.getYouthList(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<List<Youth>> snapshot) {
+                              if (snapshot.hasError) {
+                                print(snapshot.error);
+                                return Center(
+                                  child: Text(
+                                    'Some error occurred. Please contact SITH',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
                                   ),
-                                ),
-                              );
-                            } else if (snapshot.hasData) {
-                              youthList = snapshot.data!;
-                              youthList.sort((a,b){
-                               if(a.rollno != null && b.rollno !=null){
-                                 String aRoll = a.rollno??"";
-                                 String bRoll = b.rollno??"";
-                                 return aRoll.compareTo(bRoll);
-                               } else{
-                                  return 1; //
-                               }
-                              });
-                              return ListView(
-                                  shrinkWrap: true,
-                                  physics: ScrollPhysics(),
-                                  scrollDirection: Axis.vertical,
-                                  children: youthList
-                                      .where((element) =>
-                                          element.team!.substring(0, 2) ==
-                                          '$youthCode')
-                                      .map((e) => getYouthRow(e))
-                                      .toList());
-                            } else {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 35),
-                                child: Center(
-                                  child: LinearProgressIndicator(
-                                    color: hexToColor(AppColors.appThemeColor),
-                                    backgroundColor:
-                                        hexToColor(AppColors.whiteTextColor),
+                                );
+                              } else if (snapshot.hasData) {
+                                youthList = snapshot.data!;
+                                youthList.sort((a, b) {
+                                  if (a.rollno != null && b.rollno != null) {
+                                    String aRoll = a.rollno ?? "";
+                                    String bRoll = b.rollno ?? "";
+                                    return aRoll.compareTo(bRoll);
+                                  } else {
+                                    return 1; //
+                                  }
+                                });
+                                return ListView(
+                                    shrinkWrap: true,
+                                    physics: ScrollPhysics(),
+                                    scrollDirection: Axis.vertical,
+                                    children: youthList
+                                        .where((element) =>
+                                            element.team?.substring(0, 2) ==
+                                            '$youthCode')
+                                        .map((e) => getYouthRow(e))
+                                        .toList());
+                              } else {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 35),
+                                  child: Center(
+                                    child: LinearProgressIndicator(
+                                      color:
+                                          hexToColor(AppColors.appThemeColor),
+                                      backgroundColor:
+                                          hexToColor(AppColors.whiteTextColor),
+                                    ),
                                   ),
-                                ),
-                              );
-                            }
-                          })
-                    ],
-                  );
-                },
+                                );
+                              }
+                            })
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -263,8 +266,7 @@ class _YouthListState extends State<YouthList> {
             color: hexToColor(AppColors.appThemeColor),
             elevation: 3,
             child: Text(
-              '${e.rollno??""}  ${e.youthFullName}',
-
+              '${e.rollno ?? ""}  ${e.youthFullName}',
               softWrap: true,
               overflow: TextOverflow.ellipsis,
               style: kGoogleStyleTexts.copyWith(
