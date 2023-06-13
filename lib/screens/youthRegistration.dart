@@ -84,7 +84,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         ..userInteractions = false;
       EasyLoading.show(status: "Please Wait.....!");
       var response = await ApiService().setYouth(youth);
-      response = await ApiService().setRollno(response.id, isNew);
+      // response = await ApiService().setRollno(response.id, isNew);
       print("added youth: " + response.rollno + response.youthFullName);
       YouthData.instance.youthList = [];
       Navigator.of(context).pop();
