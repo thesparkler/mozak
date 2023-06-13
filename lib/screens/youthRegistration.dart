@@ -29,7 +29,6 @@ class YouthRegistration extends StatefulWidget {
 }
 
 class _YouthRegistrationState extends State<YouthRegistration> {
-
   //var youth = Youth(rollno: '', youthFullName: '');
   // late Youth youth;
   String youthCode = group.values.first;
@@ -349,52 +348,28 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           width: 1.0,
                         ),
                       ),
-                      child:DropdownButton<Youth>(
-                        isExpanded: true,
-                        underline: SizedBox(), 
-                        value: dropdownValue1,
-                        icon: SizedBox.shrink(),
-                        onChanged: (Youth? value) {
-                          setState(() {
-                            dropdownValue1 = value!;
-                            print('${dropdownValue1.rollno.toString()}');
-                            youth.tlCode = dropdownValue1.rollno.toString();
-                            youth.team = dropdownValue1.rollno.substring(0,4);
-                            // youth.rollno= youth.team.toString()+"0A";
-                          });
-                        },
-                        items: currentList.map<DropdownMenuItem<Youth>>((Youth value) {
-                          return DropdownMenuItem<Youth>(
-                            value: value,
-                            child: Text(value.rollno!+" "+value.youthFullName,softWrap: true,overflow: TextOverflow.fade,),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    Container(
-                      height: constraint.maxHeight * 0.09,
-                      width: constraint.maxWidth *0.8,
-                      padding: EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-                        border: Border.all(
-                          color: hexToColor(AppColors.textFieldOutlineBorderColor),
-                          width: 1.0,
-                        )
-                      ),
-                      child: RadioListTile<bool>(
-                        toggleable: true,
-                        value: true,
-                        title: Text('Create Temporary Rollno'), 
-                        groupValue: isNew, 
-                        onChanged: (value)
-                        {
-                          setState(() {
-                            isNew = !isNew;
-                            print('.................$isNew');
-                          });
-                        }
-                      ),
+                      Container(
+                        height: constraint.maxHeight * 0.09,
+                        width: constraint.maxWidth * 0.8,
+                        padding: EdgeInsets.all(5.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                            border: Border.all(
+                              color: hexToColor(
+                                  AppColors.textFieldOutlineBorderColor),
+                              width: 1.0,
+                            )),
+                        child: RadioListTile<bool>(
+                            toggleable: true,
+                            value: true,
+                            title: Text('Create Temporary Rollno'),
+                            groupValue: isNew,
+                            onChanged: (value) {
+                              setState(() {
+                                isNew = !isNew;
+                                print('.................$isNew');
+                              });
+                            }),
                       ),
                       ElevatedButton(
                           onPressed: () => _trySubmit(context),

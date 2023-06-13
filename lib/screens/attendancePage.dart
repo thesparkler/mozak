@@ -60,9 +60,12 @@ class _AttendancePageState extends State<AttendancePage> {
     super.initState();
   }
 
-  getYouthList() async {
-    await YouthData.instance.getYouthList();
+
+  void getYouthList() async {
+    youthList = await ApiService().getAllYouths();
+
   }
+
   Stream<List<Youth>> _bids(int id) => (() {
         late final StreamController<List<Youth>> _attendanceStream;
         _attendanceStream = StreamController<List<Youth>>(
@@ -167,13 +170,13 @@ class _AttendancePageState extends State<AttendancePage> {
                   getYouthList();
                   return YouthData.instance.youthList
                       .where((Youth youth) =>
-                          "${youth.rollno??"" + " " + youth.youthFullName}"
+                          "${youth.rollno + " " + youth.youthFullName}"
                               .toLowerCase()
                               .contains(textEditingValue.text.toLowerCase()))
                       .toList();
                 },
                 displayStringForOption: (Youth option) =>
-                    option.rollno??"" + " " + option.youthFullName,
+                    option.rollno + " " + option.youthFullName,
                 optionsViewBuilder: (BuildContext context,
                     AutocompleteOnSelected<Youth> onSelected,
                     Iterable<Youth> options) {
@@ -218,7 +221,7 @@ class _AttendancePageState extends State<AttendancePage> {
                               child: ListTile(
                                 contentPadding: EdgeInsets.zero,
                                 title: Text(
-                                  option.rollno??"" + " " + option.youthFullName,
+                                  option.rollno + " " + option.youthFullName,
                                   style: kGoogleStyleTexts.copyWith(
                                     fontSize: 20,
                                     color: hexToColor(AppColors.whiteTextColor),
