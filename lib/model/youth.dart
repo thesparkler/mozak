@@ -12,6 +12,8 @@ class Youth {
   String? status;
   String tlCode;
   String? pincode;
+  bool isTL = false;
+  bool isKK = false;
 
   Youth(
     {
@@ -30,21 +32,23 @@ class Youth {
   Youth.fromJson(Map<String, dynamic> json)
   :id=json['id'],
   youthFullName=json['youthFullName'],
-  mobile1=json['mobile1'],
-  team=json['team'],
-  tlCode=json['tlCode']
+  mobile1=json['mobile1']??"",
+  team=json['team']??"",
+  tlCode=json['tlCode']??""
   {
-    id = json['id'];
-    rollno = json['rollno'];
-    team = json['team'];
-    youthFullName = json['youthFullName'];
-    dob = json['dob'];
-    mobile1 = json['mobile1'];
-    mobile2 = json['mobile2'];
-    emailid = json['emailid'];
-    status = json['status'];
-    tlCode = json['tlCode'];
-    pincode = json['pincode'];
+    id = json['id']??"";
+    rollno = json['rollno']??"";
+    team = json['team']??"";
+    youthFullName = json['youthFullName']??"";
+    dob = json['dob']??"";
+    mobile1 = json['mobile1']??"";
+    mobile2 = json['mobile2']??"";
+    emailid = json['emailid']??"";
+    status = json['status']??"";
+    tlCode = json['tlCode']??"";
+    pincode = json['pincode']??"";
+    isTL = json['isTL']??false;
+    isKK = json['isKK']??false;
   }
 
   Map<String, dynamic> toJson() {
@@ -60,6 +64,8 @@ class Youth {
     data['status'] = this.status;
     data['tlCode'] = this.tlCode;
     data['pincode'] = this.pincode;
+    data['isKK'] = this.isKK;
+    data['isTL'] = this.isTL;
     return data;
   }
 

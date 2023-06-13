@@ -113,7 +113,10 @@ class _YouthListState extends State<YouthList> {
                               return Center(
                                 child: Text(
                                   'Some error occurred. Please contact SITH',
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                    color: Colors.white
+                                  ),
                                 ),
                               );
                             } else if (snapshot.hasData) {
@@ -130,6 +133,7 @@ class _YouthListState extends State<YouthList> {
                               return ListView(
                                   shrinkWrap: true,
                                   physics: ScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
                                   children: youthList
                                       .where((element) =>
                                           element.team!.substring(0, 2) ==
@@ -259,7 +263,8 @@ class _YouthListState extends State<YouthList> {
             color: hexToColor(AppColors.appThemeColor),
            elevation: 3,
             child: Text(
-              e.rollno??"" + " " + e.youthFullName.toString(),
+              '${e.rollno??""}  ${e.youthFullName}',
+
               softWrap: true,
               overflow: TextOverflow.ellipsis,
               style: kGoogleStyleTexts.copyWith(

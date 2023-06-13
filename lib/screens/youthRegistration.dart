@@ -83,7 +83,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       EasyLoading.show(status: "Please Wait.....!");
       var response = await ApiService().setYouth(youth);
       response = await ApiService().setRollno(response.id, isNew);
-      print("added youth: " + response.rollno + response.youthFullName);
       YouthData.instance.youthList = [];
       Navigator.of(context).pop();
       EasyLoading.dismiss();
@@ -269,13 +268,11 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                               setState(() {
                                 dropdownValue = value!;
                                 currentList = YouthData.instance.youthList
-                                    .where((element) =>
-                                        element.rollno.substring(0, 2) ==
-                                            '${group[dropdownValue]}' &&
-                                        element.rollno.substring(4, 6) == '01')
+                                    .where((element) => element.isTL)
                                     .toList();
+
                                 dropdownValue1 = currentList[0];
-                                print('$dropdownValue');
+                                // print('$dropdownValue');
                               });
                             },
                             items: group.keys
@@ -298,7 +295,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                             width: 1.0,
                           ),
                         ),
-                      ),
+
                       child:DropdownButton<String>(
                         underline: SizedBox(), 
                         value: dropdownValue,
