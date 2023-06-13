@@ -22,6 +22,8 @@ class AttendancePage extends StatefulWidget {
 class _AttendancePageState extends State<AttendancePage> {
   late List<AttendanceTable> attendanceTableList;
   late Youth selectedYouth;
+  late List<Youth> youthList;
+
   int selectedID = 0;
 
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -59,12 +61,6 @@ class _AttendancePageState extends State<AttendancePage> {
     super.initState();
   }
 
-  getYouthList() async {
-    await YouthData.instance.getYouthList();
-  }
-
-  //getMarkedList() async => await ApiService().getMarkedYouths(widget.event.id);
-
   Stream<List<Youth>> _bids(int id) => (() {
         late final StreamController<List<Youth>> _attendanceStream;
         _attendanceStream = StreamController<List<Youth>>(
@@ -89,7 +85,7 @@ class _AttendancePageState extends State<AttendancePage> {
 
     final appBar = AppBar(
       title: Text(
-        'Attendance Details',
+        '${widget.event.center}  ${widget.event.date}',
         style: kGoogleStyleTexts.copyWith(
           fontWeight: FontWeight.w700,
           fontSize: 22,
@@ -169,13 +165,13 @@ class _AttendancePageState extends State<AttendancePage> {
                   getYouthList();
                   return YouthData.instance.youthList
                       .where((Youth youth) =>
-                          "${youth.rollno + " " + youth.youthFullName}"
+                          "${youth.rollno??"" + " " + youth.youthFullName}"
                               .toLowerCase()
                               .contains(textEditingValue.text.toLowerCase()))
                       .toList();
                 },
                 displayStringForOption: (Youth option) =>
-                    option.rollno + " " + option.youthFullName,
+                    option.rollno??"" + " " + option.youthFullName,
                 optionsViewBuilder: (BuildContext context,
                     AutocompleteOnSelected<Youth> onSelected,
                     Iterable<Youth> options) {
@@ -220,7 +216,7 @@ class _AttendancePageState extends State<AttendancePage> {
                               child: ListTile(
                                 contentPadding: EdgeInsets.zero,
                                 title: Text(
-                                  option.rollno + " " + option.youthFullName,
+                                  option.rollno??"" + " " + option.youthFullName,
                                   style: kGoogleStyleTexts.copyWith(
                                     fontSize: 20,
                                     color: hexToColor(AppColors.whiteTextColor),

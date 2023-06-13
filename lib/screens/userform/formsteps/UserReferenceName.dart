@@ -63,9 +63,9 @@ class _UserReferenceNameState extends State<UserReferenceName> {
     youthList = YouthData.instance.youthList as List<Youth>;
     currentTLList = youthList
         .where((element) =>
-            (element.rollno.substring(0, 2) ==
+            (element.rollno?.substring(0, 2) ==
                 '$_selectedCode'.toUpperCase()) &&
-            (element.rollno.substring(4, 6) == '01'))
+            (element.rollno?.substring(4, 6) == '01'))
         .toList();
 
     print(youthList[0].rollno);
@@ -338,8 +338,8 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                   widget.model.setRefGrp(newValue);
                   currentTLList = youthList
                       .where((element) =>
-                          (element.team!.substring(0, 2) == '$_selectedCode') &&
-                          (element.rollno.substring(4, 6) == '01'))
+                          (element.team.substring(0, 2) == '$_selectedCode') &&
+                          (element.rollno?.substring(4, 6) == '01'))
                       .toList();
                   selectedTL = currentTLList[0].rollno.toString() +
                       " " +
@@ -433,8 +433,8 @@ class _UserReferenceNameState extends State<UserReferenceName> {
               onChanged: (Youth? newValue) {
                 selectedObj = newValue!;
                 setState(() {
-                  selectedTL = newValue.rollno + " " + newValue.youthFullName;
-                  widget.model.setReferenceName(newValue.rollno);
+                  selectedTL = newValue.rollno??"" + " " + newValue.youthFullName;
+                  widget.model.setReferenceName(newValue.rollno??"");
                   Timer(Duration(seconds: 1), () {
                     widget.next();
                   });
