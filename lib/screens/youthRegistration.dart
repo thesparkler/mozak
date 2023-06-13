@@ -30,7 +30,7 @@ class YouthRegistration extends StatefulWidget {
 
 class _YouthRegistrationState extends State<YouthRegistration> {
   //var youth = Youth(rollno: '', youthFullName: '');
-  Youth youth = Youth(isTL: false, isKK: false);
+  // late Youth youth;
   String youthCode = group.values.first;
   String dropdownValue = group.keys.first;
   bool isNew = false;
@@ -44,12 +44,22 @@ class _YouthRegistrationState extends State<YouthRegistration> {
   var selected;
 
   final _formKey = GlobalKey<FormState>();
+  final Map<String, TextEditingController> sigUpController = {
+    'firstName': TextEditingController(),
+    'middleName': TextEditingController(),
+    'lastName': TextEditingController(),
+    'email': TextEditingController(),
+    'mobile': TextEditingController(),
+    'pincode': TextEditingController(),
+    'address': TextEditingController(),
+    'team': TextEditingController(),
+    'tlcode': TextEditingController(),
+  };
 
   @override
   void initState() {
-    currentList =
-        YouthData.instance.youthList.where((element) => element.isTL).toList();
-    dropdownValue1 = currentList[0];
+    currentList = YouthData.instance.youthList.where((element) => element.isTL).toList();
+    dropdownValue1=currentList[0];
     super.initState();
   }
 
@@ -81,19 +91,12 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         ..backgroundColor = Colors.white10
         ..userInteractions = false;
       EasyLoading.show(status: "Please Wait.....!");
-      Youth response = await ApiService().setYouth(youth);
-      if (response.id != null) {
-        int? id = response?.id;
-        response = await ApiService().setRollno(id!, isNew);
-        print("added youth: " +
-            response.rollno.toString() +
-            response.youthFullName.toString());
-        YouthData.instance.youthList = [];
-        Navigator.of(context).pop();
-        EasyLoading.dismiss();
-      } else {
-        EasyLoading.dismiss();
-      }
+
+      // create new youth object
+      var response = await ApiService().setYouth(youth);
+      YouthData.instance.youthList = [];
+      Navigator.of(context).pop();
+      EasyLoading.dismiss();
     }
   }
 
@@ -141,14 +144,16 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                 builder: (context, constraint) {
                   return Column(
                     children: [
-                      Container(
+                      Container( // firstname
+
                         height: constraint.maxHeight * 0.1,
                         width: constraint.maxWidth * 0.8,
                         padding: EdgeInsets.all(5.0),
                         child: TextFormField(
+                          controller: sigUpController['firstName'],
                           decoration: InputDecoration(
-                              labelText: 'Name',
-                              hintText: 'Enter Full Name',
+                              labelText: 'First Name',
+                              hintText: 'First Name',
                               border: OutlineInputBorder()),
                           keyboardType: TextInputType.text,
                           validator: (value) => value!.isEmpty
@@ -157,10 +162,47 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                       .hasMatch(value))
                                   ? 'Invalid name'
                                   : null,
-                          onSaved: (value) {
-                            print('$value');
-                            youth.youthFullName = value.toString();
-                          },
+
+                        ),
+                      ),
+                      Container( // middle Name
+                        height: constraint.maxHeight * 0.1,
+                        width: constraint.maxWidth * 0.8,
+                        padding: EdgeInsets.all(5.0),
+                        child: TextFormField(
+                          controller: sigUpController['middleName'],
+                          decoration: InputDecoration(
+                              labelText: 'Middle Name',
+                              hintText: 'Middle Name',
+                              border: OutlineInputBorder()),
+                          keyboardType: TextInputType.text,
+                          validator: (value) => value!.isEmpty
+                              ? 'Please enter your middle name'
+                              : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
+                              .hasMatch(value))
+                              ? 'Invalid name'
+                              : null,
+
+                        ),
+                      ),
+                      Container(
+                        height: constraint.maxHeight * 0.1,
+                        width: constraint.maxWidth * 0.8,
+                        padding: EdgeInsets.all(5.0),
+                        child: TextFormField(
+                          controller: sigUpController['lastName'],
+                          decoration: InputDecoration(
+                              labelText: 'Last Name',
+                              hintText: 'Last Name',
+                              border: OutlineInputBorder()),
+                          keyboardType: TextInputType.text,
+                          validator: (value) => value!.isEmpty
+                              ? 'Please enter your last name'
+                              : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
+                              .hasMatch(value))
+                              ? 'Invalid name'
+                              : null,
+
                         ),
                       ),
                       Container(
@@ -168,6 +210,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           width: constraint.maxWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
                           child: TextFormField(
+                            controller: sigUpController['mobile'],
                             key: ValueKey('Mobile Number'),
                             decoration: InputDecoration(
                               labelText: 'Phone.No',
@@ -195,6 +238,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           width: constraint.maxWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
                           child: TextFormField(
+                            controller: sigUpController['email'],
                             key: ValueKey('Email-Id'),
                             decoration: InputDecoration(
                               labelText: 'Email Id',
@@ -216,6 +260,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           width: constraint.maxWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
                           child: TextFormField(
+                            controller: sigUpController['pincode'],
                             key: ValueKey('Pincode'),
                             decoration: InputDecoration(
                               labelText: 'Pincode',
@@ -234,7 +279,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                               youth.pincode = value.toString();
                             },
                           )),
-                      Container(
+                      Container( //DOB container
                         height: constraint.maxHeight * 0.1,
                         width: constraint.maxWidth * 0.8,
                         padding: EdgeInsets.all(5.0),
@@ -256,7 +301,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           },
                         ),
                       ),
-                      Container(
+                      Container( //isTL container
                           height: constraint.maxHeight * 0.09,
                           width: constraint.maxWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
@@ -291,46 +336,16 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                               );
                             }).toList(),
                           )),
-                      Container(
-                        height: constraint.maxHeight * 0.09,
-                        width: constraint.maxWidth * 0.8,
-                        padding: EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.0),
-                          border: Border.all(
-                            color: hexToColor(
-                                AppColors.textFieldOutlineBorderColor),
-                            width: 1.0,
-                          ),
-                        ),
-                        child: DropdownButton<Youth>(
-                          isExpanded: true,
-                          underline: SizedBox(),
-                          value: dropdownValue1,
-                          icon: SizedBox.shrink(),
-                          onChanged: (Youth? value) {
-                            setState(() {
-                              dropdownValue1 = value!;
-                              print('${dropdownValue1.rollno.toString()}');
-                              youth.tlCode = dropdownValue1.rollno.toString();
-                              youth.team =
-                                  dropdownValue1.rollno.substring(0, 4);
-                              // youth.rollno= youth.team.toString()+"0A";
-                            });
-                          },
-                          items: currentList
-                              .map<DropdownMenuItem<Youth>>((Youth value) {
-                            return DropdownMenuItem<Youth>(
-                              value: value,
-                              child: Text(
-                                value.rollno! +
-                                    " " +
-                                    value.youthFullName.toString(),
-                                softWrap: true,
-                                overflow: TextOverflow.fade,
-                              ),
-                            );
-                          }).toList(),
+
+                    Container(
+                      height: constraint.maxHeight * 0.09,
+                      width: constraint.maxWidth *0.8,
+                      padding: EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        border: Border.all(
+                          color: hexToColor(AppColors.textFieldOutlineBorderColor),
+                          width: 1.0,
                         ),
                       ),
                       Container(
