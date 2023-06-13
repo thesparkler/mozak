@@ -54,24 +54,110 @@ class ApiService {
     }
   }
 
-  // In following code Center class is creating conflict with a class of same name in Flutter lib.
-  Future<List<center.Center>> getCenters() async {
+  Future<List<Youth>> getMarkedYouths(int eventID) async {
     Uri allWeeklyForumEventsUrl =
-        Uri.parse('${Constants.domain}${Constants.allCenters}');
+        Uri.parse('${Constants.domain}${Constants.youthByEventId}/$eventID');
+    print(allWeeklyForumEventsUrl.toString());
     http.Response response = await http.get(allWeeklyForumEventsUrl);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      List<center.Center> list = [];
+      List<Youth> list = [];
       var jsonObject = jsonDecode(response.body);
       for (var json in jsonObject) {
-        list.add(center.Center.fromJson(json));
+        list.add(Youth.fromJson(json));
       }
       return list;
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to load album');
+    }
+  }
+
+  // In following code Center class is creating conflict with a class of same name in Flutter lib.
+  Future<List<center.CenterData>> getCenters() async {
+    Uri allWeeklyForumEventsUrl =
+        Uri.parse('${Constants.domain}${Constants.allCenters}');
+    http.Response response = await http.get(allWeeklyForumEventsUrl);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      List<center.CenterData> list = [];
+      var jsonObject = jsonDecode(response.body);
+      for (var json in jsonObject) {
+        list.add(center.CenterData.fromJson(json));
+      }
+      return list;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Future<Youth> setYouth(
+    Youth youth,
+  ) async {
+    Uri createWFEUrl =
+        Uri.parse('${Constants.domain}${Constants.registerYouth}');
+    http.Response response = await http.post(createWFEUrl,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: youth.toJson()
+        // body: jsonEncode(<String, String>{
+        //   "rollno":youth.rollno,
+        //   "team": youth.team.toString(),
+        //   "youthFullName": youth.youthFullName,
+        //   "dob": youth.dob.toString(),
+        //   "mobile1": youth.mobile1.toString(),
+        //   "mobile2": "",
+        //   "emailid": youth.emailid.toString(),
+        //   "status": "new",
+        //   "tlCode": youth.tlCode.toString(),
+        //   "pincode": youth.pincode.toString()
+        // }),
+        );
+    //return response;
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      Youth _youth;
+      var jsonObject = jsonDecode(response.body);
+      _youth = Youth.fromJson(jsonObject);
+
+      return _youth;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to data');
+    }
+  }
+
+  Future<Youth> setRollno(int id, bool isNew) async {
+    Uri createWFEUrl =
+        Uri.parse('${Constants.domain}setRollNo?id=$id&isTemp=$isNew');
+    http.Response response = await http.post(
+      createWFEUrl,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{}),
+    );
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      Youth _youth;
+      var jsonObject = jsonDecode(response.body);
+      _youth = Youth.fromJson(jsonObject);
+
+      return _youth;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Roll no is not set');
     }
   }
 
@@ -110,7 +196,8 @@ class ApiService {
     return response;
   }
 
-  Future<http.Response> setWFEvent(center.Center center, String date) async {
+  Future<http.Response> setWFEvent(
+      center.CenterData center, String date) async {
     Uri createWFEUrl = Uri.parse(
         '${Constants.domain}${Constants.createWFEvent}?centerId=${center.id}');
     http.Response response = await http.post(
@@ -125,19 +212,17 @@ class ApiService {
     return response;
   }
 
-  Future<http.Response> markAttendance(Youth selectedYouth, WeeklyForumEvent event) async {
-    Uri createWFEUrl = Uri.parse(
-        '${Constants.domain}${Constants.markAttendance}'
-            '?youth_id=${selectedYouth.id}'
-            '&weekly_forum_event_id=${event.id}');
+  Future<http.Response> markAttendance(int selectedYouthId, int eventID) async {
+    Uri createWFEUrl =
+        Uri.parse('${Constants.domain}${Constants.markAttendance}'
+            'youth_id=$selectedYouthId'
+            '&weekly_forum_event_id=$eventID');
     http.Response response = await http.post(
       createWFEUrl,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-
-      }),
+      body: jsonEncode(<String, String>{}),
     );
     return response;
   }

@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mozak/model/attendanceTable.dart';
 import 'package:mozak/model/weekly_forum_event.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/api_service.dart';
+import 'package:mozak/utils/youthData.dart';
 
 import '../constants/AppColors.dart';
 import '../model/youth.dart';
@@ -22,44 +25,64 @@ class _AttendancePageState extends State<AttendancePage> {
   late List<Youth> youthList;
 
   int selectedID = 0;
-  int index = 0;
+
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool showOptions = false;
-  TextEditingController fieldTextEditingController = new TextEditingController();
+  TextEditingController fieldTextEditingController =
+      new TextEditingController();
   FocusNode fieldFocusNode = new FocusNode();
   GlobalKey key = new GlobalKey();
+  late List<Youth> youthList;
+  late List<Youth> eventMarkedAttendance;
+  var youths = {
+    "CR": {
+      "01": [],
+    },
+    "GK": {
+      "01": [],
+      "02": [],
+      "03": [],
+      "04": [],
+      "05": [],
+      "06": [],
+    }
+  };
+
+  // Future<void> getData() async {
+  //   await getYouthList();
+  //   // await getMarkedList();
+  // }
 
   @override
   void initState() {
-    getYouthList();
-    // getAttendanceData();
+    // getData().whenComplete(() async {
+    //   print("Done");
+    // });
+    // print(youths);
     super.initState();
   }
 
-  void getYouthList() async {
-    youthList = await ApiService().getAllYouths();
+  Stream<List<Youth>> _bids(int id) => (() {
+        late final StreamController<List<Youth>> _attendanceStream;
+        _attendanceStream = StreamController<List<Youth>>(
+          onListen: () async {
+            _attendanceStream.add(await ApiService().getMarkedYouths(id));
+            _attendanceStream.close();
+          },
+        );
+        return _attendanceStream.stream;
+      })();
+
+  void clearSearchField() {
+    fieldTextEditingController.clear();
+    setState(() {
+      showOptions = false;
+    });
   }
-
-  // void getAttendanceData() async {
-  //   attendanceTableList = await ApiService().getAttendanceTable();
-  //   for (int i = 0; i < attendanceTableList.length; i++)
-  //     selectedYouths.add(attendanceTableList[i].youth!);
-  //   print(selectedYouths.toString());
-  //   print(youthList.toString());
-  // }
-
-  void clearSearchField () {
-      fieldTextEditingController.clear();
-      setState(() {
-        showOptions = false;
-      });
-  }
-
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    index = 0;
 
     final appBar = AppBar(
       title: Text(
@@ -79,216 +102,244 @@ class _AttendancePageState extends State<AttendancePage> {
       backgroundColor: hexToColor(AppColors.appThemeColor),
     );
 
-    final bodyHeight = mediaQuery.size.height -
-        appBar.preferredSize.height -
-        mediaQuery.padding.top -
-        mediaQuery.padding.bottom;
+    // final bodyHeight = mediaQuery.size.height -
+    //     appBar.preferredSize.height -
+    //     mediaQuery.padding.top -
+    //     mediaQuery.padding.bottom;
 
     final bodyWidth = mediaQuery.size.width -
         mediaQuery.padding.left -
         mediaQuery.padding.right;
 
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: appBar,
-      backgroundColor: hexToColor(AppColors.appThemeColor),
-      // body: ScrollConfiguration(
-      //   behavior: NoGlowBehaviour(),
-      //   child: Column(
-      //     children: [
-      //       FutureBuilder<List<AttendanceTable>>(
-      //           future: getAttendanceData(),
-      //           builder: (BuildContext context,
-      //               AsyncSnapshot<List<AttendanceTable>> snapshot) {
-      //             if (snapshot.connectionState == ConnectionState.done) {
-      //               if (snapshot.hasError) {
-      //                 return Center(
-      //                   child: Text(
-      //                     '${snapshot.error} occurred',
-      //                     style: TextStyle(fontSize: 18),
-      //                   ),
-      //                 );
-      //               } else if (snapshot.hasData) {
-      //                 attendanceTableList = snapshot.data!;
-      //                 // return Column(
-      //                 //   children: centerList
-      //                 //       .map((e) => getCenterRow(e.location))
-      //                 //       .toList(),
-      //                 // );
-      //                 // return ListView.builder(
-      //                 //     physics: const ClampingScrollPhysics(),
-      //                 //     scrollDirection:
-      //                 //         axisDirectionToAxis(AxisDirection.down),
-      //                 //     shrinkWrap: true,
-      //                 //     itemCount: attendanceTableList.length,
-      //                 //     itemBuilder: (context, index) {
-      //                 //       return Table();
-      //                 //     });
-      //
-      //               }
-      //             }
-      //
-      //             return Center(
-      //               child: CircularProgressIndicator(),
-      //             );
-      //           }),
-      //     ],
-      //   ),
-      // ),
-      body: Column(
-        children: [
-          TextField(
-            autofocus: true,
-            focusNode: fieldFocusNode,
-            controller: fieldTextEditingController,
-                  decoration: InputDecoration(
-                    hintText: "Search with code or name",
-                    hintStyle: kGoogleStyleTexts.copyWith(
-                        color: hexToColor(AppColors.grey), fontSize: 18),
-                    suffixIcon: IconButton(
-                      onPressed: clearSearchField,
-                      icon: Icon(Icons.clear_rounded),
-                      padding: EdgeInsets.all(8),
-                      visualDensity: VisualDensity(),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white, width: 5.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.blueAccent, width: 5.0),
-                    ),
-                  ),
-
-                  style: TextStyle(
-                      color: hexToColor(AppColors.whiteTextColor),
-                      fontWeight: FontWeight.bold),
-                ),
-
-          RawAutocomplete<Youth>(
-            key: key,
-            textEditingController: fieldTextEditingController,
-            focusNode: fieldFocusNode,
-            optionsBuilder: (TextEditingValue textEditingValue) {
-              return youthList
-                  .where((Youth youth) =>
-                      "${youth.rollno + " " + youth.youthFullName}"
-                          .toLowerCase()
-                          .contains(textEditingValue.text.toLowerCase()))
-                  .toList();
-            },
-            displayStringForOption: (Youth option) =>
-                option.rollno + " " + option.youthFullName,
-            // fieldViewBuilder: (BuildContext context,
-            //     fieldTextEditingController,
-            //     fieldFocusNode,
-            //     VoidCallback onFieldSubmitted) {
-            //   return Padding(
-            //     padding: const EdgeInsets.all(8.0),
-            //     child: TextField(
-            //       decoration: InputDecoration(
-            //         hintText: "Search With Code or Name",
-            //         hintStyle: kGoogleStyleTexts.copyWith(
-            //             color: hexToColor(AppColors.grey), fontSize: 18),
-            //         suffixIcon: IconButton(
-            //           onPressed: () => fieldTextEditingController.clear(),
-            //           icon: Icon(Icons.clear_rounded),
-            //           padding: EdgeInsets.all(8),
-            //           visualDensity: VisualDensity(),
-            //         ),
-            //         enabledBorder: OutlineInputBorder(
-            //           borderSide: BorderSide(color: Colors.white, width: 5.0),
-            //         ),
-            //         focusedBorder: OutlineInputBorder(
-            //           borderSide:
-            //               BorderSide(color: Colors.blueAccent, width: 5.0),
-            //         ),
-            //       ),
-            //       // focusNode: fieldFocusNode,
-            //       controller: fieldTextEditingController,
-            //       style: TextStyle(
-            //           color: hexToColor(AppColors.whiteTextColor),
-            //           fontWeight: FontWeight.bold),
-            //     ),
-            //   );
-            // },
-            optionsViewBuilder: (BuildContext context,
-                AutocompleteOnSelected<Youth> onSelected,
-                Iterable<Youth> options) {
-              return Align(
-                alignment: Alignment.topCenter,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: hexToColor(AppColors.appThemeColor),
-                    border: Border.fromBorderSide(BorderSide()),
-                  ),
-                  height: 350,
-                  width: bodyWidth - 20,
-                  child: Scrollbar(
-                    child: ListView.builder(
-                      padding: EdgeInsets.all(4.0),
-                      itemCount: options.length,
-                      itemBuilder: (context, int index) {
-                        Youth option = options.elementAt(index);
-                        // bool selected = selectedYouths.contains(youthList[index]);
-                        return TextButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.amber),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              showOptions = true;
-                              selectedYouth = option;
-                            });
-                            onSelected(option);
-                          },
-                          child: ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            title: Text(
-                                option.rollno + " " + option.youthFullName,
-                                style: kGoogleStyleTexts.copyWith(
-                                    fontSize: 20,
-                                    color: hexToColor(
-                                        AppColors.whiteTextColor))),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              );
-            },
-            onSelected: (Youth youth) {
-              selectedYouth = youth;
-            },
-          ),
-          if(showOptions) Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return ScrollConfiguration(
+      behavior: NoGlowBehaviour(),
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: appBar,
+        backgroundColor: hexToColor(AppColors.appThemeColor),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GestureDetector(
-                onTap: clearSearchField,
-                child: Icon(
-                  Icons.cancel,
-                  color: Colors.redAccent,
-                  size: 70.0,
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: SizedBox(
+                  height: 60,
+                  child: TextField(
+                    autofocus: true,
+                    focusNode: fieldFocusNode,
+                    controller: fieldTextEditingController,
+                    decoration: InputDecoration(
+                      hintText: "Search with code or name",
+                      hintStyle: kGoogleStyleTexts.copyWith(
+                          color: hexToColor(AppColors.grey), fontSize: 18),
+                      suffixIcon: IconButton(
+                        onPressed: clearSearchField,
+                        icon: Icon(Icons.clear_rounded),
+                        padding: EdgeInsets.all(8),
+                        visualDensity: VisualDensity(),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white, width: 5.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.blueAccent, width: 5.0),
+                      ),
+                    ),
+                    style: TextStyle(
+                        color: hexToColor(AppColors.whiteTextColor),
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
-              GestureDetector(
-                onTap: () async {
-                  print(selectedYouth);
-                  clearSearchField();
-                  await ApiService().markAttendance(selectedYouth, widget.event);
+              RawAutocomplete<Youth>(
+                key: key,
+                textEditingController: fieldTextEditingController,
+                focusNode: fieldFocusNode,
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  return YouthData.instance.youthList
+                      .where((Youth youth) =>
+                          "${youth.rollno??"" + " " + youth.youthFullName}"
+                              .toLowerCase()
+                              .contains(textEditingValue.text.toLowerCase()))
+                      .toList();
                 },
-                child: Icon(
-                  Icons.thumb_up_sharp,
-                  color: Colors.yellowAccent,
-                  size: 70.0,
+                displayStringForOption: (Youth option) =>
+                    option.rollno??"" + " " + option.youthFullName,
+                optionsViewBuilder: (BuildContext context,
+                    AutocompleteOnSelected<Youth> onSelected,
+                    Iterable<Youth> options) {
+                  return Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                      ),
+                      //height: 350,
+                      width: bodyWidth - 20,
+                      child: Scrollbar(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.all(4.0),
+                          itemCount: options.length,
+                          itemBuilder: (context, int index) {
+                            Youth option = options.elementAt(index);
+                            // bool selected = selectedYouths.contains(youthList[index]);
+                            return TextButton(
+                              style: ButtonStyle(
+                                  textStyle:
+                                      MaterialStateProperty.all(TextStyle()),
+                                  alignment: Alignment.topLeft,
+                                  padding: MaterialStateProperty.all(
+                                      EdgeInsets.only(left: 10, bottom: 5)),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      hexToColor(AppColors.paleOrange)),
+                                  fixedSize: MaterialStateProperty.all(
+                                      Size(bodyWidth - 32, 40))),
+                              onPressed: () {
+                                setState(() {
+                                  showOptions = true;
+                                  selectedYouth = option;
+                                });
+                                onSelected(option);
+                              },
+                              child: ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                title: Text(
+                                  option.rollno??"" + " " + option.youthFullName,
+                                  style: kGoogleStyleTexts.copyWith(
+                                    fontSize: 20,
+                                    color: hexToColor(AppColors.whiteTextColor),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                onSelected: (Youth youth) {
+                  selectedID = youth.id;
+                  selectedYouth = youth;
+                },
+              ),
+              if (showOptions)
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // GestureDetector(
+                    //   onTap: clearSearchField,
+                    //   child: Icon(
+                    //     Icons.cancel,
+                    //     color: Colors.redAccent,
+                    //     size: 70.0,
+                    //   ),
+                    // ),
+                    // GestureDetector(
+                    //   onTap: () async {
+                    //     print(selectedYouth);
+                    //     clearSearchField();
+                    //     await ApiService()
+                    //         .markAttendance(selectedID, widget.event.id);
+                    //   },
+                    //   child: Icon(
+                    //     Icons.thumb_up_sharp,
+                    //     color: Colors.yellowAccent,
+                    //     size: 70.0,
+                    //   ),
+                    // ),
+                    TextButton(
+                        onPressed: () async {
+                          clearSearchField();
+                        },
+                        child: Text("Drop",
+                            style: kGoogleStyleTexts.copyWith(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              color: hexToColor(AppColors.whiteTextColor),
+                            ))),
+                    TextButton(
+                        onPressed: () async {
+                          print(selectedYouth);
+                          clearSearchField();
+                          await ApiService()
+                              .markAttendance(selectedID, widget.event.id);
+                        },
+                        child: Text("Mark",
+                            style: kGoogleStyleTexts.copyWith(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              color: hexToColor(AppColors.whiteTextColor),
+                            ))),
+                  ],
                 ),
-              )
+              Column(
+                children: [
+                  StreamBuilder<List<Youth>>(
+                      stream: _bids(widget.event.id),
+                      builder: (context, snapshot) {
+                        return (snapshot.connectionState ==
+                                    ConnectionState.done &&
+                                snapshot.hasData)
+                            ? Scrollbar(
+                                child: ListView.builder(
+                                  physics: ScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data?.length,
+                                  itemBuilder: (context, int index) {
+                                    eventMarkedAttendance = snapshot.data!;
+                                    Youth option = eventMarkedAttendance[index];
+                                    // bool selected = selectedYouths.contains(youthList[index]);
+                                    return TextButton(
+                                      style: ButtonStyle(
+                                          textStyle: MaterialStateProperty.all(
+                                              TextStyle()),
+                                          alignment: Alignment.topLeft,
+                                          padding: MaterialStateProperty.all(
+                                              EdgeInsets.only(
+                                                  left: 10, bottom: 5)),
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  hexToColor(
+                                                      AppColors.paleOrange)),
+                                          fixedSize: MaterialStateProperty.all(
+                                              Size(bodyWidth - 32, 40))),
+                                      onPressed: () {
+                                        // onSelected(option);
+                                      },
+                                      child: ListTile(
+                                        contentPadding: EdgeInsets.zero,
+                                        title: Text(
+                                          option.rollno??"" +
+                                              " " +
+                                              option.youthFullName,
+                                          style: kGoogleStyleTexts.copyWith(
+                                            fontSize: 18,
+                                            color: hexToColor(
+                                                AppColors.whiteTextColor),
+                                          ),
+                                          maxLines: 1,
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )
+                            : LinearProgressIndicator(
+                                color: hexToColor(AppColors.whiteTextColor),
+                              );
+                      }),
+                ],
+              ),
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
@@ -296,26 +347,7 @@ class _AttendancePageState extends State<AttendancePage> {
   @override
   void dispose() {
     // TODO: implement dispose
-    index = 0;
-    super.dispose();
-  }
 
-  Widget getCenterRow(String name) {
-    index++;
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Container(
-              child: Text(index.toString(),
-                  style: kGoogleStyleTexts.copyWith(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                    color: hexToColor(AppColors.whiteTextColor),
-                  ))),
-          Container(child: Text(" $name"))
-        ],
-      ),
-    );
+    super.dispose();
   }
 }

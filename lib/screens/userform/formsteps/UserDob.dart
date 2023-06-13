@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -67,7 +66,7 @@ class _UserDobState extends State<UserDob> {
             ),
             dialogBackgroundColor: hexToColor(AppColors.appThemeColor),
           ),
-          child: child ?? const Text(""),
+          child: child ?? const Text("2001-12-21"),
         );
       },
       initialDate: DateTime(1997),

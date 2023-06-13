@@ -20,11 +20,11 @@ class SelectGender extends StatefulWidget {
 
 class _SelectGenderState extends State<SelectGender> {
   int currStep = 0;
-  Future<bool> _onBackPressed() async {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const LoginPage())); //YouthList()
-    return false;
-  }
+  // Future<bool> _onBackPressed() async {
+  //   Navigator.of(context).push(MaterialPageRoute(
+  //       builder: (context) => const LoginPage())); //YouthList()
+  //   return false;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -85,64 +85,61 @@ class _SelectGenderState extends State<SelectGender> {
         child: Image.asset(AppAssets.femaleImgWhite),
       ),
     );
-    return WillPopScope(
-      onWillPop: _onBackPressed,
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: hexToColor(AppColors.appThemeColor),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0, left: 18.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  AppStrings.genderSelection,
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400,
-                      color: hexToColor(AppColors.whiteTextColor),
-                      fontSize: 22.0),
-                ),
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: hexToColor(AppColors.appThemeColor),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, left: 18.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                AppStrings.genderSelection,
+                style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w400,
+                    color: hexToColor(AppColors.whiteTextColor),
+                    fontSize: 22.0),
               ),
             ),
+          ),
 
-            // Gender selection ui
-            Padding(
-              padding: const EdgeInsets.only(top: 25.0, left: 18.0),
-              child: Row(
-                children: [
-                  // female selection
-                  GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          widget.model.setGender("Female");
-                          widget.next();
-                        });
-                      },
-                      child: widget.model.getGender() == "Female"
-                          ? femaleSelected
-                          : femaleUnSelected),
+          // Gender selection ui
+          Padding(
+            padding: const EdgeInsets.only(top: 25.0, left: 18.0),
+            child: Row(
+              children: [
+                // female selection
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        widget.model.setGender("Female");
+                        widget.next();
+                      });
+                    },
+                    child: widget.model.getGender() == "Female"
+                        ? femaleSelected
+                        : femaleUnSelected),
 
-                  // male selection
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          widget.model.setGender("Male");
-                          widget.next();
-                        });
-                      },
-                      child: widget.model.getGender() == "Male"
-                          ? maleSelected
-                          : maleUnselected,
-                    ),
+                // male selection
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        widget.model.setGender("Male");
+                        widget.next();
+                      });
+                    },
+                    child: widget.model.getGender() == "Male"
+                        ? maleSelected
+                        : maleUnselected,
                   ),
-                ],
-              ),
-            )
-          ],
-        ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

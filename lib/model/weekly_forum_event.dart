@@ -3,7 +3,7 @@ import 'center.dart';
 class WeeklyForumEvent {
   late int id;
   late String date;
-  late Center center;
+  late CenterData center;
 
   WeeklyForumEvent(
       {required this.id, required this.date, required this.center});
@@ -11,7 +11,7 @@ class WeeklyForumEvent {
   WeeklyForumEvent.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     date = json['date'];
-    center = new Center.fromJson(json['center']);
+    center = new CenterData.fromJson(json['center']);
   }
 
   Map<String, dynamic> toJson() {
@@ -24,7 +24,7 @@ class WeeklyForumEvent {
   }
 
   @override
-  toString(){
+  toString() {
     return this.date + " " + this.center.toString();
   }
 }

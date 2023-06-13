@@ -17,6 +17,7 @@ import 'package:mozak/screens/userform/formsteps/UserReferenceName.dart';
 import 'package:mozak/screens/userform/formsteps/VerifyDetails.dart';
 import 'package:mozak/utils/CustomLinearProgress.dart';
 import 'package:mozak/utils/app_tools.dart';
+import 'package:mozak/utils/youthData.dart';
 import 'formsteps/UserBloodType.dart';
 import 'formsteps/UserFullName.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -29,7 +30,7 @@ class UserForm extends StatefulWidget {
 }
 
 class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
-  int currStep = 6;
+  int currStep = 1;
   int stepCount = 9;
   UserFormModel model = UserFormModel();
   final PageController _controller = PageController();
@@ -77,6 +78,8 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
   @override
   void dispose() {
     _connectivitySubscription.cancel();
+    _controller.dispose();
+    _valueNotifier.dispose();
     super.dispose();
   }
 
@@ -84,7 +87,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
     String? msg;
     switch (currStep) {
       case 1:
-        msg = model.validateStepOneGender();
+        //msg = model.validateStepOneGender();
         break;
       case 2:
         msg = model.validateStepTwoNamesField();
@@ -185,7 +188,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                                   ),
                                 )
                               : Container(),
-                          v < 8.5 ? _buildNextIcon2() : _buildDoneIcon(),
+                          v < 8.3 ? _buildNextIcon2() : _buildDoneIcon(),
                         ],
                       ),
                     )
@@ -354,6 +357,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                   AppStrings.noInternetConnDescriptionOne,
                 );
               } else {
+                YouthData.instance.youthList = [];
                 await MozakSheetApi.insertUserData(model);
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const FormSuccessScreen()));
