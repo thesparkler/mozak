@@ -101,25 +101,13 @@ class ApiService {
   ) async {
     Uri createWFEUrl =
         Uri.parse('${Constants.domain}${Constants.registerYouth}');
+
     http.Response response = await http.post(createWFEUrl,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(youth.toJson())
-        // body: jsonEncode(<String, String>{
-        //   "rollno":youth.rollno,
-        //   "team": youth.team.toString(),
-        //   "youthFullName": youth.youthFullName,
-        //   "dob": youth.dob.toString(),
-        //   "mobile1": youth.mobile1.toString(),
-        //   "mobile2": "",
-        //   "emailid": youth.emailid.toString(),
-        //   "status": "new",
-        //   "tlCode": youth.tlCode.toString(),
-        //   "pincode": youth.pincode.toString()
-        // }),
-        );
-    //return response;
+    );
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -135,31 +123,6 @@ class ApiService {
       throw Exception('Failed to data');
     }
   }
-
-  // Future<Youth> setRollno(int id, bool isNew) async {
-  //   Uri createWFEUrl =
-  //       Uri.parse('${Constants.domain}setRollNo?id=$id&isTemp=$isNew');
-  //   http.Response response = await http.post(
-  //     createWFEUrl,
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(<String, dynamic>{}),
-  //   );
-  //   if (response.statusCode == 200) {
-  //     // If the server did return a 200 OK response,
-  //     // then parse the JSON.
-  //     Youth _youth;
-  //     var jsonObject = jsonDecode(response.body);
-  //     _youth = Youth.fromJson(jsonObject);
-  //
-  //     return _youth;
-  //   } else {
-  //     // If the server did not return a 200 OK response,
-  //     // then throw an exception.
-  //     throw Exception('Roll no is not set');
-  //   }
-  // }
 
   Future<List<Youth>> getAllYouths() async {
     Uri allWeeklyForumEventsUrl =
@@ -177,7 +140,7 @@ class ApiService {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load youth data');
     }
   }
 

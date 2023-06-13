@@ -31,7 +31,6 @@ class _AttendancePageState extends State<AttendancePage> {
   TextEditingController fieldTextEditingController = TextEditingController();
   FocusNode fieldFocusNode = new FocusNode();
   GlobalKey key = new GlobalKey();
-  late List<Youth> youthList;
   late List<Youth> eventMarkedAttendance;
   var youths = <String, dynamic>{
     "CR": {
@@ -61,6 +60,9 @@ class _AttendancePageState extends State<AttendancePage> {
     super.initState();
   }
 
+  getYouthList() async {
+    await YouthData.instance.getYouthList();
+  }
   Stream<List<Youth>> _bids(int id) => (() {
         late final StreamController<List<Youth>> _attendanceStream;
         _attendanceStream = StreamController<List<Youth>>(
@@ -346,9 +348,7 @@ class _AttendancePageState extends State<AttendancePage> {
                                   child: ListTile(
                                     contentPadding: EdgeInsets.zero,
                                     title: Text(
-                                      option.rollno +
-                                          " " +
-                                          option.youthFullName,
+                                      '${option.rollno}  ${option.youthFullName}',
                                       style: kGoogleStyleTexts.copyWith(
                                         fontSize: 18,
                                         color: hexToColor(
