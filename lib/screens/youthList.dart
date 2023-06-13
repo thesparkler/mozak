@@ -109,19 +109,31 @@ class _YouthListState extends State<YouthList> {
                           builder: (BuildContext context,
                               AsyncSnapshot<List<Youth>> snapshot) {
                             if (snapshot.hasError) {
+                              print(snapshot.error);
                               return Center(
                                 child: Text(
-                                  '${snapshot.error} occurred',
-                                  style: TextStyle(fontSize: 18),
+                                  'Some error occurred. Please contact SITH',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                    color: Colors.white
+                                  ),
                                 ),
                               );
                             } else if (snapshot.hasData) {
                               youthList = snapshot.data!;
-                              youthList
-                                  .sort((a, b) => a.rollno.compareTo(b.rollno));
+                              youthList.sort((a,b){
+                               if(a.rollno != null && b.rollno !=null){
+                                 String aRoll = a.rollno??"";
+                                 String bRoll = b.rollno??"";
+                                 return aRoll.compareTo(bRoll);
+                               } else{
+                                  return 1; //
+                               }
+                              });
                               return ListView(
                                   shrinkWrap: true,
                                   physics: ScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
                                   children: youthList
                                       .where((element) =>
                                           element.team!.substring(0, 2) ==
@@ -251,7 +263,8 @@ class _YouthListState extends State<YouthList> {
             color: hexToColor(AppColors.appThemeColor),
             elevation: 3,
             child: Text(
-              e.rollno + " " + e.youthFullName.toString(),
+              '${e.rollno??""}  ${e.youthFullName}',
+
               softWrap: true,
               overflow: TextOverflow.ellipsis,
               style: kGoogleStyleTexts.copyWith(

@@ -22,6 +22,8 @@ class AttendancePage extends StatefulWidget {
 class _AttendancePageState extends State<AttendancePage> {
   late List<AttendanceTable> attendanceTableList;
   late Youth selectedYouth;
+  late List<Youth> youthList;
+
   int selectedID = 0;
 
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -59,8 +61,13 @@ class _AttendancePageState extends State<AttendancePage> {
     super.initState();
   }
 
+<<<<<<<<< Temporary merge branch 1
+  void getYouthList() async {
+    youthList = await ApiService().getAllYouths();
+=========
   getYouthList() async {
     await YouthData.instance.getYouthList();
+>>>>>>>>> Temporary merge branch 2
   }
 
   //getMarkedList() async => await ApiService().getMarkedYouths(widget.event.id);

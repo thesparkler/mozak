@@ -1,44 +1,52 @@
 class Youth {
   int id;
-  String rollno;
-  String? team;
+  String? rollno;
+  String team;
   String youthFullName;
   String? dob;
-  String? mobile1;
+  String mobile1;
   String? mobile2;
   String? emailid;
   String? status;
-  String? tlCode;
+  String tlCode;
   String? pincode;
+  bool isTL = false;
+  bool isKK = false;
 
   Youth(
-      {this.id = 0,
-      this.rollno = "",
-      this.team,
+    {
+      this.id = 0,
+      this.rollno,
+      required this.team,
       required this.youthFullName,
       this.dob,
-      this.mobile1,
+      required this.mobile1,
       this.mobile2,
       this.emailid,
       this.status,
-      this.tlCode,
+      required this.tlCode,
       this.pincode});
 
   Youth.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        rollno = json['rollno'],
-        youthFullName = json['youthFullName'] {
-    id = json['id'];
-    rollno = json['rollno'];
-    team = json['team'];
-    youthFullName = json['youthFullName'];
-    dob = json['dob'];
-    mobile1 = json['mobile1'];
-    mobile2 = json['mobile2'];
-    emailid = json['emailid'];
-    status = json['status'];
-    tlCode = json['tlCode'];
-    pincode = json['pincode'];
+  :id=json['id'],
+  youthFullName=json['youthFullName'],
+  mobile1=json['mobile1']??"",
+  team=json['team']??"",
+  tlCode=json['tlCode']??""
+  {
+    id = json['id']??"";
+    rollno = json['rollno']??"";
+    team = json['team']??"";
+    youthFullName = json['youthFullName']??"";
+    dob = json['dob']??"";
+    mobile1 = json['mobile1']??"";
+    mobile2 = json['mobile2']??"";
+    emailid = json['emailid']??"";
+    status = json['status']??"";
+    tlCode = json['tlCode']??"";
+    pincode = json['pincode']??"";
+    isTL = json['isTL']??false;
+    isKK = json['isKK']??false;
   }
 
   Map<String, dynamic> toJson() {
@@ -54,6 +62,8 @@ class Youth {
     data['status'] = this.status;
     data['tlCode'] = this.tlCode;
     data['pincode'] = this.pincode;
+    data['isKK'] = this.isKK;
+    data['isTL'] = this.isTL;
     return data;
   }
 
