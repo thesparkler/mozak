@@ -29,7 +29,6 @@ class YouthRegistration extends StatefulWidget {
 }
 
 class _YouthRegistrationState extends State<YouthRegistration> {
-
   //var youth = Youth(rollno: '', youthFullName: '');
   late Youth youth;
   String youthCode = group.values.first;
@@ -48,8 +47,12 @@ class _YouthRegistrationState extends State<YouthRegistration> {
 
   @override
   void initState() {
-    currentList = YouthData.instance.youthList.where((element) => element.rollno?.substring(0,2) == '${group[dropdownValue]}' && element.rollno?.substring(4,6) == '01').toList();
-    dropdownValue1=currentList[0];
+    currentList = YouthData.instance.youthList
+        .where((element) =>
+            element.rollno?.substring(0, 2) == '${group[dropdownValue]}' &&
+            element.rollno?.substring(4, 6) == '01')
+        .toList();
+    dropdownValue1 = currentList[0];
     super.initState();
   }
 
@@ -285,6 +288,43 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                             }).toList(),
                           )),
                       Container(
+                          height: constraint.maxHeight * 0.09,
+                          width: constraint.maxWidth * 0.8,
+                          padding: EdgeInsets.all(5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                            border: Border.all(
+                              color: hexToColor(
+                                  AppColors.textFieldOutlineBorderColor),
+                              width: 1.0,
+                            ),
+                          ),
+                          child: DropdownButton<String>(
+                            underline: SizedBox(),
+                            value: dropdownValue,
+                            icon: SizedBox.shrink(),
+                            onChanged: (String? value) {
+                              setState(() {
+                                dropdownValue = value!;
+                                currentList = YouthData.instance.youthList
+                                    .where((element) =>
+                                        element.rollno?.substring(0, 2) ==
+                                            '${group[dropdownValue]}' &&
+                                        element.rollno?.substring(4, 6) == '01')
+                                    .toList();
+                                dropdownValue1 = currentList[0];
+                                print('$dropdownValue');
+                              });
+                            },
+                            items: group.keys
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          )),
+                      Container(
                         height: constraint.maxHeight * 0.09,
                         width: constraint.maxWidth * 0.8,
                         padding: EdgeInsets.all(5.0),
@@ -296,85 +336,56 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                             width: 1.0,
                           ),
                         ),
-
-                      child:DropdownButton<String>(
-                        underline: SizedBox(), 
-                        value: dropdownValue,
-                        icon: SizedBox.shrink(),
-                        onChanged: (String? value) {
-                          setState(() {
-                            dropdownValue = value!;
-                            currentList = YouthData.instance.youthList.where((element) => element.rollno?.substring(0,2) == '${group[dropdownValue]}' && element.rollno?.substring(4,6) == '01').toList();
-                            dropdownValue1=currentList[0];
-                            print('$dropdownValue');
-                          });
-                        },
-                        items:group.keys.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        
-                      )
-                    ),
-                    Container(
-                      height: constraint.maxHeight * 0.09,
-                      width: constraint.maxWidth *0.8,
-                      padding: EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-                        border: Border.all(
-                          color: hexToColor(AppColors.textFieldOutlineBorderColor),
-                          width: 1.0,
+                        child: DropdownButton<Youth>(
+                          isExpanded: true,
+                          underline: SizedBox(),
+                          value: dropdownValue1,
+                          icon: SizedBox.shrink(),
+                          onChanged: (Youth? value) {
+                            setState(() {
+                              dropdownValue1 = value!;
+                              print('${dropdownValue1.rollno.toString()}');
+                              youth.tlCode = dropdownValue1.rollno.toString();
+                              youth.team =
+                                  dropdownValue1.rollno.substring(0, 4);
+                              // youth.rollno= youth.team.toString()+"0A";
+                            });
+                          },
+                          items: currentList
+                              .map<DropdownMenuItem<Youth>>((Youth value) {
+                            return DropdownMenuItem<Youth>(
+                              value: value,
+                              child: Text(
+                                value.rollno! + " " + value.youthFullName,
+                                softWrap: true,
+                                overflow: TextOverflow.fade,
+                              ),
+                            );
+                          }).toList(),
                         ),
                       ),
-                      child:DropdownButton<Youth>(
-                        isExpanded: true,
-                        underline: SizedBox(), 
-                        value: dropdownValue1,
-                        icon: SizedBox.shrink(),
-                        onChanged: (Youth? value) {
-                          setState(() {
-                            dropdownValue1 = value!;
-                            print('${dropdownValue1.rollno.toString()}');
-                            youth.tlCode = dropdownValue1.rollno.toString();
-                            youth.team = dropdownValue1.rollno.substring(0,4);
-                            // youth.rollno= youth.team.toString()+"0A";
-                          });
-                        },
-                        items: currentList.map<DropdownMenuItem<Youth>>((Youth value) {
-                          return DropdownMenuItem<Youth>(
-                            value: value,
-                            child: Text(value.rollno!+" "+value.youthFullName,softWrap: true,overflow: TextOverflow.fade,),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    Container(
-                      height: constraint.maxHeight * 0.09,
-                      width: constraint.maxWidth *0.8,
-                      padding: EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-                        border: Border.all(
-                          color: hexToColor(AppColors.textFieldOutlineBorderColor),
-                          width: 1.0,
-                        )
-                      ),
-                      child: RadioListTile<bool>(
-                        toggleable: true,
-                        value: true,
-                        title: Text('Create Temporary Rollno'), 
-                        groupValue: isNew, 
-                        onChanged: (value)
-                        {
-                          setState(() {
-                            isNew = !isNew;
-                            print('.................$isNew');
-                          });
-                        }
-                      ),
+                      Container(
+                        height: constraint.maxHeight * 0.09,
+                        width: constraint.maxWidth * 0.8,
+                        padding: EdgeInsets.all(5.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                            border: Border.all(
+                              color: hexToColor(
+                                  AppColors.textFieldOutlineBorderColor),
+                              width: 1.0,
+                            )),
+                        child: RadioListTile<bool>(
+                            toggleable: true,
+                            value: true,
+                            title: Text('Create Temporary Rollno'),
+                            groupValue: isNew,
+                            onChanged: (value) {
+                              setState(() {
+                                isNew = !isNew;
+                                print('.................$isNew');
+                              });
+                            }),
                       ),
                       ElevatedButton(
                           onPressed: () => _trySubmit(context),
