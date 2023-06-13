@@ -212,7 +212,7 @@ class ApiService {
     return response;
   }
 
-  Future<http.Response> markAttendance(int selectedYouthId, int eventID) async {
+  Future<http.Response> markAttendance(int eventID, int selectedYouthId) async {
     Uri createWFEUrl =
         Uri.parse('${Constants.domain}${Constants.markAttendance}'
             'youth_id=$selectedYouthId'

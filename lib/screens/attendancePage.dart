@@ -323,8 +323,7 @@ class _AttendancePageState extends State<AttendancePage> {
                           return const Text('Error');
                         } else if (snapshot.hasData) {
                           eventMarkedAttendance = snapshot.data!;
-                          eventMarkedAttendance
-                              .sort((a, b) => a.rollno.compareTo(b.rollno));
+                          //eventMarkedAttendance.sort((a, b) => a.rollno.compareTo(b.rollno));
                           return Scrollbar(
                             child: ListView.builder(
                               physics: ScrollPhysics(),
