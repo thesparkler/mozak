@@ -6,6 +6,7 @@ import '../utils/youthData.dart';
 import '../constants/AppColors.dart';
 import '../utils/api_service.dart';
 import '../utils/app_tools.dart';
+
 class YouthList extends StatefulWidget {
   const YouthList({Key? key}) : super(key: key);
 
@@ -89,11 +90,10 @@ class _YouthListState extends State<YouthList> {
                                 child: value == youthCode
                                     ? Text(
                                         value,
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20
-                                  ),
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
                                       )
                                     : Text(
                                         value,
@@ -117,7 +117,8 @@ class _YouthListState extends State<YouthList> {
                               );
                             } else if (snapshot.hasData) {
                               youthList = snapshot.data!;
-                              youthList.sort((a,b)=>a.rollno.compareTo(b.rollno));
+                              youthList
+                                  .sort((a, b) => a.rollno.compareTo(b.rollno));
                               return ListView(
                                   shrinkWrap: true,
                                   physics: ScrollPhysics(),
@@ -248,15 +249,15 @@ class _YouthListState extends State<YouthList> {
           width: MediaQuery.of(context).size.width,
           child: Card(
             color: hexToColor(AppColors.appThemeColor),
-           elevation: 3,
+            elevation: 3,
             child: Text(
-              e.rollno??"" + " " + e.youthFullName.toString(),
+              e.rollno + " " + e.youthFullName.toString(),
               softWrap: true,
               overflow: TextOverflow.ellipsis,
               style: kGoogleStyleTexts.copyWith(
                 fontWeight: FontWeight.w700,
                 fontSize: 20,
-                color: hexToColor(AppColors.whiteTextColor),
+                color: hexToColor(AppColors.whiteTextColor).withOpacity(.5),
               ),
             ),
           ),
