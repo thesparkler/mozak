@@ -29,8 +29,6 @@ class YouthRegistration extends StatefulWidget {
 }
 
 class _YouthRegistrationState extends State<YouthRegistration> {
-  //var youth = Youth(rollno: '', youthFullName: '');
-  // late Youth youth;
   String youthCode = group.values.first;
   String dropdownValue = group.keys.first;
   bool isNew = false;
@@ -39,12 +37,14 @@ class _YouthRegistrationState extends State<YouthRegistration> {
   var currentList = <Youth>[];
 
   DateTime? pickedDate;
-  var datecontroller = TextEditingController(text: "");
+
   var date;
   var selected;
 
+  Youth youth = Youth(isTL: false, isKK: false);
+
   final _formKey = GlobalKey<FormState>();
-  final Map<String, TextEditingController> sigUpController = {
+  final Map<String, TextEditingController> signUpController = {
     'firstName': TextEditingController(),
     'middleName': TextEditingController(),
     'lastName': TextEditingController(),
@@ -54,12 +54,14 @@ class _YouthRegistrationState extends State<YouthRegistration> {
     'address': TextEditingController(),
     'team': TextEditingController(),
     'tlcode': TextEditingController(),
+    'datecontroller': TextEditingController(text: "")
   };
 
   @override
   void initState() {
-    currentList = YouthData.instance.youthList.where((element) => element.isTL).toList();
-    dropdownValue1=currentList[0];
+    currentList =
+        YouthData.instance.youthList.where((element) => element.isTL).toList();
+    dropdownValue1 = currentList[0];
     super.initState();
   }
 
@@ -76,7 +78,8 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       var formatter = DateFormat('yyyy-MM-dd');
 
       setState(() {
-        date = datecontroller.text = formatter.format(selected);
+        date = signUpController['datecontroller']?.text =
+            formatter.format(selected);
       });
     }
   }
@@ -144,13 +147,14 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                 builder: (context, constraint) {
                   return Column(
                     children: [
-                      Container( // firstname
+                      Container(
+                        // firstname
 
                         height: constraint.maxHeight * 0.1,
                         width: constraint.maxWidth * 0.8,
                         padding: EdgeInsets.all(5.0),
                         child: TextFormField(
-                          controller: sigUpController['firstName'],
+                          controller: signUpController['firstName'],
                           decoration: InputDecoration(
                               labelText: 'First Name',
                               hintText: 'First Name',
@@ -162,15 +166,15 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                       .hasMatch(value))
                                   ? 'Invalid name'
                                   : null,
-
                         ),
                       ),
-                      Container( // middle Name
+                      Container(
+                        // middle Name
                         height: constraint.maxHeight * 0.1,
                         width: constraint.maxWidth * 0.8,
                         padding: EdgeInsets.all(5.0),
                         child: TextFormField(
-                          controller: sigUpController['middleName'],
+                          controller: signUpController['middleName'],
                           decoration: InputDecoration(
                               labelText: 'Middle Name',
                               hintText: 'Middle Name',
@@ -179,10 +183,9 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           validator: (value) => value!.isEmpty
                               ? 'Please enter your middle name'
                               : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
-                              .hasMatch(value))
-                              ? 'Invalid name'
-                              : null,
-
+                                      .hasMatch(value))
+                                  ? 'Invalid name'
+                                  : null,
                         ),
                       ),
                       Container(
@@ -190,7 +193,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                         width: constraint.maxWidth * 0.8,
                         padding: EdgeInsets.all(5.0),
                         child: TextFormField(
-                          controller: sigUpController['lastName'],
+                          controller: signUpController['lastName'],
                           decoration: InputDecoration(
                               labelText: 'Last Name',
                               hintText: 'Last Name',
@@ -199,10 +202,9 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           validator: (value) => value!.isEmpty
                               ? 'Please enter your last name'
                               : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
-                              .hasMatch(value))
-                              ? 'Invalid name'
-                              : null,
-
+                                      .hasMatch(value))
+                                  ? 'Invalid name'
+                                  : null,
                         ),
                       ),
                       Container(
@@ -210,7 +212,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           width: constraint.maxWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
                           child: TextFormField(
-                            controller: sigUpController['mobile'],
+                            controller: signUpController['mobile'],
                             key: ValueKey('Mobile Number'),
                             decoration: InputDecoration(
                               labelText: 'Phone.No',
@@ -238,7 +240,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           width: constraint.maxWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
                           child: TextFormField(
-                            controller: sigUpController['email'],
+                            controller: signUpController['email'],
                             key: ValueKey('Email-Id'),
                             decoration: InputDecoration(
                               labelText: 'Email Id',
@@ -260,7 +262,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           width: constraint.maxWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
                           child: TextFormField(
-                            controller: sigUpController['pincode'],
+                            controller: signUpController['pincode'],
                             key: ValueKey('Pincode'),
                             decoration: InputDecoration(
                               labelText: 'Pincode',
@@ -279,12 +281,13 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                               youth.pincode = value.toString();
                             },
                           )),
-                      Container( //DOB container
+                      Container(
+                        //DOB container
                         height: constraint.maxHeight * 0.1,
                         width: constraint.maxWidth * 0.8,
                         padding: EdgeInsets.all(5.0),
                         child: TextFormField(
-                          controller: datecontroller,
+                          controller: signUpController['dateController'],
                           style: TextStyle(color: Colors.black),
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.calendar_month),
@@ -301,7 +304,8 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           },
                         ),
                       ),
-                      Container( //isTL container
+                      Container(
+                          //Group dropdown container
                           height: constraint.maxHeight * 0.09,
                           width: constraint.maxWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
@@ -335,20 +339,51 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                 child: Text(value),
                               );
                             }).toList(),
-                          )),
-
-                    Container(
-                      height: constraint.maxHeight * 0.09,
-                      width: constraint.maxWidth *0.8,
-                      padding: EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-                        border: Border.all(
-                          color: hexToColor(AppColors.textFieldOutlineBorderColor),
-                          width: 1.0,
-                        ),
+                          )
                       ),
+                      Container( // Team leader drop down
+                          height: constraint.maxHeight * 0.09,
+                          width: constraint.maxWidth * 0.8,
+                          padding: EdgeInsets.all(5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5.0),
+                            border: Border.all(
+                              color: hexToColor(
+                                  AppColors.textFieldOutlineBorderColor),
+                              width: 1.0,
+                            ),
+                          ),
+                          child: DropdownButton<Youth>(
+                            isExpanded: true,
+                            underline: SizedBox(),
+                            value: dropdownValue1,
+                            icon: SizedBox.shrink(),
+                            onChanged: (Youth? value) {
+                              setState(() {
+                                dropdownValue1 = value!;
+                                print('${dropdownValue1.rollno.toString()}');
+                                youth.tlCode = dropdownValue1.rollno.toString();
+                                youth.team =
+                                    dropdownValue1.rollno.substring(0, 4);
+                                // youth.rollno= youth.team.toString()+"0A";
+                              });
+                            },
+                            items: currentList
+                                .map<DropdownMenuItem<Youth>>((Youth value) {
+                              return DropdownMenuItem<Youth>(
+                                value: value,
+                                child: Text(
+                                  value.rollno! +
+                                      " " +
+                                      value.youthFullName.toString(),
+                                  softWrap: true,
+                                  overflow: TextOverflow.fade,
+                                ),
+                              );
+                            }).toList(),
+                          )),
                       Container(
+                        // Create temp rollno
                         height: constraint.maxHeight * 0.09,
                         width: constraint.maxWidth * 0.8,
                         padding: EdgeInsets.all(5.0),
