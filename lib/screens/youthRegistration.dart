@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:mozak/model/youth.dart';
 import 'package:mozak/utils/youthData.dart';
 import '../constants/AppColors.dart';
+import '../utils/NoGlowBehaviour.dart';
 import '../utils/api_service.dart';
 import '../utils/app_tools.dart';
 import 'package:email_validator/email_validator.dart';
@@ -60,8 +61,12 @@ class _YouthRegistrationState extends State<YouthRegistration> {
   @override
   void initState() {
     currentList =
-        YouthData.instance.youthList.where((element) => element.isTL).toList();
+        YouthData.instance.youthList.where((element) => element.isTL && element.rollno?.substring(0,2)==youthCode).toList();
     dropdownValue1 = currentList[0];
+    youth.tlCode = dropdownValue1.rollno.toString();
+    youth.team =
+        dropdownValue1.rollno.substring(0, 4);
+    print('${youth.tlCode}');
     super.initState();
   }
 
@@ -134,285 +139,295 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         mediaQuery.padding.left -
         mediaQuery.padding.right;
 
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Container(
-          height: bodyHeight,
-          width: bodyWidth,
-          padding: EdgeInsets.all(8.0),
-          child: Form(
-              key: _formKey,
-              child: LayoutBuilder(
-                builder: (context, constraint) {
-                  return Column(
-                    children: [
-                      Container(
-                        // firstname
+    return ScrollConfiguration(
+      behavior: NoGlowBehaviour(),
+      child: Scaffold(
+        appBar: appBar,
+        body: SingleChildScrollView(
+          child: Container(
+            width: bodyWidth,
+            padding: EdgeInsets.all(8.0),
+            child: Form(
+                key: _formKey,
+                child: LayoutBuilder(
+                  builder: (context, constraint) {
+                    return Column(
+                      children: [
+                        Container(
+                          // firstname
 
-                        height: constraint.maxHeight * 0.1,
-                        width: constraint.maxWidth * 0.8,
-                        padding: EdgeInsets.all(5.0),
-                        child: TextFormField(
-                          controller: signUpController['firstName'],
-                          decoration: InputDecoration(
-                              labelText: 'First Name',
-                              hintText: 'First Name',
-                              border: OutlineInputBorder()),
-                          keyboardType: TextInputType.text,
-                          validator: (value) => value!.isEmpty
-                              ? 'Please enter your name'
-                              : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
-                                      .hasMatch(value))
-                                  ? 'Invalid name'
-                                  : null,
-                        ),
-                      ),
-                      Container(
-                        // middle Name
-                        height: constraint.maxHeight * 0.1,
-                        width: constraint.maxWidth * 0.8,
-                        padding: EdgeInsets.all(5.0),
-                        child: TextFormField(
-                          controller: signUpController['middleName'],
-                          decoration: InputDecoration(
-                              labelText: 'Middle Name',
-                              hintText: 'Middle Name',
-                              border: OutlineInputBorder()),
-                          keyboardType: TextInputType.text,
-                          validator: (value) => value!.isEmpty
-                              ? 'Please enter your middle name'
-                              : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
-                                      .hasMatch(value))
-                                  ? 'Invalid name'
-                                  : null,
-                        ),
-                      ),
-                      Container(
-                        height: constraint.maxHeight * 0.1,
-                        width: constraint.maxWidth * 0.8,
-                        padding: EdgeInsets.all(5.0),
-                        child: TextFormField(
-                          controller: signUpController['lastName'],
-                          decoration: InputDecoration(
-                              labelText: 'Last Name',
-                              hintText: 'Last Name',
-                              border: OutlineInputBorder()),
-                          keyboardType: TextInputType.text,
-                          validator: (value) => value!.isEmpty
-                              ? 'Please enter your last name'
-                              : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
-                                      .hasMatch(value))
-                                  ? 'Invalid name'
-                                  : null,
-                        ),
-                      ),
-                      Container(
-                          height: constraint.maxHeight * 0.1,
-                          width: constraint.maxWidth * 0.8,
+                          height: bodyHeight * 0.1,
+                          width: bodyWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
                           child: TextFormField(
-                            controller: signUpController['mobile'],
-                            key: ValueKey('Mobile Number'),
+                            controller: signUpController['firstName'],
                             decoration: InputDecoration(
-                              labelText: 'Phone.No',
-                              hintText: 'Enter your mobile number',
-                              prefixText: '+91',
-                              border: OutlineInputBorder(),
-                            ),
-                            //         inputFormatters: <TextInputFormatter>[
-                            //   LengthLimitingTextInputFormatter(10),
-                            // ],
-                            validator: (value) =>
-                                (!RegExp(r'(^(?:[+0]9)?[0-9]{10}$)')
-                                            .hasMatch(value!) ||
-                                        value.length == 0)
-                                    ? 'Invalid phone number'
+                                labelText: 'First Name',
+                                hintText: 'First Name',
+                                border: OutlineInputBorder()),
+                            keyboardType: TextInputType.text,
+                            validator: (value) => value!.isEmpty
+                                ? 'Please enter your name'
+                                : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
+                                        .hasMatch(value))
+                                    ? 'Invalid name'
                                     : null,
-                            keyboardType: TextInputType.phone,
-                            onSaved: (value) {
-                              print('$value');
-                              youth.mobile1 = value.toString();
-                            },
-                          )),
-                      Container(
-                          height: constraint.maxHeight * 0.1,
-                          width: constraint.maxWidth * 0.8,
-                          padding: EdgeInsets.all(5.0),
-                          child: TextFormField(
-                            controller: signUpController['email'],
-                            key: ValueKey('Email-Id'),
-                            decoration: InputDecoration(
-                              labelText: 'Email Id',
-                              hintText: 'Enter your email address',
-                              border: OutlineInputBorder(),
-                            ),
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) =>
-                                !EmailValidator.validate(value!, true)
-                                    ? 'Invalid email id'
-                                    : null,
-                            onSaved: (value) {
-                              print('$value');
-                              youth.emailid = value.toString();
-                            },
-                          )),
-                      Container(
-                          height: constraint.maxHeight * 0.1,
-                          width: constraint.maxWidth * 0.8,
-                          padding: EdgeInsets.all(5.0),
-                          child: TextFormField(
-                            controller: signUpController['pincode'],
-                            key: ValueKey('Pincode'),
-                            decoration: InputDecoration(
-                              labelText: 'Pincode',
-                              hintText: 'Enter your pincode',
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (value) =>
-                                (!RegExp(r'(^(?:[+0]9)?[0-9]{6}$)')
-                                            .hasMatch(value!) ||
-                                        value.length > 6)
-                                    ? 'Invalid pincode'
-                                    : null,
-                            keyboardType: TextInputType.phone,
-                            onSaved: (value) {
-                              print('$value');
-                              youth.pincode = value.toString();
-                            },
-                          )),
-                      Container(
-                        //DOB container
-                        height: constraint.maxHeight * 0.1,
-                        width: constraint.maxWidth * 0.8,
-                        padding: EdgeInsets.all(5.0),
-                        child: TextFormField(
-                          controller: signUpController['dateController'],
-                          style: TextStyle(color: Colors.black),
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.calendar_month),
-                            labelText: 'DOB',
-                            border: OutlineInputBorder(),
                           ),
-                          validator: (value) =>
-                              value != null ? null : 'Please select DOB',
-                          readOnly: true,
-                          onTap: () => pickDate(context),
-                          onSaved: (value) {
-                            print('$value');
-                            youth.dob = value.toString();
-                          },
                         ),
-                      ),
-                      Container(
-                          //Group dropdown container
-                          height: constraint.maxHeight * 0.09,
-                          width: constraint.maxWidth * 0.8,
+                        Container(
+                          // middle Name
+                          height: bodyHeight * 0.1,
+                          width: bodyWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            border: Border.all(
-                              color: hexToColor(
-                                  AppColors.textFieldOutlineBorderColor),
-                              width: 1.0,
-                            ),
+                          child: TextFormField(
+                            controller: signUpController['middleName'],
+                            decoration: InputDecoration(
+                                labelText: 'Middle Name',
+                                hintText: 'Middle Name',
+                                border: OutlineInputBorder()),
+                            keyboardType: TextInputType.text,
+                            validator: (value) => value!.isEmpty
+                                ? 'Please enter your middle name'
+                                : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
+                                        .hasMatch(value))
+                                    ? 'Invalid name'
+                                    : null,
                           ),
-                          child: DropdownButton<String>(
-                            underline: SizedBox(),
-                            value: dropdownValue,
-                            icon: SizedBox.shrink(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                dropdownValue = value!;
-                                currentList = YouthData.instance.youthList
-                                    .where((element) => element.isTL)
-                                    .toList();
-
-                                dropdownValue1 = currentList[0];
-                                // print('$dropdownValue');
-                              });
-                            },
-                            items: group.keys
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          )
-                      ),
-                      Container( // Team leader drop down
-                          height: constraint.maxHeight * 0.09,
-                          width: constraint.maxWidth * 0.8,
+                        ),
+                        Container(
+                          height: bodyHeight * 0.1,
+                          width: bodyWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            border: Border.all(
-                              color: hexToColor(
-                                  AppColors.textFieldOutlineBorderColor),
-                              width: 1.0,
-                            ),
+                          child: TextFormField(
+                            controller: signUpController['lastName'],
+                            decoration: InputDecoration(
+                                labelText: 'Last Name',
+                                hintText: 'Last Name',
+                                border: OutlineInputBorder()),
+                            keyboardType: TextInputType.text,
+                            validator: (value) => value!.isEmpty
+                                ? 'Please enter your last name'
+                                : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]')
+                                        .hasMatch(value))
+                                    ? 'Invalid name'
+                                    : null,
                           ),
-                          child: DropdownButton<Youth>(
-                            isExpanded: true,
-                            underline: SizedBox(),
-                            value: dropdownValue1,
-                            icon: SizedBox.shrink(),
-                            onChanged: (Youth? value) {
-                              setState(() {
-                                dropdownValue1 = value!;
-                                print('${dropdownValue1.rollno.toString()}');
-                                youth.tlCode = dropdownValue1.rollno.toString();
-                                youth.team =
-                                    dropdownValue1.rollno.substring(0, 4);
-                                // youth.rollno= youth.team.toString()+"0A";
-                              });
-                            },
-                            items: currentList
-                                .map<DropdownMenuItem<Youth>>((Youth value) {
-                              return DropdownMenuItem<Youth>(
-                                value: value,
-                                child: Text(
-                                  value.rollno! +
-                                      " " +
-                                      value.youthFullName.toString(),
-                                  softWrap: true,
-                                  overflow: TextOverflow.fade,
-                                ),
-                              );
-                            }).toList(),
-                          )),
-                      Container(
-                        // Create temp rollno
-                        height: constraint.maxHeight * 0.09,
-                        width: constraint.maxWidth * 0.8,
-                        padding: EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.0),
-                            border: Border.all(
-                              color: hexToColor(
-                                  AppColors.textFieldOutlineBorderColor),
-                              width: 1.0,
+                        ),
+                        Container(
+                            height: bodyHeight * 0.1,
+                            width: bodyWidth * 0.8,
+                            padding: EdgeInsets.all(5.0),
+                            child: TextFormField(
+                              controller: signUpController['mobile'],
+                              key: ValueKey('Mobile Number'),
+                              decoration: InputDecoration(
+                                labelText: 'Phone.No',
+                                hintText: 'Enter your mobile number',
+                                prefixText: '+91',
+                                border: OutlineInputBorder(),
+                              ),
+                              //         inputFormatters: <TextInputFormatter>[
+                              //   LengthLimitingTextInputFormatter(10),
+                              // ],
+                              validator: (value) =>
+                                  (!RegExp(r'(^(?:[+0]9)?[0-9]{10}$)')
+                                              .hasMatch(value!) ||
+                                          value.length == 0)
+                                      ? 'Invalid phone number'
+                                      : null,
+                              keyboardType: TextInputType.phone,
+                              onSaved: (value) {
+                                print('$value');
+                                youth.mobile1 = value.toString();
+                              },
                             )),
-                        child: RadioListTile<bool>(
-                            toggleable: true,
-                            value: true,
-                            title: Text('Create Temporary Rollno'),
-                            groupValue: isNew,
-                            onChanged: (value) {
-                              setState(() {
-                                isNew = !isNew;
-                                print('.................$isNew');
-                              });
-                            }),
-                      ),
-                      ElevatedButton(
-                          onPressed: () => _trySubmit(context),
-                          child: Text('Submit'))
-                    ],
-                  );
-                },
-              )),
+                        Container(
+                            height: bodyHeight * 0.1,
+                            width: bodyWidth * 0.8,
+                            padding: EdgeInsets.all(5.0),
+                            child: TextFormField(
+                              controller: signUpController['email'],
+                              key: ValueKey('Email-Id'),
+                              decoration: InputDecoration(
+                                labelText: 'Email Id',
+                                hintText: 'Enter your email address',
+                                border: OutlineInputBorder(),
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) =>
+                                  !EmailValidator.validate(value!, true)
+                                      ? 'Invalid email id'
+                                      : null,
+                              onSaved: (value) {
+                                print('$value');
+                                youth.emailid = value.toString();
+                              },
+                            )),
+                        Container(
+                            height: bodyHeight * 0.1,
+                            width: bodyWidth * 0.8,
+                            padding: EdgeInsets.all(5.0),
+                            child: TextFormField(
+                              controller: signUpController['pincode'],
+                              key: ValueKey('Pincode'),
+                              decoration: InputDecoration(
+                                labelText: 'Pincode',
+                                hintText: 'Enter your pincode',
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) =>
+                                  (!RegExp(r'(^(?:[+0]9)?[0-9]{6}$)')
+                                              .hasMatch(value!) ||
+                                          value.length > 6)
+                                      ? 'Invalid pincode'
+                                      : null,
+                              keyboardType: TextInputType.phone,
+                              onSaved: (value) {
+                                print('$value');
+                                youth.pincode = value.toString();
+                              },
+                            )),
+                        Container(
+                          //DOB container
+                          height: bodyHeight * 0.1,
+                          width: bodyWidth * 0.8,
+                          padding: EdgeInsets.all(5.0),
+                          child: TextFormField(
+                            controller: signUpController['dateController'],
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.calendar_month),
+                              labelText: 'DOB',
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (value) =>
+                                value != null ? null : 'Please select DOB',
+                            readOnly: true,
+                            onTap: () => pickDate(context),
+                            onSaved: (value) {
+                              print('$value');
+                              youth.dob = value.toString();
+                            },
+                          ),
+                        ),
+                        Container(
+                            //Group dropdown container
+                            height: bodyHeight * 0.09,
+                            width: bodyWidth * 0.8,
+                            padding: EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              border: Border.all(
+                                color: hexToColor(
+                                    AppColors.textFieldOutlineBorderColor),
+                                width: 1.0,
+                              ),
+                            ),
+                            child: DropdownButton<String>(
+                              hint: Text("Select"),
+                              underline: SizedBox(),
+                              value: dropdownValue,
+                              icon: SizedBox.shrink(),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  dropdownValue = value!;
+                                  youthCode=group[dropdownValue]!;
+                                  currentList =
+                                      YouthData.instance.youthList.where((element) => element.isTL && element.rollno?.substring(0,2)==youthCode).toList();
+
+                                  dropdownValue1 = currentList[0];
+                                  youth.tlCode = dropdownValue1.rollno.toString();
+                                  youth.team =
+                                      dropdownValue1.rollno.substring(0, 4);
+                                  print('${youth.tlCode}');
+                                  // print('$dropdownValue');
+                                });
+                              },
+                              items: group.keys
+                                  .map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            )
+                        ),
+                        SizedBox(height: 10,),
+                        Container( // Team leader drop down
+                            height: bodyHeight * 0.09,
+                            width: bodyWidth * 0.8,
+                            padding: EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              border: Border.all(
+                                color: hexToColor(
+                                    AppColors.textFieldOutlineBorderColor),
+                                width: 1.0,
+                              ),
+                            ),
+                            child: DropdownButton<Youth>(
+                              isExpanded: true,
+                              underline: SizedBox(),
+                              value: dropdownValue1,
+                              icon: SizedBox.shrink(),
+                              onChanged: (Youth? value) {
+                                setState(() {
+                                  dropdownValue1 = value!;
+                                  print('${dropdownValue1.rollno.toString()}');
+                                  youth.tlCode = dropdownValue1.rollno.toString();
+                                  youth.team =
+                                      dropdownValue1.rollno.substring(0, 4);
+                                  print('${youth.tlCode}');
+                                  // youth.rollno= youth.team.toString()+"0A";
+                                });
+                              },
+                              items: currentList
+                                  .map<DropdownMenuItem<Youth>>((Youth value) {
+                                return DropdownMenuItem<Youth>(
+                                  value: value,
+                                  child: Text(
+                                    value.rollno! +
+                                        " " +
+                                        value.youthFullName.toString(),
+                                    softWrap: true,
+                                    overflow: TextOverflow.fade,
+                                  ),
+                                );
+                              }).toList(),
+                            )),
+                        SizedBox(height: 10,),
+                        Container(
+                          // Create temp rollno
+                          height: bodyHeight * 0.09,
+                          width: bodyWidth * 0.8,
+                          padding: EdgeInsets.all(5.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              border: Border.all(
+                                color: hexToColor(
+                                    AppColors.textFieldOutlineBorderColor),
+                                width: 1.0,
+                              )),
+                          child: RadioListTile<bool>(
+                              toggleable: true,
+                              value: true,
+                              title: Text('Create Temporary Rollno'),
+                              groupValue: isNew,
+                              onChanged: (value) {
+                                setState(() {
+                                  isNew = !isNew;
+                                  print('.................$isNew');
+                                });
+                              }),
+                        ),
+                        ElevatedButton(
+                            onPressed: () => _trySubmit(context),
+                            child: Text('Submit'))
+                      ],
+                    );
+                  },
+                )),
+          ),
         ),
       ),
     );
