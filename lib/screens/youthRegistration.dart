@@ -153,14 +153,15 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                   builder: (context, constraint) {
                     return Column(
                       children: [
-                        Container(
-                          // firstname
-
+                        Container(// firstname
                           height: bodyHeight * 0.1,
                           width: bodyWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
                           child: TextFormField(
                             controller: signUpController['firstName'],
+                            onSaved: (name){
+                              youth.firstName = name;
+                            },
                             decoration: InputDecoration(
                                 labelText: 'First Name',
                                 hintText: 'First Name',
@@ -173,6 +174,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                     ? 'Invalid name'
                                     : null,
                           ),
+
                         ),
                         Container(
                           // middle Name
@@ -181,6 +183,9 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           padding: EdgeInsets.all(5.0),
                           child: TextFormField(
                             controller: signUpController['middleName'],
+                            onSaved: (name){
+                              youth.middleName = name;
+                            },
                             decoration: InputDecoration(
                                 labelText: 'Middle Name',
                                 hintText: 'Middle Name',
@@ -194,12 +199,15 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                     : null,
                           ),
                         ),
-                        Container(
+                        Container( // last name
                           height: bodyHeight * 0.1,
                           width: bodyWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
                           child: TextFormField(
                             controller: signUpController['lastName'],
+                            onSaved: (name){
+                              youth.lastName = name;
+                            },
                             decoration: InputDecoration(
                                 labelText: 'Last Name',
                                 hintText: 'Last Name',
@@ -213,7 +221,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                     : null,
                           ),
                         ),
-                        Container(
+                        Container( // mobile
                             height: bodyHeight * 0.1,
                             width: bodyWidth * 0.8,
                             padding: EdgeInsets.all(5.0),
@@ -241,7 +249,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                 youth.mobile1 = value.toString();
                               },
                             )),
-                        Container(
+                        Container( //email
                             height: bodyHeight * 0.1,
                             width: bodyWidth * 0.8,
                             padding: EdgeInsets.all(5.0),
@@ -263,7 +271,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                 youth.emailid = value.toString();
                               },
                             )),
-                        Container(
+                        Container( // pin code
                             height: bodyHeight * 0.1,
                             width: bodyWidth * 0.8,
                             padding: EdgeInsets.all(5.0),
