@@ -123,15 +123,7 @@ class _YouthListState extends State<YouthList> {
                                 );
                               } else if (snapshot.hasData) {
                                 youthList = snapshot.data!;
-                                youthList.sort((a, b) {
-                                  if (a.rollno != null && b.rollno != null) {
-                                    String aRoll = a.rollno ?? "";
-                                    String bRoll = b.rollno ?? "";
-                                    return aRoll.compareTo(bRoll);
-                                  } else {
-                                    return 1; //
-                                  }
-                                });
+
                                 return ListView(
                                     shrinkWrap: true,
                                     physics: ScrollPhysics(),
@@ -265,7 +257,7 @@ class _YouthListState extends State<YouthList> {
           width: MediaQuery.of(context).size.width,
           color: hexToColor(AppColors.appThemeColor),
           child: Text(
-            '${e.rollno ?? ""}  ${e.firstName}',
+            '${e.rollno ?? ""}  ${e.youthFullName}',
             softWrap: true,
             // overflow: TextOverflow.ellipsis,
             style: kGoogleStyleTexts.copyWith(

@@ -122,4 +122,9 @@ class Youth {
     data['isKK'] = this.isKK;
     return data;
   }
+
+  String getFullName(){
+    return '${this.firstName} ${this.middleName} ${this.lastName}';
+  }
+
 }

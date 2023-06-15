@@ -103,6 +103,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       EasyLoading.show(status: "Please Wait.....!");
 
       // create new youth object
+      youth.youthFullName = youth.getFullName();
       var response = await ApiService().setYouth(youth);
       print(response.firstName);
       var newYouth;
