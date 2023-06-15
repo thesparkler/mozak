@@ -69,7 +69,7 @@ class ApiService {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load youths');
     }
   }
 
@@ -118,7 +118,7 @@ class ApiService {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to data');
+      throw Exception('Failed to load data');
     }
   }
 
@@ -192,7 +192,7 @@ class ApiService {
     Uri setRollNo =
     Uri.parse('${Constants.domain}${Constants.setRollNo}'
       'id=${youth.id}&isTemp=${isTemp}');
-    http.Response response = await http.post(
+    http.Response response = await http.put(
       setRollNo,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
