@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:mozak/model/youth.dart';
+import 'package:mozak/screens/FormSuccessScreen.dart';
 import 'package:mozak/utils/youthData.dart';
 import '../constants/AppColors.dart';
 import '../utils/NoGlowBehaviour.dart';
@@ -104,18 +105,19 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       // create new youth object
       var response = await ApiService().setYouth(youth);
       print(response.firstName);
-
+      var newYouth;
       // set roll no
-      try{
-        var newYouth = await ApiService().setRollNo(response, isNew);
+      try {
+        newYouth = await ApiService().setRollNo(response, isNew);
         print(newYouth.rollno);
-      } catch(e){
+      } catch (e) {
         EasyLoading.dismiss();
       }
-
       YouthData.instance.youthList = [];
-      Navigator.of(context).pop();
+      await YouthData.instance.getYouthList();
       EasyLoading.dismiss();
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => FormSuccessScreen(newYouth)));
     }
   }
 
@@ -333,7 +335,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                             },
                           ),
                         ),
-
                         Container(
                             //Group dropdown container
                             height: bodyHeight * 0.09,
@@ -378,22 +379,22 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                 );
                               }).toList(),
                             )),
-                        Container(
-                            //Group dropdown container
-                            height: bodyHeight * 0.09,
-                            width: bodyWidth * 0.8,
-                            padding: EdgeInsets.all(5.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              border: Border.all(
-                                color: hexToColor(
-                                    AppColors.textFieldOutlineBorderColor),
-                                width: 1.0,
-                              ),
-                            ),
-                            child: DropdownMenu<String>(
-                              dropdownMenuEntries: [],
-                            )),
+                        // Container(
+                        //     //Group dropdown container
+                        //     height: bodyHeight * 0.09,
+                        //     width: bodyWidth * 0.8,
+                        //     padding: EdgeInsets.all(5.0),
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(5.0),
+                        //       border: Border.all(
+                        //         color: hexToColor(
+                        //             AppColors.textFieldOutlineBorderColor),
+                        //         width: 1.0,
+                        //       ),
+                        //     ),
+                        //     child: DropdownMenu<String>(
+                        //       dropdownMenuEntries: [],
+                        //     )),
                         SizedBox(
                           height: 10,
                         ),
@@ -413,7 +414,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                             child: DropdownButton<Youth>(
                               isExpanded: true,
                               underline: SizedBox(),
-
                               icon: SizedBox.shrink(),
                               value: teamLeader,
                               onChanged: (Youth? value) {
@@ -422,7 +422,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                   youth.tlCode = teamLeader.rollno.toString();
                                   youth.team = teamLeader.team;
                                   print('${youth.tlCode}');
-
                                 });
                               },
                               items: currentList

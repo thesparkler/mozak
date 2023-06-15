@@ -265,7 +265,7 @@ class _YouthListState extends State<YouthList> {
           width: MediaQuery.of(context).size.width,
           color: hexToColor(AppColors.appThemeColor),
           child: Text(
-            '${e.rollno ?? ""}  ${e.youthFullName}',
+            '${e.rollno ?? ""}  ${e.firstName}',
             softWrap: true,
             // overflow: TextOverflow.ellipsis,
             style: kGoogleStyleTexts.copyWith(

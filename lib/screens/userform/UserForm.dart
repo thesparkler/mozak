@@ -359,8 +359,8 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
               } else {
                 YouthData.instance.youthList = [];
                 await MozakSheetApi.insertUserData(model);
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const FormSuccessScreen()));
+                // Navigator.of(context).push(MaterialPageRoute(
+                //     builder: (context) => FormSuccessScreen()));
                 EasyLoading.dismiss();
               }
             },
