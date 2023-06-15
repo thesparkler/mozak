@@ -187,4 +187,31 @@ class ApiService {
     );
     return response;
   }
+
+  Future<Youth> setRollNo(Youth youth, bool isTemp) async {
+    Uri setRollNo =
+    Uri.parse('${Constants.domain}${Constants.setRollNo}'
+      'id=${youth.id}&isTemp=${isTemp}');
+    http.Response response = await http.post(
+      setRollNo,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{}),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      Youth _youth;
+      var jsonObject = jsonDecode(response.body);
+      _youth = Youth.fromJson(jsonObject);
+
+      return _youth;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to data');
+    }
+  }
 }
