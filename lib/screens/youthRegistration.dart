@@ -103,6 +103,16 @@ class _YouthRegistrationState extends State<YouthRegistration> {
 
       // create new youth object
       var response = await ApiService().setYouth(youth);
+      print(response.firstName);
+
+      // set roll no
+      try{
+        var newYouth = await ApiService().setRollNo(response, isNew);
+        print(newYouth.rollno);
+      } catch(e){
+        EasyLoading.dismiss();
+      }
+
       YouthData.instance.youthList = [];
       Navigator.of(context).pop();
       EasyLoading.dismiss();
@@ -323,6 +333,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                             },
                           ),
                         ),
+
                         Container(
                             //Group dropdown container
                             height: bodyHeight * 0.09,
@@ -339,7 +350,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                             child: DropdownButton<String>(
                               hint: Text("Select"),
                               underline: SizedBox(),
-                              // value: dropdownValue,
+                              value: groupName,
                               icon: SizedBox.shrink(),
                               onChanged: (String? value) {
                                 setState(() {
@@ -402,15 +413,16 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                             child: DropdownButton<Youth>(
                               isExpanded: true,
                               underline: SizedBox(),
-                              hint: Text('Select'),
+
                               icon: SizedBox.shrink(),
+                              value: teamLeader,
                               onChanged: (Youth? value) {
                                 setState(() {
                                   teamLeader = value!;
-                                  print('${teamLeader.rollno.toString()}');
                                   youth.tlCode = teamLeader.rollno.toString();
                                   youth.team = teamLeader.team;
                                   print('${youth.tlCode}');
+
                                 });
                               },
                               items: currentList

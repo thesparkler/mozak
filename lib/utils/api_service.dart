@@ -69,7 +69,7 @@ class ApiService {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load youths');
     }
   }
 
@@ -118,7 +118,7 @@ class ApiService {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to data');
+      throw Exception('Failed to load data');
     }
   }
 
@@ -186,5 +186,32 @@ class ApiService {
       body: jsonEncode(<String, String>{}),
     );
     return response;
+  }
+
+  Future<Youth> setRollNo(Youth youth, bool isTemp) async {
+    Uri setRollNo =
+    Uri.parse('${Constants.domain}${Constants.setRollNo}'
+      'id=${youth.id}&isTemp=${isTemp}');
+    http.Response response = await http.put(
+      setRollNo,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{}),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      Youth _youth;
+      var jsonObject = jsonDecode(response.body);
+      _youth = Youth.fromJson(jsonObject);
+
+      return _youth;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to data');
+    }
   }
 }
