@@ -5,22 +5,20 @@ import 'package:lottie/lottie.dart';
 import 'package:mozak/constants/AppAssets.dart';
 import 'package:mozak/constants/AppColors.dart';
 import 'package:mozak/constants/AppStrings.dart';
+import 'package:mozak/model/youth.dart';
 import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/utils/app_tools.dart';
 
 class FormSuccessScreen extends StatefulWidget {
-  const FormSuccessScreen({Key? key}) : super(key: key);
+  final Youth youth;
+
+  FormSuccessScreen(this.youth);
 
   @override
   State<StatefulWidget> createState() => FormSuccessScreenState();
 }
 
 class FormSuccessScreenState extends State<FormSuccessScreen> {
-  Future<bool> _onBackPressed() async {
-    Navigator.of(context).popAndPushNamed("YouthList");
-    return false;
-  }
-
   @override
   void initState() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
@@ -28,9 +26,7 @@ class FormSuccessScreenState extends State<FormSuccessScreen> {
   }
 
   Future<bool> _onWillPop() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return UserForm();
-    }));
+    Navigator.of(context).pop();
     return Future.value(true);
   }
 
@@ -63,7 +59,7 @@ class FormSuccessScreenState extends State<FormSuccessScreen> {
                       fontSize: 25.0)),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
-                child: Text(AppStrings.submittedResponse,
+                child: Text(widget.youth.firstName.toString(),
                     style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w200,
                         color: hexToColor(AppColors.whiteTextColor),
@@ -75,10 +71,7 @@ class FormSuccessScreenState extends State<FormSuccessScreen> {
                 height: 100,
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const UserForm()));
-                },
+                onTap: _onWillPop,
                 child: Padding(
                   padding:
                       const EdgeInsets.only(left: 70.0, right: 70.0, top: 50),
@@ -95,7 +88,7 @@ class FormSuccessScreenState extends State<FormSuccessScreen> {
                     ),
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text(AppStrings.backToLogin,
+                      child: Text(widget.youth.rollno.toString(),
                           style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.w300,
                               color: hexToColor(AppColors.grey),

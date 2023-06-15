@@ -28,13 +28,11 @@ class _AttendancePageState extends State<AttendancePage> {
 
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool showOptions = false;
-  TextEditingController fieldTextEditingController =
-      new TextEditingController();
+  TextEditingController fieldTextEditingController = TextEditingController();
   FocusNode fieldFocusNode = new FocusNode();
   GlobalKey key = new GlobalKey();
-  late List<Youth> youthList;
   late List<Youth> eventMarkedAttendance;
-  var youths = {
+  var youths = <String, dynamic>{
     "CR": {
       "01": [],
     },
@@ -61,6 +59,12 @@ class _AttendancePageState extends State<AttendancePage> {
     // print(youths);
     super.initState();
   }
+
+  getYouthList() async {
+    await YouthData.instance.getYouthList();
+  }
+
+  //getMarkedList() async => await ApiService().getMarkedYouths(widget.event.id);
 
   Stream<List<Youth>> _bids(int id) => (() {
         late final StreamController<List<Youth>> _attendanceStream;
@@ -136,16 +140,18 @@ class _AttendancePageState extends State<AttendancePage> {
                           color: hexToColor(AppColors.grey), fontSize: 18),
                       suffixIcon: IconButton(
                         onPressed: clearSearchField,
-                        icon: Icon(Icons.clear_rounded),
+                        icon: Icon(
+                          Icons.clear_rounded,
+                          color: hexToColor(AppColors.whiteTextColor),
+                        ),
                         padding: EdgeInsets.all(8),
                         visualDensity: VisualDensity(),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 5.0),
+                        borderSide: BorderSide(color: Colors.white, width: 2.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.blueAccent, width: 5.0),
+                        borderSide: BorderSide(color: Colors.white, width: 2.0),
                       ),
                     ),
                     style: TextStyle(
@@ -158,24 +164,30 @@ class _AttendancePageState extends State<AttendancePage> {
                 key: key,
                 textEditingController: fieldTextEditingController,
                 focusNode: fieldFocusNode,
-                optionsBuilder: (TextEditingValue textEditingValue) {
+                optionsBuilder: (TextEditingValue textEditingValue) async {
+                  if (textEditingValue.text.isEmpty)
+                    return const Iterable<Youth>.empty();
+                  getYouthList();
                   return YouthData.instance.youthList
                       .where((Youth youth) =>
-                          "${youth.rollno??"" + " " + youth.youthFullName}"
+                          "${youth.rollno! + " " + youth.youthFullName.toString()}"
                               .toLowerCase()
                               .contains(textEditingValue.text.toLowerCase()))
                       .toList();
                 },
                 displayStringForOption: (Youth option) =>
-                    option.rollno??"" + " " + option.youthFullName,
+                    option.rollno! + " " + option.youthFullName.toString(),
                 optionsViewBuilder: (BuildContext context,
                     AutocompleteOnSelected<Youth> onSelected,
                     Iterable<Youth> options) {
                   return Align(
                     alignment: Alignment.topCenter,
                     child: Container(
+                      constraints: BoxConstraints(
+                        maxHeight: bodyWidth,
+                      ),
                       decoration: BoxDecoration(
-                        color: Colors.transparent,
+                        color: hexToColor(AppColors.appThemeColor),
                       ),
                       //height: 350,
                       width: bodyWidth - 20,
@@ -195,7 +207,8 @@ class _AttendancePageState extends State<AttendancePage> {
                                   padding: MaterialStateProperty.all(
                                       EdgeInsets.only(left: 10, bottom: 5)),
                                   backgroundColor: MaterialStateProperty.all(
-                                      hexToColor(AppColors.paleOrange)),
+                                      hexToColor(AppColors.whiteTextColor)
+                                          .withOpacity(.1)),
                                   fixedSize: MaterialStateProperty.all(
                                       Size(bodyWidth - 32, 40))),
                               onPressed: () {
@@ -208,7 +221,9 @@ class _AttendancePageState extends State<AttendancePage> {
                               child: ListTile(
                                 contentPadding: EdgeInsets.zero,
                                 title: Text(
-                                  option.rollno??"" + " " + option.youthFullName,
+                                  option.rollno! +
+                                      " " +
+                                      option.youthFullName.toString(),
                                   style: kGoogleStyleTexts.copyWith(
                                     fontSize: 20,
                                     color: hexToColor(AppColors.whiteTextColor),
@@ -223,7 +238,7 @@ class _AttendancePageState extends State<AttendancePage> {
                   );
                 },
                 onSelected: (Youth youth) {
-                  selectedID = youth.id;
+                  selectedID = youth.id!;
                   selectedYouth = youth;
                 },
               ),
@@ -266,9 +281,9 @@ class _AttendancePageState extends State<AttendancePage> {
                     TextButton(
                         onPressed: () async {
                           print(selectedYouth);
-                          clearSearchField();
                           await ApiService()
-                              .markAttendance(selectedID, widget.event.id);
+                              .markAttendance(widget.event.id, selectedID);
+                          clearSearchField();
                         },
                         child: Text("Mark",
                             style: kGoogleStyleTexts.copyWith(
@@ -278,63 +293,90 @@ class _AttendancePageState extends State<AttendancePage> {
                             ))),
                   ],
                 ),
+              Text(
+                "All Marked Youths",
+                style: kGoogleStyleTexts.copyWith(
+                  fontSize: 20,
+                  color: hexToColor(AppColors.whiteTextColor),
+                ),
+              ),
               Column(
                 children: [
                   StreamBuilder<List<Youth>>(
-                      stream: _bids(widget.event.id),
-                      builder: (context, snapshot) {
-                        return (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                snapshot.hasData)
-                            ? Scrollbar(
-                                child: ListView.builder(
-                                  physics: ScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data?.length,
-                                  itemBuilder: (context, int index) {
-                                    eventMarkedAttendance = snapshot.data!;
-                                    Youth option = eventMarkedAttendance[index];
-                                    // bool selected = selectedYouths.contains(youthList[index]);
-                                    return TextButton(
-                                      style: ButtonStyle(
-                                          textStyle: MaterialStateProperty.all(
-                                              TextStyle()),
-                                          alignment: Alignment.topLeft,
-                                          padding: MaterialStateProperty.all(
-                                              EdgeInsets.only(
-                                                  left: 10, bottom: 5)),
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  hexToColor(
-                                                      AppColors.paleOrange)),
-                                          fixedSize: MaterialStateProperty.all(
-                                              Size(bodyWidth - 32, 40))),
-                                      onPressed: () {
-                                        // onSelected(option);
-                                      },
-                                      child: ListTile(
-                                        contentPadding: EdgeInsets.zero,
-                                        title: Text(
-                                          option.rollno??"" +
-                                              " " +
-                                              option.youthFullName,
-                                          style: kGoogleStyleTexts.copyWith(
-                                            fontSize: 18,
-                                            color: hexToColor(
-                                                AppColors.whiteTextColor),
-                                          ),
-                                          maxLines: 1,
-                                          textAlign: TextAlign.start,
-                                        ),
-                                      ),
-                                    );
+                    stream: _bids(widget.event.id),
+                    builder: (context, snapshot) {
+                      // if (snapshot.connectionState == ConnectionState.done &&
+                      //     snapshot.hasData)
+                      //   return Center();
+                      // else if (snapshot.connectionState ==
+                      //     ConnectionState.waiting)
+                      //   LinearProgressIndicator(
+                      //     color: hexToColor(AppColors.whiteTextColor),
+                      //   );
+                      // else
+                      //   Text(snapshot.hasError.toString());
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return LinearProgressIndicator(
+                          color: hexToColor(AppColors.whiteTextColor),
+                        );
+                      } else if (snapshot.connectionState ==
+                              ConnectionState.active ||
+                          snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasError) {
+                          return const Text('Error');
+                        } else if (snapshot.hasData) {
+                          eventMarkedAttendance = snapshot.data!;
+                          //eventMarkedAttendance.sort((a, b) => a.rollno.compareTo(b.rollno));
+                          return Scrollbar(
+                            child: ListView.builder(
+                              physics: ScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: eventMarkedAttendance.length,
+                              itemBuilder: (context, int index) {
+                                Youth option = eventMarkedAttendance[index];
+                                // bool selected = selectedYouths.contains(youthList[index]);
+                                return TextButton(
+                                  style: ButtonStyle(
+                                      textStyle: MaterialStateProperty.all(
+                                          TextStyle()),
+                                      alignment: Alignment.topLeft,
+                                      padding: MaterialStateProperty.all(
+                                          EdgeInsets.only(left: 10, bottom: 5)),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              hexToColor(AppColors.paleOrange)),
+                                      fixedSize: MaterialStateProperty.all(
+                                          Size(bodyWidth - 32, 40))),
+                                  onPressed: () {
+                                    // onSelected(option);
                                   },
-                                ),
-                              )
-                            : LinearProgressIndicator(
-                                color: hexToColor(AppColors.whiteTextColor),
-                              );
-                      }),
+                                  child: ListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    title: Text(
+                                      option.rollno! +
+                                          " " +
+                                          option.youthFullName.toString(),
+                                      style: kGoogleStyleTexts.copyWith(
+                                        fontSize: 18,
+                                        color: hexToColor(
+                                            AppColors.whiteTextColor),
+                                      ),
+                                      maxLines: 1,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          return const Text('Empty data');
+                        }
+                      } else {
+                        return Text('State: ${snapshot.connectionState}');
+                      }
+                    },
+                  ),
                 ],
               ),
             ],
@@ -351,3 +393,61 @@ class _AttendancePageState extends State<AttendancePage> {
     super.dispose();
   }
 }
+/*
+Scrollbar(
+                                child: ListView.builder(
+                                  physics: ScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data?.length,
+                                  itemBuilder: (context, int index) {
+                                    eventMarkedAttendance = snapshot.data!;
+                                    Youth option = eventMarkedAttendance[index];
+                                    // bool selected = selectedYouths.contains(youthList[index]);
+                                    return ExpansionTile(
+                                      title: Text(
+                                        "${youths.keys}",
+                                      ),
+                                      children: [
+                                        TextButton(
+                                          style: ButtonStyle(
+                                              textStyle:
+                                                  MaterialStateProperty.all(
+                                                      TextStyle()),
+                                              alignment: Alignment.topLeft,
+                                              padding:
+                                                  MaterialStateProperty.all(
+                                                      EdgeInsets.only(
+                                                          left: 10, bottom: 5)),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      hexToColor(AppColors
+                                                          .paleOrange)),
+                                              fixedSize:
+                                                  MaterialStateProperty.all(
+                                                      Size(
+                                                          bodyWidth - 32, 40))),
+                                          onPressed: () {
+                                            // onSelected(option);
+                                          },
+                                          child: ListTile(
+                                            contentPadding: EdgeInsets.zero,
+                                            title: Text(
+                                              option.rollno +
+                                                  " " +
+                                                  option.youthFullName,
+                                              style: kGoogleStyleTexts.copyWith(
+                                                fontSize: 18,
+                                                color: hexToColor(
+                                                    AppColors.whiteTextColor),
+                                              ),
+                                              maxLines: 1,
+                                              textAlign: TextAlign.start,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              );
+ */
