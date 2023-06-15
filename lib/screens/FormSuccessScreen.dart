@@ -10,9 +10,7 @@ import 'package:mozak/screens/userform/UserForm.dart';
 import 'package:mozak/utils/app_tools.dart';
 
 class FormSuccessScreen extends StatefulWidget {
-  final Youth youth;
-
-  FormSuccessScreen(this.youth);
+  FormSuccessScreen({Key? key});
 
   @override
   State<StatefulWidget> createState() => FormSuccessScreenState();
@@ -32,6 +30,7 @@ class FormSuccessScreenState extends State<FormSuccessScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final youth = ModalRoute.of(context)!.settings.arguments as Youth;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -59,7 +58,7 @@ class FormSuccessScreenState extends State<FormSuccessScreen> {
                       fontSize: 25.0)),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
-                child: Text(widget.youth.firstName.toString(),
+                child: Text(youth!.firstName.toString(),
                     style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w200,
                         color: hexToColor(AppColors.whiteTextColor),
@@ -88,7 +87,7 @@ class FormSuccessScreenState extends State<FormSuccessScreen> {
                     ),
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text(widget.youth.rollno.toString(),
+                      child: Text(youth.rollno.toString(),
                           style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.w300,
                               color: hexToColor(AppColors.grey),

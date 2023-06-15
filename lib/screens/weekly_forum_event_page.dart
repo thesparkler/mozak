@@ -234,16 +234,17 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
                       }
                     }
 
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 35),
-                      child: Center(
-                        child: LinearProgressIndicator(
-                          color: hexToColor(AppColors.appThemeColor),
-                          backgroundColor: hexToColor(AppColors.whiteTextColor),
-                        ),
-                      ),
-                    );
+                    return SizedBox.shrink();
+                    // return Padding(
+                    //   padding: const EdgeInsets.symmetric(
+                    //       vertical: 8.0, horizontal: 35),
+                    //   child: Center(
+                    //     child: LinearProgressIndicator(
+                    //       color: hexToColor(AppColors.appThemeColor),
+                    //       backgroundColor: hexToColor(AppColors.whiteTextColor),
+                    //     ),
+                    //   ),
+                    // );
                   }),
               Padding(
                 padding:
@@ -280,12 +281,12 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
                       );
                     }
                   }
-
-                  return Center(
-                    child: LinearProgressIndicator(
-                      color: hexToColor(AppColors.whiteTextColor),
-                    ),
-                  );
+                  return SizedBox.shrink();
+                  // return Center(
+                  //   child: LinearProgressIndicator(
+                  //     color: hexToColor(AppColors.whiteTextColor),
+                  //   ),
+                  // );
                 },
               ),
             ],

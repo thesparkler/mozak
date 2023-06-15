@@ -71,6 +71,8 @@ class MyApp extends StatelessWidget {
         'Teams': (context) => TeamsPage(),
         'UserForm': (context) => UserForm(),
         'new youth': (context) => YouthRegistration(),
+        'FormSuccessScreen': (context) => FormSuccessScreen(),
+
         //'AttendancePage': (context) => AttendancePage(),
       },
       builder: EasyLoading.init(),

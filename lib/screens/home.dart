@@ -62,14 +62,14 @@ class _HomePageState extends State<HomePage>
         alignment: Alignment.centerRight,
         child: Image.asset(
           AppAssets.smruti,
-          height: 45,
+          height: 40,
         ),
       ),
       Align(
         alignment: Alignment.centerRight,
         child: Image.asset(
           AppAssets.suhradbhav,
-          height: 60,
+          height: 45,
         ),
       ),
       Align(
@@ -112,6 +112,9 @@ class _HomePageState extends State<HomePage>
                           textAlign: TextAlign.left,
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: bodyHeight * 0.05,
                     ),
                     Container(
                       alignment: Alignment.center,

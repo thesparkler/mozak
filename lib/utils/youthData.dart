@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/Material.dart';
 import 'package:mozak/model/center.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,6 +28,40 @@ class YouthData {
   //     token = prefs.getString('token')!;
   //   }
   // }
+
+  Stream<List<Youth>> youthStream() => (() {
+        late final StreamController<List<Youth>> _youthStream;
+        _youthStream = StreamController<List<Youth>>(
+          onListen: () async {
+            _youthStream.add(await getYouthList());
+            _youthStream.close();
+          },
+        );
+        return _youthStream.stream;
+      })();
+
+  Stream<List<Youth>> centerStream() => (() {
+        late final StreamController<List<Youth>> _centerStream;
+        _centerStream = StreamController<List<Youth>>(
+          onListen: () async {
+            _centerStream.add(await ApiService().getAllYouths());
+            _centerStream.close();
+          },
+        );
+        return _centerStream.stream;
+      })();
+
+  Stream<List<Youth>> wfeStream() => (() {
+        late final StreamController<List<Youth>> _wfeStream;
+        _wfeStream = StreamController<List<Youth>>(
+          onListen: () async {
+            _wfeStream.add(await ApiService().getAllYouths());
+            _wfeStream.close();
+          },
+        );
+        return _wfeStream.stream;
+      })();
+
   Future<List<Youth>> getYouthList() async {
     if (youthList.isEmpty) {
       youthList = await ApiService().getAllYouths();

@@ -170,13 +170,13 @@ class _AttendancePageState extends State<AttendancePage> {
                   getYouthList();
                   return YouthData.instance.youthList
                       .where((Youth youth) =>
-                          "${youth.rollno! + " " + youth.youthFullName.toString()}"
+                          "${youth.rollno! + " " + youth.getFullName().toString()}"
                               .toLowerCase()
                               .contains(textEditingValue.text.toLowerCase()))
                       .toList();
                 },
                 displayStringForOption: (Youth option) =>
-                    option.rollno! + " " + option.youthFullName.toString(),
+                    option.rollno! + " " + option.getFullName().toString(),
                 optionsViewBuilder: (BuildContext context,
                     AutocompleteOnSelected<Youth> onSelected,
                     Iterable<Youth> options) {
@@ -223,7 +223,7 @@ class _AttendancePageState extends State<AttendancePage> {
                                 title: Text(
                                   option.rollno! +
                                       " " +
-                                      option.youthFullName.toString(),
+                                      option.getFullName().toString(),
                                   style: kGoogleStyleTexts.copyWith(
                                     fontSize: 20,
                                     color: hexToColor(AppColors.whiteTextColor),
@@ -316,9 +316,10 @@ class _AttendancePageState extends State<AttendancePage> {
                       // else
                       //   Text(snapshot.hasError.toString());
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return LinearProgressIndicator(
-                          color: hexToColor(AppColors.whiteTextColor),
-                        );
+                        // return LinearProgressIndicator(
+                        //   color: hexToColor(AppColors.whiteTextColor),
+                        // );
+                        return SizedBox.shrink();
                       } else if (snapshot.connectionState ==
                               ConnectionState.active ||
                           snapshot.connectionState == ConnectionState.done) {
@@ -355,7 +356,7 @@ class _AttendancePageState extends State<AttendancePage> {
                                     title: Text(
                                       option.rollno! +
                                           " " +
-                                          option.youthFullName.toString(),
+                                          option.getFullName().toString(),
                                       style: kGoogleStyleTexts.copyWith(
                                         fontSize: 18,
                                         color: hexToColor(
