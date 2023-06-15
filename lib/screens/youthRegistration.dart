@@ -60,12 +60,13 @@ class _YouthRegistrationState extends State<YouthRegistration> {
 
   @override
   void initState() {
-    currentList =
-        YouthData.instance.youthList.where((element) => element.isTL && element.rollno?.substring(0,2)==groupCode).toList();
+    currentList = YouthData.instance.youthList
+        .where((element) =>
+            element.isTL && element.rollno?.substring(0, 2) == groupCode)
+        .toList();
     teamLeader = currentList[0];
     youth.tlCode = teamLeader.rollno.toString();
-    youth.team =
-        teamLeader.rollno.substring(0, 4);
+    youth.team = teamLeader.rollno.substring(0, 4);
     print('${youth.tlCode}');
     super.initState();
   }
@@ -114,7 +115,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
 
     final appBar = AppBar(
       title: Text(
-        'New Youth',
+        'New Youth Registration',
         style: kGoogleStyleTexts.copyWith(
           fontWeight: FontWeight.w700,
           fontSize: 22,
@@ -145,21 +146,22 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         appBar: appBar,
         body: SingleChildScrollView(
           child: Container(
+            padding: EdgeInsets.symmetric(vertical: 10),
             width: bodyWidth,
-            padding: EdgeInsets.all(8.0),
             child: Form(
                 key: _formKey,
                 child: LayoutBuilder(
                   builder: (context, constraint) {
                     return Column(
                       children: [
-                        Container(// firstname
+                        Container(
+                          // firstname
                           height: bodyHeight * 0.1,
                           width: bodyWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
                           child: TextFormField(
                             controller: signUpController['firstName'],
-                            onSaved: (name){
+                            onSaved: (name) {
                               youth.firstName = name;
                             },
                             decoration: InputDecoration(
@@ -174,7 +176,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                     ? 'Invalid name'
                                     : null,
                           ),
-
                         ),
                         Container(
                           // middle Name
@@ -183,7 +184,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                           padding: EdgeInsets.all(5.0),
                           child: TextFormField(
                             controller: signUpController['middleName'],
-                            onSaved: (name){
+                            onSaved: (name) {
                               youth.middleName = name;
                             },
                             decoration: InputDecoration(
@@ -199,13 +200,14 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                     : null,
                           ),
                         ),
-                        Container( // last name
+                        Container(
+                          // last name
                           height: bodyHeight * 0.1,
                           width: bodyWidth * 0.8,
                           padding: EdgeInsets.all(5.0),
                           child: TextFormField(
                             controller: signUpController['lastName'],
-                            onSaved: (name){
+                            onSaved: (name) {
                               youth.lastName = name;
                             },
                             decoration: InputDecoration(
@@ -221,7 +223,8 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                     : null,
                           ),
                         ),
-                        Container( // mobile
+                        Container(
+                            // mobile
                             height: bodyHeight * 0.1,
                             width: bodyWidth * 0.8,
                             padding: EdgeInsets.all(5.0),
@@ -249,7 +252,8 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                 youth.mobile1 = value.toString();
                               },
                             )),
-                        Container( //email
+                        Container(
+                            //email
                             height: bodyHeight * 0.1,
                             width: bodyWidth * 0.8,
                             padding: EdgeInsets.all(5.0),
@@ -271,7 +275,8 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                 youth.emailid = value.toString();
                               },
                             )),
-                        Container( // pin code
+                        Container(
+                            // pin code
                             height: bodyHeight * 0.1,
                             width: bodyWidth * 0.8,
                             padding: EdgeInsets.all(5.0),
@@ -337,35 +342,52 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                               // value: dropdownValue,
                               icon: SizedBox.shrink(),
                               onChanged: (String? value) {
-
                                 setState(() {
                                   groupName = value!;
-                                  groupCode=group[groupName]!;
-                                  currentList =
-                                      YouthData.instance.youthList.
-                                      where((element) =>
-                                      element.isTL && element.rollno?.substring(0,2)==groupCode)
-                                          .toList();
+                                  groupCode = group[groupName]!;
+                                  currentList = YouthData.instance.youthList
+                                      .where((element) =>
+                                          element.isTL &&
+                                          element.rollno?.substring(0, 2) ==
+                                              groupCode)
+                                      .toList();
 
                                   teamLeader = currentList[0];
                                   youth.tlCode = teamLeader.rollno.toString();
-                                  youth.team =
-                                      teamLeader.team;
+                                  youth.team = teamLeader.team;
                                   print('${youth.tlCode}');
                                   // print('$dropdownValue');
                                 });
                               },
-                              items: group.keys
-                                  .map<DropdownMenuItem<String>>((String value) {
+                              items: group.keys.map<DropdownMenuItem<String>>(
+                                  (String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(value),
                                 );
                               }).toList(),
-                            )
+                            )),
+                        Container(
+                            //Group dropdown container
+                            height: bodyHeight * 0.09,
+                            width: bodyWidth * 0.8,
+                            padding: EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              border: Border.all(
+                                color: hexToColor(
+                                    AppColors.textFieldOutlineBorderColor),
+                                width: 1.0,
+                              ),
+                            ),
+                            child: DropdownMenu<String>(
+                              dropdownMenuEntries: [],
+                            )),
+                        SizedBox(
+                          height: 10,
                         ),
-                        SizedBox(height: 10,),
-                        Container( // Team leader drop down
+                        Container(
+                            // Team leader drop down
                             height: bodyHeight * 0.09,
                             width: bodyWidth * 0.8,
                             padding: EdgeInsets.all(5.0),
@@ -387,8 +409,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                   teamLeader = value!;
                                   print('${teamLeader.rollno.toString()}');
                                   youth.tlCode = teamLeader.rollno.toString();
-                                  youth.team =
-                                      teamLeader.team;
+                                  youth.team = teamLeader.team;
                                   print('${youth.tlCode}');
                                 });
                               },
@@ -406,7 +427,9 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                                 );
                               }).toList(),
                             )),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Container(
                           // Create temp rollno
                           height: bodyHeight * 0.09,

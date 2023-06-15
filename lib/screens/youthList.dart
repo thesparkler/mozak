@@ -94,7 +94,8 @@ class _YouthListState extends State<YouthList> {
                                       ? Text(
                                           value,
                                           style: TextStyle(
-                                              color: Colors.red,
+                                              color: hexToColor(
+                                                  AppColors.paleOrange),
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20),
                                         )
@@ -262,18 +263,15 @@ class _YouthListState extends State<YouthList> {
         padding: const EdgeInsets.only(left: 20.0, top: 8, right: 20),
         child: Container(
           width: MediaQuery.of(context).size.width,
-          child: Card(
-            color: hexToColor(AppColors.appThemeColor),
-            elevation: 3,
-            child: Text(
-              '${e.rollno ?? ""}  ${e.youthFullName}',
-              softWrap: true,
-              overflow: TextOverflow.ellipsis,
-              style: kGoogleStyleTexts.copyWith(
-                fontWeight: FontWeight.w700,
-                fontSize: 20,
-                color: hexToColor(AppColors.whiteTextColor).withOpacity(.5),
-              ),
+          color: hexToColor(AppColors.appThemeColor),
+          child: Text(
+            '${e.rollno ?? ""}  ${e.youthFullName}',
+            softWrap: true,
+            // overflow: TextOverflow.ellipsis,
+            style: kGoogleStyleTexts.copyWith(
+              fontWeight: FontWeight.w700,
+              fontSize: 20,
+              color: hexToColor(AppColors.whiteTextColor).withOpacity(.5),
             ),
           ),
         ),
