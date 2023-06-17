@@ -104,8 +104,7 @@ class ApiService {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(youth.toJson())
-    );
+        body: jsonEncode(youth.toJson()));
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -132,7 +131,7 @@ class ApiService {
       List<Youth> list = [];
       var jsonObject = jsonDecode(response.body);
       for (var json in jsonObject) {
-        list.add(Youth.fromJson(json));
+        list.add(await Youth.fromJson(json));
       }
       return list;
     } else {
@@ -189,9 +188,8 @@ class ApiService {
   }
 
   Future<Youth> setRollNo(Youth youth, bool isTemp) async {
-    Uri setRollNo =
-    Uri.parse('${Constants.domain}${Constants.setRollNo}'
-      'id=${youth.id}&isTemp=${isTemp}');
+    Uri setRollNo = Uri.parse('${Constants.domain}${Constants.setRollNo}'
+        'id=${youth.id}&isTemp=${isTemp}');
     http.Response response = await http.put(
       setRollNo,
       headers: <String, String>{

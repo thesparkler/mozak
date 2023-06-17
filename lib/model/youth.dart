@@ -1,31 +1,30 @@
-
 class Youth {
   int? id;
-  String? rollno;
-  String? youthFullName;
-  String? firstName;
-  String? middleName;
-  String? lastName;
-  String? gender;
-  String? pincode;
-  String? streetAddress;
-  String? city;
-  String? state;
-  String? bloodGroup;
-  String? careerType;
-  String? collegeName;
-  String? courseName;
-  String? companyName;
-  String? designation;
-  String? refGrp;
-  String? team;
-  String? dob;
-  String? mobile1;
-  String? mobile2;
-  String? emailid;
-  String? status;
-  String? tlCode;
-  String? inTeamRef;
+  String? rollno = "";
+  String? youthFullName = "";
+  String? firstName = "";
+  String? middleName = "";
+  String? lastName = "";
+  String? gender = "";
+  String? pincode = "";
+  String? streetAddress = "";
+  String? city = "";
+  String? state = "";
+  String? bloodGroup = "";
+  String? careerType = "";
+  String? collegeName = "";
+  String? courseName = "";
+  String? companyName = "";
+  String? designation = "";
+  String? refGrp = "";
+  String? team = "";
+  String? dob = "";
+  String? mobile1 = "";
+  String? mobile2 = "";
+  String? emailid = "";
+  String? status = "";
+  String? tlCode = "";
+  String? inTeamRef = "";
   bool isTL = false;
   bool isKK = false;
 
@@ -123,8 +122,7 @@ class Youth {
     return data;
   }
 
-  String getFullName(){
+  String getFullName() {
     return '${this.firstName} ${this.middleName} ${this.lastName}';
   }
-
 }

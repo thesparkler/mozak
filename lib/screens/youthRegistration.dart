@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:mozak/model/youth.dart';
 import 'package:mozak/utils/youthData.dart';
@@ -29,8 +30,8 @@ class YouthRegistration extends StatefulWidget {
 }
 
 class _YouthRegistrationState extends State<YouthRegistration> {
-  String groupCode = "GK";
-  String groupName = "Gurukrupa";
+  String groupCode = group.values.first;
+  String groupName = group.keys.first;
   bool isNew = false;
 
   var teamLeader;
@@ -44,7 +45,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
   Youth youth = Youth(isTL: false, isKK: false);
 
   final _formKey = GlobalKey<FormState>();
-  Map<String, TextEditingController> signUpController = {
+  final Map<String, TextEditingController> signUpController = {
     'firstName': TextEditingController(),
     'middleName': TextEditingController(),
     'lastName': TextEditingController(),
@@ -54,7 +55,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
     'address': TextEditingController(),
     'team': TextEditingController(),
     'tlcode': TextEditingController(),
-    'datecontroller': TextEditingController(),
+    'dateController': TextEditingController(),
     'street': TextEditingController(),
     'city': TextEditingController(),
     'state': TextEditingController(text: "Maharashtra"),
@@ -86,7 +87,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       var formatter = DateFormat('yyyy-MM-dd');
 
       setState(() {
-        date = signUpController['datecontroller']?.text =
+        date = signUpController['dateController']?.text =
             formatter.format(selected);
       });
     }
@@ -157,6 +158,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
     return ScrollConfiguration(
       behavior: NoGlowBehaviour(),
       child: Scaffold(
+        backgroundColor: hexToColor(AppColors.appThemeColor),
         appBar: appBar,
         body: SingleChildScrollView(
           child: Container(
@@ -207,24 +209,33 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                         ),
                         _buildSelectTempNew(bodyHeight, bodyWidth),
                         Text(
-                          "* selecting the box creates a temporary Roll Number.\nLeaving Unselected creates a permanent Roll Number",
+                          "*Leaving Unselected creates a permanent Roll Number",
                           softWrap: true,
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(color: Colors.white38),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(
                           height: 10,
                         ),
                         ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  hexToColor(AppColors.paleOrange)),
+                            ),
                             onPressed: () => _trySubmit(context),
-                            child: Text('Submit')),
+                            child: Text(
+                              'Submit',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: hexToColor(AppColors.centerLogoText)),
+                            )),
                         SizedBox(
                           height: 20,
                         ),
                         Text(
                           "Please Check all Details before Submitting the form.",
                           softWrap: true,
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(color: Colors.white38),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -246,13 +257,18 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.0),
           border: Border.all(
-            color: hexToColor(AppColors.textFieldOutlineBorderColor),
+            color: Colors.white54,
             width: 1.0,
           )),
       child: RadioListTile<bool>(
           toggleable: true,
           value: true,
-          title: Text('Create Temporary Rollno'),
+          activeColor: Colors.white54,
+          fillColor: MaterialStateProperty.all(Colors.white54),
+          title: Text(
+            'Create Temporary Rollno',
+            style: TextStyle(color: Colors.white54),
+          ),
           groupValue: isNew,
           onChanged: (value) {
             setState(() {
@@ -279,6 +295,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         child: DropdownButton<Youth>(
           isExpanded: true,
           underline: SizedBox(),
+          dropdownColor: hexToColor(AppColors.homeGridColor),
           icon: SizedBox.shrink(),
           value: teamLeader,
           onChanged: (Youth? value) {
@@ -295,7 +312,10 @@ class _YouthRegistrationState extends State<YouthRegistration> {
               child: Text(
                 value.rollno! + " " + value.youthFullName.toString(),
                 softWrap: true,
-                overflow: TextOverflow.fade,
+                style: TextStyle(
+                  color: hexToColor(AppColors.whiteTextColor).withOpacity(0.60),
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
             );
           }).toList(),
@@ -319,6 +339,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           hint: Text("Select"),
           underline: SizedBox(),
           value: groupName,
+          dropdownColor: hexToColor(AppColors.homeGridColor),
           icon: SizedBox.shrink(),
           onChanged: (String? value) {
             setState(() {
@@ -340,7 +361,14 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           items: group.keys.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value),
+              child: Text(
+                value,
+                softWrap: true,
+                style: TextStyle(
+                  color: hexToColor(AppColors.whiteTextColor).withOpacity(0.60),
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
             );
           }).toList(),
         ));
@@ -355,23 +383,40 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
         controller: signUpController['dateController'],
-        style: TextStyle(color: Colors.black),
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.calendar_month),
+          prefixIcon: Icon(
+            Icons.calendar_month,
+            color: Colors.white60,
+          ),
           labelText: 'DOB',
+          labelStyle: TextStyle(
+            color: Colors.white60,
+          ),
+          // hintText: signUpController['dateController'],
+          hintStyle: TextStyle(
+            color: Colors.white38,
+          ),
           border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white24,
+              width: 2.0,
+            ),
+          ),
         ),
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: hexToColor(AppColors.whiteTextColor),
+            fontSize: 17.0),
         validator: (value) => value != null ? null : 'Please select DOB',
         readOnly: true,
         onTap: () => pickDate(context),
-        onFieldSubmitted: (value) {
-          print(value);
-        },
-        onChanged: (value) {
-          print(value);
-        },
         onSaved: (value) {
-          print('$value');
           youth.dob = value.toString();
         },
       ),
@@ -389,9 +434,30 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           key: ValueKey('Pincode'),
           decoration: InputDecoration(
             labelText: 'Pincode',
+            labelStyle: TextStyle(
+              color: Colors.white60,
+            ),
             hintText: 'Enter your pincode',
+            hintStyle: TextStyle(
+              color: Colors.white38,
+            ),
             border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white54,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white24,
+                width: 2.0,
+              ),
+            ),
           ),
+          style: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: hexToColor(AppColors.whiteTextColor),
+              fontSize: 17.0),
           validator: (value) =>
               (!RegExp(r'(^(?:[+0]9)?[0-9]{6}$)').hasMatch(value!) ||
                       value.length > 6)
@@ -416,9 +482,30 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           key: ValueKey('Email-Id'),
           decoration: InputDecoration(
             labelText: 'Email Id',
+            labelStyle: TextStyle(
+              color: Colors.white60,
+            ),
             hintText: 'Enter your email address',
+            hintStyle: TextStyle(
+              color: Colors.white38,
+            ),
             border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white54,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white24,
+                width: 2.0,
+              ),
+            ),
           ),
+          style: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: hexToColor(AppColors.whiteTextColor),
+              fontSize: 17.0),
           keyboardType: TextInputType.emailAddress,
           validator: (value) => !EmailValidator.validate(value!, true)
               ? 'Invalid email id'
@@ -441,10 +528,31 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           key: ValueKey('Mobile Number'),
           decoration: InputDecoration(
             labelText: 'Phone.No',
+            labelStyle: TextStyle(
+              color: Colors.white60,
+            ),
             hintText: 'Enter your mobile number',
             prefixText: '+91',
+            hintStyle: TextStyle(
+              color: Colors.white38,
+            ),
             border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white54,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white24,
+                width: 2.0,
+              ),
+            ),
           ),
+          style: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: hexToColor(AppColors.whiteTextColor),
+              fontSize: 17.0),
           //         inputFormatters: <TextInputFormatter>[
           //   LengthLimitingTextInputFormatter(10),
           // ],
@@ -473,9 +581,31 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           youth.lastName = name;
         },
         decoration: InputDecoration(
-            labelText: 'Last Name',
-            hintText: 'Last Name',
-            border: OutlineInputBorder()),
+          labelText: 'Last Name',
+          labelStyle: TextStyle(
+            color: Colors.white60,
+          ),
+          hintText: 'Last Name',
+          hintStyle: TextStyle(
+            color: Colors.white38,
+          ),
+          border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white24,
+              width: 2.0,
+            ),
+          ),
+        ),
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: hexToColor(AppColors.whiteTextColor),
+            fontSize: 17.0),
         keyboardType: TextInputType.text,
         validator: (value) => value!.isEmpty
             ? 'Please enter your last name'
@@ -498,9 +628,31 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           youth.middleName = name;
         },
         decoration: InputDecoration(
-            labelText: 'Middle Name',
-            hintText: 'Middle Name',
-            border: OutlineInputBorder()),
+          labelText: 'Middle Name',
+          labelStyle: TextStyle(
+            color: Colors.white60,
+          ),
+          hintText: 'Middle Name',
+          hintStyle: TextStyle(
+            color: Colors.white38,
+          ),
+          border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white24,
+              width: 2.0,
+            ),
+          ),
+        ),
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: hexToColor(AppColors.whiteTextColor),
+            fontSize: 17.0),
         keyboardType: TextInputType.text,
         validator: (value) => value!.isEmpty
             ? 'Please enter your middle name'
@@ -523,9 +675,31 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           youth.firstName = name;
         },
         decoration: InputDecoration(
-            labelText: 'First Name',
-            hintText: 'First Name',
-            border: OutlineInputBorder()),
+          labelText: 'First Name',
+          labelStyle: TextStyle(
+            color: Colors.white60,
+          ),
+          hintText: 'First Name',
+          hintStyle: TextStyle(
+            color: Colors.white38,
+          ),
+          border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white24,
+              width: 2.0,
+            ),
+          ),
+        ),
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: hexToColor(AppColors.whiteTextColor),
+            fontSize: 17.0),
         keyboardType: TextInputType.text,
         validator: (value) => value!.isEmpty
             ? 'Please enter your name'
@@ -548,9 +722,31 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           youth.streetAddress = name;
         },
         decoration: InputDecoration(
-            labelText: 'Street Address Locality',
-            hintText: 'Eg. 203-B, Lok Everest',
-            border: OutlineInputBorder()),
+          labelText: 'Street Address Locality',
+          labelStyle: TextStyle(
+            color: Colors.white60,
+          ),
+          hintText: 'Eg. 203-B, Lok Everest',
+          hintStyle: TextStyle(
+            color: Colors.white38,
+          ),
+          border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white24,
+              width: 2.0,
+            ),
+          ),
+        ),
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: hexToColor(AppColors.whiteTextColor),
+            fontSize: 17.0),
         keyboardType: TextInputType.text,
         validator: (value) => value!.isEmpty
             ? 'Please enter Your Locality'
@@ -573,9 +769,31 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           youth.streetAddress = name;
         },
         decoration: InputDecoration(
-            labelText: 'City / District',
-            hintText: 'Eg. Bhandup, Mumbai',
-            border: OutlineInputBorder()),
+          labelText: 'City / District',
+          labelStyle: TextStyle(
+            color: Colors.white60,
+          ),
+          hintText: 'Eg. Bhandup, Mumbai',
+          hintStyle: TextStyle(
+            color: Colors.white38,
+          ),
+          border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white24,
+              width: 2.0,
+            ),
+          ),
+        ),
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: hexToColor(AppColors.whiteTextColor),
+            fontSize: 17.0),
         keyboardType: TextInputType.text,
         validator: (value) => value!.isEmpty
             ? 'Please enter Your City'
@@ -599,9 +817,31 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           youth.streetAddress = name;
         },
         decoration: InputDecoration(
-            labelText: 'State',
-            hintText: 'Eg. Delhi',
-            border: OutlineInputBorder()),
+          labelText: 'State',
+          labelStyle: TextStyle(
+            color: Colors.white60,
+          ),
+          hintText: 'Eg. Delhi',
+          hintStyle: TextStyle(
+            color: Colors.white38,
+          ),
+          border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white24,
+              width: 2.0,
+            ),
+          ),
+        ),
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: hexToColor(AppColors.whiteTextColor),
+            fontSize: 17.0),
         keyboardType: TextInputType.text,
         validator: (value) => value!.isEmpty
             ? 'Please enter Your State'

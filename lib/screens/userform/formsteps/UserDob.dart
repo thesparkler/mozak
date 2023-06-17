@@ -69,7 +69,10 @@ class _UserDobState extends State<UserDob> {
           child: child ?? const Text("2001-12-21"),
         );
       },
-      initialDate: DateTime(1997),
+      initialDate:
+          (widget.model.getDOB() == "" || widget.model.getDOB() == null)
+              ? DateTime(1997)
+              : DateTime.parse(widget.model.getDOB()),
       firstDate: DateTime(1900),
       lastDate: DateTime(3000),
     );

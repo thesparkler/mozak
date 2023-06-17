@@ -16,6 +16,7 @@ import 'package:mozak/screens/userform/formsteps/UserDob.dart';
 import 'package:mozak/screens/userform/formsteps/UserReferenceName.dart';
 import 'package:mozak/screens/userform/formsteps/VerifyDetails.dart';
 import 'package:mozak/utils/CustomLinearProgress.dart';
+import 'package:mozak/utils/api_service.dart';
 import 'package:mozak/utils/app_tools.dart';
 import 'package:mozak/utils/youthData.dart';
 import 'formsteps/UserBloodType.dart';
@@ -32,7 +33,7 @@ class UserForm extends StatefulWidget {
 class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
   int currStep = 1;
   int stepCount = 9;
-  UserFormModel model = UserFormModel();
+  UserFormModel youth = UserFormModel();
   final PageController _controller = PageController();
   late ValueNotifier<double> _valueNotifier;
 
@@ -90,22 +91,22 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
         //msg = model.validateStepOneGender();
         break;
       case 2:
-        msg = model.validateStepTwoNamesField();
+        msg = youth.validateStepTwoNamesField();
         break;
       case 3:
-        msg = model.validateStepThreeDOB();
+        msg = youth.validateStepThreeDOB();
         break;
       case 4:
-        msg = model.validateStepFourContactInfo();
+        msg = youth.validateStepFourContactInfo();
         break;
       case 5:
-        msg = model.validateStepFiveUserAddress();
+        msg = youth.validateStepFiveUserAddress();
         break;
       case 7:
-        msg = model.validateStep7();
+        msg = youth.validateStep7();
         break;
       case 8:
-        msg = model.validateStepEightTeamLead();
+        msg = youth.validateStepEightTeamLead();
         break;
     }
     if (null != msg) {
@@ -134,81 +135,88 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     var steps = [
-      SelectGender(model, next),
-      UserFullName(model, next),
-      UserDob(model, next),
-      UserContactInfo(model, next),
-      UserAddressInfo(model, next),
-      UserBloodType(model, next),
-      UserCareerType(model, next),
-      UserReferenceName(model, next),
-      VerifyDetails(model),
+      SelectGender(youth, next),
+      UserFullName(youth, next),
+      UserDob(youth, next),
+      UserContactInfo(youth, next),
+      UserAddressInfo(youth, next),
+      UserBloodType(youth, next),
+      UserCareerType(youth, next),
+      UserReferenceName(youth, next),
+      VerifyDetails(youth),
     ];
 
     return Scaffold(
       backgroundColor: hexToColor(AppColors.appThemeColor),
-      body: Column(
-        children: [
-          ValueListenableBuilder<double>(
-            valueListenable: _valueNotifier,
-            builder: (context, v, child) {
-              currStep = v.round();
-              return Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 40.0, bottom: 10.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Step ${v.round()} of $stepCount",
-                          style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w400,
-                            color: hexToColor(AppColors.paleOrange),
-                            fontSize: 15.0,
+      body: LayoutBuilder(builder: (context, constraints) {
+        return Column(
+          children: [
+            Container(
+              height: constraints.maxHeight * 150 / 720,
+              child: ValueListenableBuilder<double>(
+                valueListenable: _valueNotifier,
+                builder: (context, v, child) {
+                  currStep = v.round();
+                  return Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(top: 40.0, bottom: 10.0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Step ${v.round()} of $stepCount",
+                              style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.w400,
+                                color: hexToColor(AppColors.paleOrange),
+                                fontSize: 15.0,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        CustomLinearProgress(
+                          progress: v / stepCount,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              v > 1.0 ? _buildPreviousIcon2() : Container(),
+                              v > 1.0
+                                  ? Text(
+                                      "|",
+                                      style: TextStyle(
+                                        color: hexToColor(
+                                            AppColors.whiteTextColor),
+                                      ),
+                                    )
+                                  : Container(),
+                              v < 8.3 ? _buildNextIcon2() : _buildDoneIcon(),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                    CustomLinearProgress(
-                      progress: v / stepCount,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          v > 1.0 ? _buildPreviousIcon2() : Container(),
-                          v > 1.0
-                              ? Text(
-                                  "|",
-                                  style: TextStyle(
-                                    color: hexToColor(AppColors.whiteTextColor),
-                                  ),
-                                )
-                              : Container(),
-                          v < 8.3 ? _buildNextIcon2() : _buildDoneIcon(),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              );
-            },
-          ),
-          Expanded(
-            child: PageView.builder(
-              controller: _controller,
-              itemBuilder: (BuildContext context, int index) {
-                return steps[index];
-              },
-              itemCount: stepCount,
-              physics: const NeverScrollableScrollPhysics(),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
-      ),
+            Expanded(
+              child: PageView.builder(
+                controller: _controller,
+                itemBuilder: (BuildContext context, int index) {
+                  return steps[index];
+                },
+                itemCount: stepCount,
+                physics: const NeverScrollableScrollPhysics(),
+              ),
+            ),
+          ],
+        );
+      }),
     );
   }
 
@@ -357,11 +365,26 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                   AppStrings.noInternetConnDescriptionOne,
                 );
               } else {
-                YouthData.instance.youthList = [];
-                await MozakSheetApi.insertUserData(model);
+                //await MozakSheetApi.insertUserData(youth);
+                // var response = await ApiService().setYouth(youth.youth);
+                //
+                // print(response.firstName);
+                // var newYouth;
+                // // set roll no
+                // try {
+                //   newYouth = await ApiService().setRollNo(response, true);
+                //   print(newYouth.rollno);
+                // } catch (e) {
+                //   EasyLoading.dismiss();
+                // }
+                // YouthData.instance.youthList = [];
+                // await YouthData.instance.getYouthList();
+                // EasyLoading.dismiss();
+                // Navigator.of(context).pushReplacementNamed("FormSuccessScreen",
+                //     arguments: newYouth);
                 // Navigator.of(context).push(MaterialPageRoute(
                 //     builder: (context) => FormSuccessScreen()));
-                EasyLoading.dismiss();
+                // EasyLoading.dismiss();
               }
             },
             child: Container(
