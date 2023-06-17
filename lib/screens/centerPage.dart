@@ -93,7 +93,7 @@ class _CenterPageState extends State<CenterPage> {
         padding: EdgeInsets.only(
           left: 22.0 / 324 * bodyWidth,
           right: 22.0 / 324 * bodyWidth,
-          top: 22.0 / 324 * bodyWidth,
+          top: (30.0 / 720) * bodyHeight,
         ),
         child: GridView.builder(
           padding: EdgeInsets.zero,
@@ -209,6 +209,7 @@ class _CenterPageState extends State<CenterPage> {
                 ),
               },
               child: Card(
+                margin: EdgeInsets.zero,
                 color: hexToColor(AppColors.whiteTextColor).withOpacity(0.11),
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -227,6 +228,7 @@ class _CenterPageState extends State<CenterPage> {
                           height: bodyHeight * 40 / 720,
                           width: bodyHeight * 40 / 720,
                           child: Card(
+                            margin: EdgeInsets.zero,
                             color: hexToColor(AppColors.paleOrange),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
@@ -611,6 +613,7 @@ ScrollConfiguration(
         //       //                           padding:
         //       //                               const EdgeInsets.only(left: 10.0),
         //       //                           child: TextField(
+              cursorColor: hexToColor(AppColors.whiteTextColor),
         //       //                             controller: locationController,
         //       //                             style: kGoogleStyleTexts.copyWith(
         //       //                                 fontWeight: FontWeight.w400,

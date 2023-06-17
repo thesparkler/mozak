@@ -130,6 +130,8 @@ class _TeamsPageState extends State<TeamsPage> {
                                 child: Padding(
                                     padding: const EdgeInsets.only(left: 10.0),
                                     child: TextField(
+                                      cursorColor:
+                                          hexToColor(AppColors.whiteTextColor),
                                       controller: locationController,
                                       style: kGoogleStyleTexts.copyWith(
                                           fontWeight: FontWeight.w400,

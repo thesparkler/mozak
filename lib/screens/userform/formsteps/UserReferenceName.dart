@@ -69,7 +69,6 @@ class _UserReferenceNameState extends State<UserReferenceName> {
         .toList();
 
     print(youthList[0].rollno);
-    print(currentTLList[0].rollno);
 
     print("Milgaya");
   }
@@ -186,6 +185,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
     _selectedCode = codeMap[selectedMandal];
     getCurrentTlList();
     selectedTL = widget.model.getReferenceName();
+
     print(currentTLList[0].rollno);
     selectedTLCode = selectedTL.substring(0, 6);
     selectedObj = currentTLList
@@ -277,7 +277,11 @@ class _UserReferenceNameState extends State<UserReferenceName> {
           child: Padding(
             padding: EdgeInsets.only(left: 10.0),
             child: TextField(
+              cursorColor: hexToColor(AppColors.whiteTextColor),
               controller: referenceName,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+              ),
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w400,
                   color: hexToColor(AppColors.whiteTextColor),
@@ -333,6 +337,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
               }).toList(),
               onChanged: (String? newValue) async {
                 setState(() {
+                  print("111");
                   selectedMandal = newValue!;
                   widget.model.setRefGrp(newValue);
                   _selectedCode = codeMap[selectedMandal];
@@ -347,6 +352,9 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                       currentTLList[0].youthFullName;
                   selectedObj = currentTLList[0];
                   widget.model.setReferenceName(selectedTL);
+                  widget.model.setRefTeam(selectedTL.substring(0, 4));
+                  print(widget.model.getReferenceName());
+                  print(widget.model.getRefTeam());
                 });
               },
               value: selectedMandal,
@@ -432,11 +440,16 @@ class _UserReferenceNameState extends State<UserReferenceName> {
                           ));
               }).toList(),
               onChanged: (Youth? newValue) {
+                print("222");
                 selectedObj = newValue!;
                 setState(() {
-                  selectedTL = newValue.rollno ??
-                      "" + " " + newValue.youthFullName.toString();
-                  widget.model.setReferenceName(newValue.rollno ?? "");
+                  selectedTL = newValue.rollno.toString() +
+                      " " +
+                      newValue.youthFullName.toString();
+                  widget.model.setReferenceName(selectedTL);
+                  widget.model.setRefTeam(newValue.rollno!.substring(0, 4));
+                  print(widget.model.getRefTeam());
+                  print(widget.model.getReferenceName());
                   Timer(Duration(seconds: 1), () {
                     widget.next();
                   });
@@ -717,6 +730,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
 //           child: Padding(
 //             padding: EdgeInsets.only(left: 10.0),
 //             child: TextField(
+//               cursorColor: hexToColor(AppColors.whiteTextColor),
 //               controller: referenceName,
 //               style: GoogleFonts.montserrat(
 //                   fontWeight: FontWeight.w400,

@@ -62,200 +62,203 @@ class VerifyDetailsState extends State<VerifyDetails> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> userEmailList;
-    userEmailList = userEmail.split("@");
+    // List<String> userEmailList;
+    // userEmailList = userEmail.split("@");
     return ScrollConfiguration(
       behavior: NoGlowBehaviour(),
       child: Scaffold(
         backgroundColor: hexToColor(AppColors.appThemeColor),
-        body: Container(
-          padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, bottom: 40.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    AppStrings.verifyDetails,
-                    style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400,
-                      color: hexToColor(AppColors.whiteTextColor),
-                      fontSize: 22.0,
-                      height: 1.5,
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0, bottom: 40.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      AppStrings.verifyDetails,
+                      style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w400,
+                        color: hexToColor(AppColors.whiteTextColor),
+                        fontSize: 22.0,
+                        height: 1.5,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Hello, ',
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Hello, ',
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w400,
+                          color: hexToColor(AppColors.paleOrange),
+                          fontSize: 20.0,
+                          height: 1.3),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Jai Swaminarayan',
+                          style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w500,
+                              color: hexToColor(AppColors.paleOrange),
+                              fontSize: 20.0,
+                              height: 1.3),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: AutoSizeText(
+                    "I'm" +
+                        "  " +
+                        capitalizeFirstLetter(userFirstName) +
+                        "  " +
+                        userMiddleName[0].toString().toUpperCase() +
+                        "." +
+                        "  " +
+                        capitalizeFirstLetter(userLastName),
                     style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w400,
                         color: hexToColor(AppColors.paleOrange),
                         fontSize: 20.0,
-                        height: 1.3),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Jai Swaminarayan',
-                        style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w500,
-                            color: hexToColor(AppColors.paleOrange),
-                            fontSize: 20.0,
-                            height: 1.3),
+                        height: 1.8),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: AutoSizeText(
+                    "A" +
+                        "  " +
+                        age.toString() +
+                        " yrs old " +
+                        (userGender.toLowerCase() == "male"
+                            ? (age > 16 ? "yuvak" : "boy")
+                            : (age > 16 ? "yuvati" : "girl")) +
+                        " from " +
+                        userCityAddress,
+                    style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w400,
+                        color: hexToColor(AppColors.whiteTextColor),
+                        fontSize: 20.0,
+                        height: 1.8),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: AutoSizeText(
+                      AppStrings.contactMeByPhoneOrMail,
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w400,
+                          color: hexToColor(AppColors.whiteTextColor),
+                          fontSize: 20.0,
+                          height: 1.4),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.phone,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: AutoSizeText(
+                          "+91-" + userContactNo,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w400,
+                              color: hexToColor(AppColors.paleOrange),
+                              fontSize: 19.0,
+                              height: 1.4),
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: AutoSizeText(
-                  "I'm" +
-                      "  " +
-                      capitalizeFirstLetter(userFirstName) +
-                      "  " +
-                      userMiddleName[0].toString().toUpperCase() +
-                      "." +
-                      "  " +
-                      capitalizeFirstLetter(userLastName),
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400,
-                      color: hexToColor(AppColors.paleOrange),
-                      fontSize: 20.0,
-                      height: 1.8),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: AutoSizeText(
-                  "A" +
-                      "  " +
-                      age.toString() +
-                      " yrs old " +
-                      (userGender.toLowerCase() == "male"
-                          ? (age > 16 ? "yuvak" : "boy")
-                          : (age > 16 ? "yuvati" : "girl")) +
-                      " from " +
-                      userCityAddress,
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400,
-                      color: hexToColor(AppColors.whiteTextColor),
-                      fontSize: 20.0,
-                      height: 1.8),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: AutoSizeText(
-                    AppStrings.contactMeByPhoneOrMail,
-                    style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w400,
-                        color: hexToColor(AppColors.whiteTextColor),
-                        fontSize: 20.0,
-                        height: 1.4),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.phone,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: AutoSizeText(
-                        "+91-" + userContactNo,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w400,
-                            color: hexToColor(AppColors.paleOrange),
-                            fontSize: 19.0,
-                            height: 1.4),
+                Padding(
+                  padding: EdgeInsets.zero, //EdgeInsets.only(right: 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.email,
+                        color: Colors.white,
+                        size: 20,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.email,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: AutoSizeText(
-                        userEmailList[0] + "@" + userEmailList[1],
-                        style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w400,
-                            color: hexToColor(AppColors.paleOrange),
-                            fontSize: 19.0,
-                            height: 1.4),
+                      SizedBox(
+                        width: 10,
                       ),
+                      Expanded(
+                        child: AutoSizeText(
+                          userEmail,
+                          style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w400,
+                              color: hexToColor(AppColors.paleOrange),
+                              fontSize: 19.0,
+                              height: 1.4),
+                          softWrap: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: AutoSizeText(
+                    AppStrings.myBloodType + "  " + userBloodType,
+                    style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w400,
+                        color: hexToColor(AppColors.whiteTextColor),
+                        fontSize: 20.0,
+                        height: 1.9),
+                  ),
+                ),
+                Container(
+                  child: userCareerType == "Student"
+                      ? _isStudent()
+                      : _isWorkingProfessional(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 0.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: AutoSizeText(
+                      AppStrings.teamBelonging + " " + userTeam,
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w400,
+                          color: hexToColor(AppColors.whiteTextColor),
+                          fontSize: 20.0,
+                          height: 1.4),
                     ),
-                  ],
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: AutoSizeText(
-                  AppStrings.myBloodType + "  " + userBloodType,
-                  style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w400,
-                      color: hexToColor(AppColors.whiteTextColor),
-                      fontSize: 20.0,
-                      height: 1.9),
-                ),
-              ),
-              Container(
-                child: userCareerType == "Student"
-                    ? _isStudent()
-                    : _isWorkingProfessional(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 0.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: AutoSizeText(
-                    AppStrings.teamBelonging + " " + userTeam,
-                    style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w400,
-                        color: hexToColor(AppColors.whiteTextColor),
-                        fontSize: 20.0,
-                        height: 1.4),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 20.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: AutoSizeText(
-                    AppStrings.tlNameBelonging + " " + userTeamLead,
-                    style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w400,
-                        color: hexToColor(AppColors.whiteTextColor),
-                        fontSize: 20.0,
-                        height: 1.4),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 20.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: AutoSizeText(
+                      AppStrings.tlNameBelonging + " " + userTeamLead,
+                      style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w400,
+                          color: hexToColor(AppColors.whiteTextColor),
+                          fontSize: 20.0,
+                          height: 1.4),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

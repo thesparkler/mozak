@@ -63,6 +63,8 @@ class AppStrings {
   static const String addressFieldHintText = "Address (Area and Street)";
   static const String cityFieldText = "City / District";
   static const String cityFieldHintText = "City/District/Town";
+  static const String pincodeFieldText = "Pin Code";
+  static const String pincodeFieldHintText = "Eg. 400001";
   static const String coreReferenceName = "Myself";
   static const String stateFieldText = "State";
   static const String stateFieldHintText = "Maharashtra";
@@ -93,7 +95,7 @@ class AppStrings {
   static const String teamLeadFieldHintText = "Bhulkoo";
   static const String thankYouText = "Thank you!";
   static const String submittedResponse = "We have submitted\nyour response";
-  static const String backToLogin = "Back to Form";
+  //static const String backToLogin = "Back to Form";
   static const String verifyDetails = "Verify your Details";
   static const String contactMeByPhoneOrMail = "My phone number and email id";
   static const String myBloodType = "My blood type is";
@@ -124,6 +126,7 @@ class AppStrings {
   static const String invalidFirstName = "Invalid First Name";
   static const String invalidMiddleName = "Invalid Middle Name";
   static const String invalidLastName = "Invalid Last Name";
+  static const String recognitionText1 = "Is Youth New?";
   static const String dismissText = "Dismiss";
 
   // No INTERNET TEXT

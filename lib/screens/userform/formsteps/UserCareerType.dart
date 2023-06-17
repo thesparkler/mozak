@@ -179,8 +179,9 @@ class UserCareerTypeState extends State<UserCareerType> {
                 ),
               ),
               SizedBox(
-                height: maxLines * 25.0,
+                height: maxLines * 60,
                 child: TextFormField(
+                    cursorColor: hexToColor(AppColors.whiteTextColor),
                     //   key:const Key('text1'),
                     textInputAction: TextInputAction.next,
                     onChanged: (val) {
@@ -189,12 +190,12 @@ class UserCareerTypeState extends State<UserCareerType> {
                     initialValue: widget.model.getCareerType() == "Student"
                         ? widget.model.getCollegeName()
                         : '',
-                    keyboardType: TextInputType.text,
+                    //keyboardType: TextInputType.text,
                     style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w400,
                         color: hexToColor(AppColors.whiteTextColor),
                         fontSize: 17.0),
-                    maxLines: 1,
+                    maxLines: 6,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -235,8 +236,9 @@ class UserCareerTypeState extends State<UserCareerType> {
                 ),
               ),
               SizedBox(
-                height: maxLines * 25.0,
+                height: maxLines * 25,
                 child: TextFormField(
+                    cursorColor: hexToColor(AppColors.whiteTextColor),
                     //     key:const Key('text2'),
                     textInputAction: TextInputAction.done,
                     onChanged: (val) {
@@ -248,12 +250,13 @@ class UserCareerTypeState extends State<UserCareerType> {
                     initialValue: widget.model.getCareerType() == "Student"
                         ? widget.model.getCourseName()
                         : '',
-                    keyboardType: TextInputType.text,
+                    //keyboardType: TextInputType.text,
                     style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w400,
                         color: hexToColor(AppColors.whiteTextColor),
                         fontSize: 17.0),
                     maxLines: 1,
+                    autocorrect: true,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -303,8 +306,9 @@ class UserCareerTypeState extends State<UserCareerType> {
                 ),
               ),
               SizedBox(
-                height: maxLines * 25.0,
+                height: maxLines * 60,
                 child: TextFormField(
+                    cursorColor: hexToColor(AppColors.whiteTextColor),
                     //     key:const Key('text3'),
                     textInputAction: TextInputAction.next,
                     onChanged: (val) {
@@ -314,12 +318,12 @@ class UserCareerTypeState extends State<UserCareerType> {
                     initialValue: widget.model.getCareerType() == "Professional"
                         ? widget.model.getCompanyName()
                         : '',
-                    keyboardType: TextInputType.text,
+                    //keyboardType: TextInputType.text,
                     style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w400,
                         color: hexToColor(AppColors.whiteTextColor),
                         fontSize: 17.0),
-                    maxLines: 1,
+                    maxLines: 6,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -360,8 +364,9 @@ class UserCareerTypeState extends State<UserCareerType> {
                 ),
               ),
               SizedBox(
-                height: maxLines * 25.0,
+                height: maxLines * 25,
                 child: TextFormField(
+                    cursorColor: hexToColor(AppColors.whiteTextColor),
                     //   key:const Key('text4'),
                     textInputAction: TextInputAction.done,
                     onChanged: (val) {
@@ -375,7 +380,7 @@ class UserCareerTypeState extends State<UserCareerType> {
                     initialValue: widget.model.getCareerType() == "Professional"
                         ? widget.model.getDesignation()
                         : '',
-                    keyboardType: TextInputType.text,
+                    //keyboardType: TextInputType.text,
                     style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w400,
                         color: hexToColor(AppColors.whiteTextColor),

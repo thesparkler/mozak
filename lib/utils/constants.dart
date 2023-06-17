@@ -1,6 +1,6 @@
 class Constants {
-  static String domain = "http://192.168.29.220:8080/mozakio"; //@SITH
-  //static String domain = "http://192.168.0.102:8080/mozakio"; //general
+  //static String domain = "http://192.168.29.220:8080/mozakio"; //@SITH
+  static String domain = "http://192.168.0.103:8080/mozakio"; //general
   static String allYouths = "/allYouths";
   static String allWFEvents = "/allWFEvents";
   static String allCenters = "/allCenters";
@@ -11,6 +11,10 @@ class Constants {
   static String createCenter = "/createCenter";
   static String createWFEvent = "/createWFEvent";
   static String registerYouth = "/registerYouth";
+
+  static String updateYouth = "/updateYouth";
+  static String updateCenter = "/updateYouth";
+  static String updateWFE = "/updateYouth";
 
   static String youthByEventId = "/youthByEventId";
   static String attendanceByEventId = "/attendanceByEventId";

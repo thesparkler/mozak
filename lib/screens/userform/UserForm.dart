@@ -13,6 +13,7 @@ import 'package:mozak/screens/userform/formsteps/UserAddressInfo.dart';
 import 'package:mozak/screens/userform/formsteps/UserCareerType.dart';
 import 'package:mozak/screens/userform/formsteps/UserContactInfo.dart';
 import 'package:mozak/screens/userform/formsteps/UserDob.dart';
+import 'package:mozak/screens/userform/formsteps/UserRecognition.dart';
 import 'package:mozak/screens/userform/formsteps/UserReferenceName.dart';
 import 'package:mozak/screens/userform/formsteps/VerifyDetails.dart';
 import 'package:mozak/utils/CustomLinearProgress.dart';
@@ -32,7 +33,7 @@ class UserForm extends StatefulWidget {
 
 class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
   int currStep = 1;
-  int stepCount = 9;
+  int stepCount = 10;
   UserFormModel youth = UserFormModel();
   final PageController _controller = PageController();
   late ValueNotifier<double> _valueNotifier;
@@ -143,6 +144,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
       UserBloodType(youth, next),
       UserCareerType(youth, next),
       UserReferenceName(youth, next),
+      UserRecognition(youth, next),
       VerifyDetails(youth),
     ];
 
@@ -151,58 +153,54 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
       body: LayoutBuilder(builder: (context, constraints) {
         return Column(
           children: [
-            Container(
-              height: constraints.maxHeight * 150 / 720,
-              child: ValueListenableBuilder<double>(
-                valueListenable: _valueNotifier,
-                builder: (context, v, child) {
-                  currStep = v.round();
-                  return Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(top: 40.0, bottom: 10.0),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Step ${v.round()} of $stepCount",
-                              style: GoogleFonts.montserrat(
-                                fontWeight: FontWeight.w400,
-                                color: hexToColor(AppColors.paleOrange),
-                                fontSize: 15.0,
-                              ),
+            ValueListenableBuilder<double>(
+              valueListenable: _valueNotifier,
+              builder: (context, v, child) {
+                currStep = v.round();
+                return Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 40.0, bottom: 10.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Step ${v.round()} of $stepCount",
+                            style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w400,
+                              color: hexToColor(AppColors.paleOrange),
+                              fontSize: 15.0,
                             ),
                           ),
                         ),
-                        CustomLinearProgress(
-                          progress: v / stepCount,
+                      ),
+                      CustomLinearProgress(
+                        progress: v / stepCount,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            v > 1.0 ? _buildPreviousIcon2() : Container(),
+                            v > 1.0
+                                ? Text(
+                                    "|",
+                                    style: TextStyle(
+                                      color:
+                                          hexToColor(AppColors.whiteTextColor),
+                                    ),
+                                  )
+                                : Container(),
+                            v < 9.3 ? _buildNextIcon2() : _buildDoneIcon(),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              v > 1.0 ? _buildPreviousIcon2() : Container(),
-                              v > 1.0
-                                  ? Text(
-                                      "|",
-                                      style: TextStyle(
-                                        color: hexToColor(
-                                            AppColors.whiteTextColor),
-                                      ),
-                                    )
-                                  : Container(),
-                              v < 8.3 ? _buildNextIcon2() : _buildDoneIcon(),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
+                      )
+                    ],
+                  ),
+                );
+              },
             ),
             Expanded(
               child: PageView.builder(
@@ -365,23 +363,24 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                   AppStrings.noInternetConnDescriptionOne,
                 );
               } else {
-                //await MozakSheetApi.insertUserData(youth);
-                // var response = await ApiService().setYouth(youth.youth);
-                //
-                // print(response.firstName);
-                // var newYouth;
-                // // set roll no
-                // try {
-                //   newYouth = await ApiService().setRollNo(response, true);
-                //   print(newYouth.rollno);
-                // } catch (e) {
-                //   EasyLoading.dismiss();
-                // }
-                // YouthData.instance.youthList = [];
-                // await YouthData.instance.getYouthList();
-                // EasyLoading.dismiss();
-                // Navigator.of(context).pushReplacementNamed("FormSuccessScreen",
-                //     arguments: newYouth);
+                // await MozakSheetApi.insertUserData(youth);
+                var response = await ApiService().setYouth(youth.youth);
+
+                print(response.firstName);
+                var newYouth;
+                // set roll no
+                try {
+                  newYouth =
+                      await ApiService().setRollNo(response, youth.isTemp);
+                  //print(newYouth.rollno);
+                } catch (e) {
+                  EasyLoading.dismiss();
+                }
+                YouthData.instance.youthList = [];
+                await YouthData.instance.getYouthList();
+                EasyLoading.dismiss();
+                Navigator.of(context).pushReplacementNamed("FormSuccessScreen",
+                    arguments: newYouth);
                 // Navigator.of(context).push(MaterialPageRoute(
                 //     builder: (context) => FormSuccessScreen()));
                 // EasyLoading.dismiss();

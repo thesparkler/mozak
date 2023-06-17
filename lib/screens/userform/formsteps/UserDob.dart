@@ -119,6 +119,7 @@ class _UserDobState extends State<UserDob> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: TextField(
+                  cursorColor: hexToColor(AppColors.whiteTextColor),
                   enabled: false,
                   controller: dateController,
                   decoration: const InputDecoration(

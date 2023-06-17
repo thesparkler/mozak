@@ -382,6 +382,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       width: bodyWidth * 0.8,
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
+        cursorColor: hexToColor(AppColors.whiteTextColor),
         controller: signUpController['dateController'],
         decoration: InputDecoration(
           prefixIcon: Icon(
@@ -430,6 +431,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         width: bodyWidth * 0.8,
         padding: EdgeInsets.all(5.0),
         child: TextFormField(
+          cursorColor: hexToColor(AppColors.whiteTextColor),
           controller: signUpController['pincode'],
           key: ValueKey('Pincode'),
           decoration: InputDecoration(
@@ -478,6 +480,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         width: bodyWidth * 0.8,
         padding: EdgeInsets.all(5.0),
         child: TextFormField(
+          cursorColor: hexToColor(AppColors.whiteTextColor),
           controller: signUpController['email'],
           key: ValueKey('Email-Id'),
           decoration: InputDecoration(
@@ -524,6 +527,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         width: bodyWidth * 0.8,
         padding: EdgeInsets.all(5.0),
         child: TextFormField(
+          cursorColor: hexToColor(AppColors.whiteTextColor),
           controller: signUpController['mobile'],
           key: ValueKey('Mobile Number'),
           decoration: InputDecoration(
@@ -576,6 +580,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       width: bodyWidth * 0.8,
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
+        cursorColor: hexToColor(AppColors.whiteTextColor),
         controller: signUpController['lastName'],
         onSaved: (name) {
           youth.lastName = name;
@@ -623,6 +628,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       width: bodyWidth * 0.8,
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
+        cursorColor: hexToColor(AppColors.whiteTextColor),
         controller: signUpController['middleName'],
         onSaved: (name) {
           youth.middleName = name;
@@ -670,6 +676,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       width: bodyWidth * 0.8,
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
+        cursorColor: hexToColor(AppColors.whiteTextColor),
         controller: signUpController['firstName'],
         onSaved: (name) {
           youth.firstName = name;
@@ -717,6 +724,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       width: bodyWidth * 0.8,
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
+        cursorColor: hexToColor(AppColors.whiteTextColor),
         controller: signUpController['street'],
         onSaved: (name) {
           youth.streetAddress = name;
@@ -764,6 +772,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       width: bodyWidth * 0.8,
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
+        cursorColor: hexToColor(AppColors.whiteTextColor),
         controller: signUpController['city'],
         onSaved: (name) {
           youth.streetAddress = name;
@@ -812,6 +821,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       width: bodyWidth * 0.8,
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
+        cursorColor: hexToColor(AppColors.whiteTextColor),
         controller: signUpController['state'],
         onSaved: (name) {
           youth.streetAddress = name;

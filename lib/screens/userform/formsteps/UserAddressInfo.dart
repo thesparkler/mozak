@@ -105,7 +105,7 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
                       children: [
                         _buildStreetAddressField(),
                         _buildCityField(),
-                        //   _buildStateField(),
+                        _buildPinCodeField(),
                         _stateDropDownField(),
                       ],
                     )),
@@ -136,12 +136,13 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
         SizedBox(
           height: maxLines * 60.0,
           child: TextFormField(
+              cursorColor: hexToColor(AppColors.whiteTextColor),
               onChanged: (val) {
                 widget.model.setStreetAddress(val);
               },
               textInputAction: TextInputAction.next,
               initialValue: widget.model.getStreetAddress(),
-              keyboardType: TextInputType.text,
+              //keyboardType: TextInputType.text,
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w400,
                   color: hexToColor(AppColors.whiteTextColor),
@@ -189,6 +190,7 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
         SizedBox(
           height: maxLines * 40.0,
           child: TextFormField(
+              cursorColor: hexToColor(AppColors.whiteTextColor),
               onChanged: (val) {
                 widget.model.setCity(val);
               },
@@ -199,7 +201,7 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
               },
               initialValue: widget.model.getCity(),
               textInputAction: TextInputAction.next,
-              keyboardType: TextInputType.text,
+              //keyboardType: TextInputType.text,
               style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w400,
                   color: hexToColor(AppColors.whiteTextColor),
@@ -220,6 +222,60 @@ class _UserAddressInfoState extends State<UserAddressInfo> {
                         color:
                             hexToColor(AppColors.textFieldOutlineBorderColor))),
                 hintText: AppStrings.cityFieldHintText,
+                hintStyle: TextStyle(
+                    fontSize: 15, color: hexToColor(AppColors.hintTextColor)),
+              )),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPinCodeField() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10, top: 20.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              AppStrings.pincodeFieldText,
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w400,
+                  color: hexToColor(AppColors.whiteTextColor),
+                  fontSize: 15.0),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: maxLines * 25.0,
+          child: TextFormField(
+              cursorColor: hexToColor(AppColors.whiteTextColor),
+              onChanged: (val) {
+                widget.model.setPinCode(val);
+              },
+              textInputAction: TextInputAction.next,
+              initialValue: widget.model.getPinCode(),
+              //keyboardType: TextInputType.text,
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w400,
+                  color: hexToColor(AppColors.whiteTextColor),
+                  fontSize: 17.0),
+              maxLines: 1,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: hexToColor(AppColors.textFieldOutlineBorderColor)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                    borderSide:
+                        BorderSide(color: hexToColor(AppColors.paleOrange))),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                    borderSide: BorderSide(
+                        color:
+                            hexToColor(AppColors.textFieldOutlineBorderColor))),
+                hintText: AppStrings.pincodeFieldHintText,
                 hintStyle: TextStyle(
                     fontSize: 15, color: hexToColor(AppColors.hintTextColor)),
               )),

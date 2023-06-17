@@ -90,12 +90,13 @@ class _UserContactInfoState extends State<UserContactInfo> {
           child: SizedBox(
             height: maxLines * 25.0,
             child: TextFormField(
+                cursorColor: hexToColor(AppColors.whiteTextColor),
                 textInputAction: TextInputAction.next,
                 onChanged: (val) {
                   widget.model.setEmail(val);
                 },
                 initialValue: widget.model.getEmail(),
-                keyboardType: TextInputType.emailAddress,
+                //keyboardType: TextInputType.emailAddress,
                 style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w400,
                     color: hexToColor(AppColors.whiteTextColor),
@@ -149,44 +150,43 @@ class _UserContactInfoState extends State<UserContactInfo> {
           child: SizedBox(
             height: maxLines * 25.0,
             child: TextFormField(
-                inputFormatters: <TextInputFormatter>[
-                  LengthLimitingTextInputFormatter(10),
-                ],
-                textInputAction: TextInputAction.done,
-                onChanged: (val) {
-                  widget.model.setContactInfo(val);
-                },
-                onEditingComplete: () {
-                  widget.next();
-                },
-                initialValue: widget.model.getContactNo(),
-                keyboardType: TextInputType.number,
-                style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w400,
-                    color: hexToColor(AppColors.whiteTextColor),
-                    fontSize: 17.0),
-                maxLines: 1,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
+              cursorColor: hexToColor(AppColors.whiteTextColor),
+              inputFormatters: <TextInputFormatter>[
+                LengthLimitingTextInputFormatter(10),
+              ],
+              textInputAction: TextInputAction.done,
+              onChanged: (val) {
+                widget.model.setContactInfo(val);
+              },
+              onEditingComplete: () {
+                widget.next();
+              },
+              initialValue: widget.model.getContactNo(),
+              //keyboardType: TextInputType.number,
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w400,
+                  color: hexToColor(AppColors.whiteTextColor),
+                  fontSize: 17.0),
+              maxLines: 1,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: hexToColor(AppColors.textFieldOutlineBorderColor)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                    borderSide:
+                        BorderSide(color: hexToColor(AppColors.paleOrange))),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                     borderSide: BorderSide(
                         color:
-                            hexToColor(AppColors.textFieldOutlineBorderColor)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(5.0)),
-                      borderSide:
-                          BorderSide(color: hexToColor(AppColors.paleOrange))),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(5.0)),
-                      borderSide: BorderSide(
-                          color: hexToColor(
-                              AppColors.textFieldOutlineBorderColor))),
-                  hintText: AppStrings.contactNoFieldHintText,
-                  hintStyle: TextStyle(
-                      fontSize: 15, color: hexToColor(AppColors.hintTextColor)),
-                )),
+                            hexToColor(AppColors.textFieldOutlineBorderColor))),
+                hintText: AppStrings.contactNoFieldHintText,
+                hintStyle: TextStyle(
+                    fontSize: 15, color: hexToColor(AppColors.hintTextColor)),
+              ),
+            ),
           ),
         ),
       ],

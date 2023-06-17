@@ -345,6 +345,8 @@ class _LoginPageState extends State<LoginPage> {
                                       SizedBox(
                                         height: maxLines * 25.0,
                                         child: TextFormField(
+                                            cursorColor: hexToColor(
+                                                AppColors.whiteTextColor),
                                             initialValue: "SY04",
                                             onSaved: (val) => _email = val!,
                                             keyboardType:
@@ -405,6 +407,8 @@ class _LoginPageState extends State<LoginPage> {
                                       SizedBox(
                                         height: maxLines * 25.0,
                                         child: TextFormField(
+                                            cursorColor: hexToColor(
+                                                AppColors.whiteTextColor),
                                             initialValue: "dasnadas",
                                             onSaved: (val) => _password = val!,
                                             keyboardType: TextInputType.text,

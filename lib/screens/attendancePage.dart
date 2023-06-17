@@ -131,6 +131,7 @@ class _AttendancePageState extends State<AttendancePage> {
                 child: SizedBox(
                   height: 60,
                   child: TextField(
+                    cursorColor: hexToColor(AppColors.whiteTextColor),
                     autofocus: true,
                     focusNode: fieldFocusNode,
                     controller: fieldTextEditingController,

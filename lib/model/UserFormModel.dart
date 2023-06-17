@@ -3,7 +3,35 @@ import 'package:mozak/model/youth.dart';
 import '../constants/AppStrings.dart';
 
 class UserFormModel {
-  var youth = Youth(isTL: false, isKK: false);
+  String referenceName = "GK0801 Sagar Ashok Sarvaiya";
+  String referenceGrp = "Gurukrupa";
+  String recognition = "New";
+  bool isTemp = true;
+  var youth = Youth(
+    gender: "Male",
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    dob: "",
+    emailid: "",
+    mobile1: "",
+    streetAddress: "",
+    city: "",
+    pincode: "400080",
+    state: "Maharashtra",
+    bloodGroup: "Not Given",
+    careerType: "Student",
+    collegeName: "",
+    courseName: "",
+    companyName: "",
+    designation: "",
+    refGrp: "Gurukrupa",
+    tlCode: "GK0801",
+    team: "GK08",
+    inTeamRef: "",
+    isTL: false,
+    isKK: false,
+  );
   var data = {
     'gender': "",
     'first_name': "Shubham",
@@ -27,186 +55,219 @@ class UserFormModel {
   };
 
   getCollegeName() {
-    return data['college_name'];
+    return youth.collegeName;
   }
 
   setCollegeName(String collegeName) {
-    data['college_name'] = collegeName;
+    youth.collegeName = collegeName;
+  }
+
+  getRecognition() {
+    return recognition;
+  }
+
+  setRecognition(String rec) {
+    recognition = rec;
+    isTemp = (recognition == "New");
+    print(isTemp);
   }
 
   getCourseName() {
-    return data['course_name'];
+    return youth.courseName;
   }
 
   setCourseName(String courseName) {
-    data['course_name'] = courseName;
+    youth.courseName = courseName;
   }
 
   getCompanyName() {
-    return data['company_name'];
+    return youth.companyName;
   }
 
   setCompanyName(String companyName) {
-    data['company_name'] = companyName;
+    youth.companyName = companyName;
   }
 
   getDesignation() {
-    return data['designation'];
+    return youth.designation;
   }
 
   setDesignation(String designation) {
-    data['designation'] = designation;
+    youth.designation = designation;
   }
 
   getReferenceName() {
-    return data['reference_name'];
+    return referenceName;
   }
 
   setReferenceName(String refName) {
-    data['reference_name'] = refName;
+    referenceName = refName;
   }
 
   setGender(String gender) {
-    data['gender'] = gender;
+    youth.gender = gender;
   }
 
   getGender() {
-    return data['gender'];
+    return youth.gender;
   }
 
   getFirstName() {
-    return data['first_name'];
+    return youth.firstName;
   }
 
   setFirstName(String fName) {
-    data['first_name'] = fName;
+    youth.firstName = fName;
   }
 
   getMiddleName() {
-    return data['middle_name'];
+    return youth.middleName;
   }
 
   setMiddleName(String mName) {
-    data['middle_name'] = mName;
+    youth.middleName = mName;
   }
 
   getLastName() {
-    return data['last_name'];
+    return youth.lastName;
   }
 
   setLastName(String lName) {
-    data['last_name'] = lName;
+    youth.lastName = lName;
+  }
+
+  setFullName() {
+    youth.youthFullName =
+        "${youth.firstName} ${youth.middleName} ${youth.lastName}";
   }
 
   getDOB() {
-    return data['date_of_birth'] ?? '';
+    return youth.dob ?? '';
   }
 
   setDOB(String dob) {
-    data['date_of_birth'] = dob;
+    youth.dob = dob;
   }
 
   getEmail() {
-    return data['email'];
+    return youth.emailid;
   }
 
   setEmail(String email) {
-    data['email'] = email;
+    youth.emailid = email;
   }
 
   getContactNo() {
-    return data['contact_no'];
+    return youth.mobile1;
   }
 
   setContactInfo(String number) {
-    data['contact_no'] = number;
+    youth.mobile1 = number;
   }
 
   getStreetAddress() {
-    return data['street_address'];
+    return youth.streetAddress;
   }
 
   setStreetAddress(String streetAddress) {
-    data['street_address'] = streetAddress;
+    youth.streetAddress = streetAddress;
+  }
+
+  getPinCode() {
+    return youth.pincode;
+  }
+
+  setPinCode(String pincode) {
+    youth.pincode = pincode;
   }
 
   getCity() {
-    return data['city'];
+    return youth.city;
   }
 
   setCity(String city) {
-    data['city'] = city;
+    youth.city = city;
   }
 
   getState() {
-    return data['state'];
+    return youth.state;
   }
 
   getRefGrp() {
-    return data['refGrp'];
+    return referenceGrp;
   }
 
   setRefGrp(String refGrp) {
-    return data['refGrp'] = refGrp;
+    return referenceGrp = refGrp;
+  }
+
+  getRefTeam() {
+    return youth.team;
+  }
+
+  setRefTeam(String refGrp) {
+    return youth.team = refGrp;
   }
 
   setState(String state) {
-    data['state'] = state;
+    youth.state = state;
   }
 
   setInTeamRef(String val) {
-    data['inTeamRef'] = val;
+    youth.inTeamRef = val;
   }
 
   String? getInTeamRef() {
-    return data['inTeamRef'];
+    return youth.inTeamRef;
   }
 
   getBloodGroup() {
-    return data['blood_group'];
+    return youth.bloodGroup;
   }
 
   setBloodGroup(String bloodGroup) {
-    data['blood_group'] = bloodGroup;
+    youth.bloodGroup = bloodGroup;
   }
 
   getCareerType() {
-    return data['career_type'];
+    return youth.careerType;
   }
 
   setCareerType(String careerStatus) {
-    data['college_name'] = '';
-    data['course_name'] = '';
-    data['company_name'] = '';
-    data['designation'] = '';
+    youth.collegeName = '';
+    youth.courseName = '';
+    youth.companyName = '';
+    youth.designation = '';
 
-    data['career_type'] = careerStatus;
+    youth.careerType = careerStatus;
   }
 
 // validation code here
   String? validateStepOneGender() {
-    if (data['gender'] != null && data['gender'] == '') {
+    if (youth.gender != null && youth.gender == '') {
       return "Gender is required";
     }
     return null;
   }
 
   String? validateStepTwoNamesField() {
-    var firstName = data['first_name'];
-    var middleName = data['middle_name'];
-    var lastName = data['last_name'];
+    var firstName = youth.firstName;
+    var middleName = youth.middleName;
+    var lastName = youth.lastName;
     if (firstName != null && firstName == '') {
       return AppStrings.firstNameRequired;
     } else if (middleName != null && middleName == '') {
       return AppStrings.middleNameRequired;
     } else if (lastName != null && lastName == '') {
       return AppStrings.lastNameRequired;
+    } else {
+      setFullName();
     }
     return null;
   }
 
   String? validateStepThreeDOB() {
-    if (data['date_of_birth'] != null && data['date_of_birth'] == '') {
+    if (youth.dob != null && youth.dob == '') {
       return AppStrings.dobRequired;
     }
     return null;
@@ -215,8 +276,8 @@ class UserFormModel {
   String? validateStepFourContactInfo() {
     Pattern pattern = "(0/91)?[6-9][0-9]{9}";
     RegExp regex = RegExp(pattern.toString());
-    var email = data['email'];
-    var contactNo = data['contact_no'];
+    var email = youth.emailid;
+    var contactNo = youth.mobile1;
 
     if (email != null && email == '') {
       return AppStrings.emailRequired;
@@ -231,43 +292,43 @@ class UserFormModel {
   }
 
   String? validateStepFiveUserAddress() {
-    if (data['street_address'] != null && data['street_address'] == '') {
+    if (youth.streetAddress != null && youth.streetAddress == '') {
       return AppStrings.streetAddressRequired;
-    } else if (data['city'] != null && data['city'] == '') {
+    } else if (youth.city != null && youth.city == '') {
       return AppStrings.cityIsRequired;
-    } else if (data['state'] != null && data['state'] == '') {
+    } else if (youth.state != null && youth.state == '') {
       return AppStrings.stateIsRequired;
     }
     return null;
   }
 
   // String? validateStepSixBloodType() {
-  //   if (data['blood_group'] != null && data['blood_group'] == '') {
+  //   if (youth.bloodGroup != null && youth.bloodGroup == '') {
   //     return AppStrings.bloodTypeRequired;
   //   }
   //   return null;
   // }
 
   String? validateStepEightTeamLead() {
-    if (data['reference_name'] != null && data['reference_name'] == '') {
+    if (referenceName != null && referenceName == '') {
       return AppStrings.referenceNameRequired;
     }
     return null;
   }
 
   String? validateStepSevenCareerTypeStudent() {
-    if (data['college_name'] != null && data['college_name'] == '') {
+    if (youth.collegeName != null && youth.collegeName == '') {
       return AppStrings.collegeNameRequired;
-    } else if (data['course_name'] != null && data['course_name'] == '') {
+    } else if (youth.courseName != null && youth.courseName == '') {
       return AppStrings.courseRequired;
     }
     return null;
   }
 
   String? validateStepSevenCareerTyeProfessional() {
-    if (data['company_name'] != null && data['company_name'] == '') {
+    if (youth.companyName != null && youth.companyName == '') {
       return AppStrings.companyNameRequired;
-    } else if (data['designation'] != null && data['designation'] == '') {
+    } else if (youth.designation != null && youth.designation == '') {
       return AppStrings.designationIsRequired;
     }
     return null;
@@ -595,7 +656,7 @@ class UserFormModel {
 //   }
 //
 //   // String? validateStepSixBloodType() {
-//   //   if (data['blood_group'] != null && data['blood_group'] == '') {
+//   //   if (youth.bloodGroup != null && youth.bloodGroup == '') {
 //   //     return AppStrings.bloodTypeRequired;
 //   //   }
 //   //   return null;

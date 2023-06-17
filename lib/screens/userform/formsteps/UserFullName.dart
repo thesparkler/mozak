@@ -76,6 +76,7 @@ class _UserFullNameState extends State<UserFullName> {
           child: Container(
             height: maxLines * 25.0,
             child: TextFormField(
+                cursorColor: hexToColor(AppColors.whiteTextColor),
                 textInputAction: TextInputAction.next,
                 onChanged: (val) {
                   widget.model.setFirstName(val);
@@ -87,7 +88,7 @@ class _UserFullNameState extends State<UserFullName> {
                   }
                   return null;
                 },
-                keyboardType: TextInputType.text,
+                //keyboardType: TextInputType.text,
                 style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w400,
                     color: hexToColor(AppColors.whiteTextColor),
@@ -142,12 +143,13 @@ class _UserFullNameState extends State<UserFullName> {
           child: Container(
             height: maxLines * 25.0,
             child: TextFormField(
+                cursorColor: hexToColor(AppColors.whiteTextColor),
                 onChanged: (val) {
                   widget.model.setMiddleName(val);
                 },
                 initialValue: widget.model.getMiddleName(),
                 textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.text,
+                //keyboardType: TextInputType.text,
                 style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w400,
                     color: hexToColor(AppColors.whiteTextColor),
@@ -201,6 +203,7 @@ class _UserFullNameState extends State<UserFullName> {
           child: Container(
             height: maxLines * 25.0,
             child: TextFormField(
+                cursorColor: hexToColor(AppColors.whiteTextColor),
                 textInputAction: TextInputAction.done,
                 onChanged: (val) {
                   widget.model.setLastName(val);
@@ -209,7 +212,7 @@ class _UserFullNameState extends State<UserFullName> {
                   widget.next();
                 },
                 initialValue: widget.model.getLastName(),
-                keyboardType: TextInputType.text,
+                //keyboardType: TextInputType.text,
                 style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w400,
                     color: hexToColor(AppColors.whiteTextColor),
