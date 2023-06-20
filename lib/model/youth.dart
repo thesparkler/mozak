@@ -123,6 +123,15 @@ class Youth {
   }
 
   String getFullName() {
-    return '${this.firstName} ${this.middleName} ${this.lastName}';
+    if(this.youthFullName != null) {
+      return this.youthFullName.toString();
+    }
+      return '${this.firstName} ${this.middleName} ${this.lastName}';
+    }
+
+
+  @override
+  String toString() {
+    return '${this.rollno?? "None"} ${this.firstName} ${this.middleName} ${this.lastName}';
   }
 }

@@ -119,15 +119,7 @@ class _YouthListState extends State<YouthList> {
                             );
                           } else if (snapshot.hasData) {
                             youthList = snapshot.data!;
-                            youthList.sort((a, b) {
-                              if (a.rollno != null && b.rollno != null) {
-                                String aRoll = a.rollno ?? "";
-                                String bRoll = b.rollno ?? "";
-                                return aRoll.compareTo(bRoll);
-                              } else {
-                                return 1; //
-                              }
-                            });
+
                             return ListView(
                                 shrinkWrap: true,
                                 physics: ScrollPhysics(),
@@ -136,7 +128,7 @@ class _YouthListState extends State<YouthList> {
                                     .where((element) =>
                                         element.team?.substring(0, 2) ==
                                         '$youthCode')
-                                    .map((e) => getYouthRow(e))
+                                    .map((e) => getYouthCard(e))
                                     .toList());
                           } else {
                             return Padding(
@@ -191,7 +183,7 @@ class _YouthListState extends State<YouthList> {
     super.dispose();
   }
 
-  Widget getYouthRow(Youth e) {
+  Widget getYouthCard(Youth e) {
     return InkWell(
       onTap: () => {
         showModalBottomSheet(
