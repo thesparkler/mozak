@@ -33,7 +33,7 @@ class UserForm extends StatefulWidget {
 
 class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
   int currStep = 1;
-  int stepCount = 10;
+  // int stepCount = 10;
   UserFormModel youth = UserFormModel();
   final PageController _controller = PageController();
   late ValueNotifier<double> _valueNotifier;
@@ -144,7 +144,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
       UserBloodType(youth, next),
       UserCareerType(youth, next),
       UserReferenceName(youth, next),
-      UserRecognition(youth, next),
+      // UserRecognition(youth, next),
       VerifyDetails(youth),
     ];
 
@@ -157,6 +157,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
               valueListenable: _valueNotifier,
               builder: (context, v, child) {
                 currStep = v.round();
+                print(v.toString());
                 return Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: Column(
@@ -166,7 +167,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Step ${v.round()} of $stepCount",
+                            "Step ${v.round()} of ${steps.length}",
                             style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.w400,
                               color: hexToColor(AppColors.paleOrange),
@@ -176,7 +177,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                         ),
                       ),
                       CustomLinearProgress(
-                        progress: v / stepCount,
+                        progress: v / steps.length,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 15.0),
@@ -193,7 +194,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                                     ),
                                   )
                                 : Container(),
-                            v < 9.3 ? _buildNextIcon2() : _buildDoneIcon(),
+                            v < 9 ? _buildNextIcon2() : _buildDoneIcon(),
                           ],
                         ),
                       )
@@ -208,7 +209,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                 itemBuilder: (BuildContext context, int index) {
                   return steps[index];
                 },
-                itemCount: stepCount,
+                itemCount: steps.length,
                 physics: const NeverScrollableScrollPhysics(),
               ),
             ),
@@ -367,20 +368,20 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                 var response = await ApiService().setYouth(youth.youth);
 
                 print(response.firstName);
-                var newYouth;
-                // set roll no
-                try {
-                  newYouth =
-                      await ApiService().setRollNo(response, youth.isTemp);
-                  //print(newYouth.rollno);
-                } catch (e) {
-                  EasyLoading.dismiss();
-                }
+                // var newYouth;
+                // // set roll no
+                // try {
+                //   newYouth =
+                //       await ApiService().setRollNo(response, youth.isTemp);
+                //   //print(newYouth.rollno);
+                // } catch (e) {
+                //   EasyLoading.dismiss();
+                // }
                 YouthData.instance.youthList = [];
                 await YouthData.instance.getYouthList();
                 EasyLoading.dismiss();
                 Navigator.of(context).pushReplacementNamed("FormSuccessScreen",
-                    arguments: newYouth);
+                    arguments: response);
                 // Navigator.of(context).push(MaterialPageRoute(
                 //     builder: (context) => FormSuccessScreen()));
                 // EasyLoading.dismiss();
