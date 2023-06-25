@@ -32,7 +32,7 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
   var date;
 
   TextEditingController centerController = TextEditingController();
-  final List<DropdownMenuEntry<center.CenterData>> centerEntries =
+  late final List<DropdownMenuEntry<center.CenterData>> centerEntries =
       <DropdownMenuEntry<center.CenterData>>[];
   center.CenterData? selectedCenter;
 
@@ -42,12 +42,14 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
 
   void openCreateWFEPage() {
     showCreateWFECard = true;
+    Navigator.of(context).pop();
     setState(() {});
   }
 
   void openCloseWFEPage() {
     showCreateWFECard = false;
     dateController.text = date = "";
+    Navigator.of(context).pop();
     setState(() {});
   }
 
@@ -185,174 +187,197 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text("Cancel"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
+        onPressed: () async {
+          openCloseWFEPage();
+        },
+        child: Text("Cancel",
+            style: kGoogleStyleTexts.copyWith(
+              fontWeight: FontWeight.w700,
+              fontSize: 20,
+              color: hexToColor(AppColors.whiteTextColor),
+            )));
     Widget continueButton = TextButton(
-      child: Text("Continue"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
+        onPressed: () async {
+          addWFEvent(selectedCenter!, dateSelected);
+          openCloseWFEPage();
+        },
+        child: Text("Save",
+            style: kGoogleStyleTexts.copyWith(
+              fontWeight: FontWeight.w700,
+              fontSize: 20,
+              color: hexToColor(AppColors.whiteTextColor),
+            )));
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       backgroundColor: hexToColor(AppColors.appThemeColor),
-      title: Text("AlertDialog"),
-      content: FutureBuilder(
-          future: YouthData.instance.getCenterList(),
-          builder: (context, AsyncSnapshot<List<center.CenterData>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                    '${snapshot.error} occurred',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                );
+      title: Text(
+        "Create New Weekly Forum Event",
+        style: GoogleFonts.montserrat(
+            fontWeight: FontWeight.w700,
+            color: hexToColor(AppColors.whiteTextColor),
+            fontSize: 15.0),
+        textAlign: TextAlign.center,
+      ),
+      actionsPadding: EdgeInsets.zero,
+      iconPadding: EdgeInsets.zero,
+      // titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
+      content: Container(
+        height: MediaQuery.of(context).size.height / 2,
+        child: FutureBuilder(
+            future: YouthData.instance.getCenterList(),
+            builder:
+                (context, AsyncSnapshot<List<center.CenterData>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      '${snapshot.error} occurred',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  );
 
-                // if we got our data
-              } else if (snapshot.hasData) {
-                // print(snapshot.data);
-                List<center.CenterData>? centerList = snapshot.data;
-                for (var center in centerList!) {
-                  // print(center);
-                  centerEntries.add(DropdownMenuEntry(
-                    style: ButtonStyle(
-                        textStyle: MaterialStateProperty.all(
-                      GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w400,
-                          color: hexToColor(AppColors.whiteTextColor),
-                          fontSize: 15.0),
-                    )),
-                    value: center,
-                    label: center.location,
-                  ));
-                }
+                  // if we got our data
+                } else if (snapshot.hasData) {
+                  // print(snapshot.data);
+                  List<center.CenterData>? centerList = [];
+                  centerList = snapshot.data;
+                  centerEntries.clear();
+                  for (var center in centerList!) {
+                    // print(center);
+                    centerEntries.add(DropdownMenuEntry(
+                      style: ButtonStyle(
+                          textStyle: MaterialStateProperty.all(
+                        GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w400,
+                            color: hexToColor(AppColors.whiteTextColor),
+                            fontSize: 15.0),
+                      )),
+                      value: center,
+                      label: center.location,
+                    ));
+                  }
 
-                return showCreateWFECard
-                    ? Form(
-                        onWillPop: () async {
-                          print("Hii");
-                          return true;
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  border: Border.all(
-                                    color: hexToColor(
-                                        AppColors.textFieldOutlineBorderColor),
-                                    width: 1.0,
-                                  ),
+                  return Form(
+                      onWillPop: () async {
+                        return true;
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.0),
+                                border: Border.all(
+                                  color: hexToColor(
+                                      AppColors.textFieldOutlineBorderColor),
+                                  width: 1.0,
                                 ),
-                                width: MediaQuery.of(context).size.width,
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 10.0),
-                                  child: DropdownMenu(
-                                    trailingIcon: SizedBox.shrink(),
-                                    textStyle: GoogleFonts.montserrat(
+                              ),
+                              width: MediaQuery.of(context).size.width,
+                              constraints: BoxConstraints(
+                                  maxHeight:
+                                      MediaQuery.of(context).size.height / 2),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                child: DropdownMenu(
+                                  trailingIcon: SizedBox.shrink(),
+                                  textStyle: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w400,
+                                      color:
+                                          hexToColor(AppColors.whiteTextColor),
+                                      fontSize: 17.0),
+                                  width: MediaQuery.of(context).size.width,
+                                  inputDecorationTheme: InputDecorationTheme(
+                                    hintStyle: GoogleFonts.montserrat(
                                         fontWeight: FontWeight.w400,
                                         color: hexToColor(
                                             AppColors.whiteTextColor),
-                                        fontSize: 17.0),
-                                    width: MediaQuery.of(context).size.width,
-                                    inputDecorationTheme: InputDecorationTheme(
-                                      hintStyle: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w400,
-                                          color: hexToColor(
-                                              AppColors.whiteTextColor),
-                                          fontSize: 15.0),
-                                      helperStyle: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w400,
-                                          color: hexToColor(
-                                              AppColors.whiteTextColor),
-                                          fontSize: 15.0),
-                                      border: InputBorder.none,
-                                    ),
-                                    dropdownMenuEntries: centerEntries,
-                                    controller: centerController,
-                                    onSelected: (center.CenterData? center) {
-                                      selectedCenter = center;
-                                    },
-                                    menuStyle: MenuStyle(
-                                        backgroundColor: MaterialStateProperty
-                                            .all(hexToColor(
-                                                    AppColors.whiteTextColor)
-                                                .withOpacity(.65)),
-                                        surfaceTintColor:
-                                            MaterialStateProperty.all(
-                                                hexToColor(
-                                                    AppColors.homeGridColor))),
+                                        fontSize: 15.0),
+                                    helperStyle: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w400,
+                                        color: hexToColor(
+                                            AppColors.whiteTextColor),
+                                        fontSize: 15.0),
+                                    border: InputBorder.none,
                                   ),
+                                  dropdownMenuEntries: centerEntries,
+                                  controller: centerController,
+                                  onSelected: (center.CenterData? center) {
+                                    selectedCenter = center;
+                                  },
+                                  menuStyle: MenuStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(hexToColor(
+                                                  AppColors.whiteTextColor)
+                                              .withOpacity(.65)),
+                                      surfaceTintColor:
+                                          MaterialStateProperty.all(hexToColor(
+                                              AppColors.homeGridColor))),
                                 ),
                               ),
-                              // CalendarDatePicker(
-                              //     initialDate: DateTime.now(),
-                              //     firstDate: DateTime(2022),
-                              //     lastDate: DateTime(3000),
-                              //     onDateChanged: onDateChanged),
-                              _dobTapHereIcon(),
-                              Container(
-                                child: dateController.text.toString() == ''
-                                    ? Container()
-                                    : _dateOfBirthField(),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  TextButton(
-                                      onPressed: () async {
-                                        openCloseWFEPage();
-                                      },
-                                      child: Text("Cancel",
-                                          style: kGoogleStyleTexts.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 20,
-                                            color: hexToColor(
-                                                AppColors.whiteTextColor),
-                                          ))),
-                                  TextButton(
-                                      onPressed: () async {
-                                        addWFEvent(
-                                            selectedCenter!, dateSelected);
-                                        openCloseWFEPage();
-                                      },
-                                      child: Text("Save",
-                                          style: kGoogleStyleTexts.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 20,
-                                            color: hexToColor(
-                                                AppColors.whiteTextColor),
-                                          ))),
-                                ],
-                              )
-                            ],
-                          ),
-                        ))
-                    : Container();
+                            ),
+                            // CalendarDatePicker(
+                            //     initialDate: DateTime.now(),
+                            //     firstDate: DateTime(2022),
+                            //     lastDate: DateTime(3000),
+                            //     onDateChanged: onDateChanged),
+                            _dobTapHereIcon(),
+                            Container(
+                              child: dateController.text.toString() == ''
+                                  ? Container()
+                                  : _dateOfBirthField(),
+                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            //   children: [
+                            //     TextButton(
+                            //         onPressed: () async {
+                            //           openCloseWFEPage();
+                            //         },
+                            //         child: Text("Cancel",
+                            //             style: kGoogleStyleTexts.copyWith(
+                            //               fontWeight: FontWeight.w700,
+                            //               fontSize: 20,
+                            //               color: hexToColor(
+                            //                   AppColors.whiteTextColor),
+                            //             ))),
+                            //     TextButton(
+                            //         onPressed: () async {
+                            //           addWFEvent(selectedCenter!, dateSelected);
+                            //           openCloseWFEPage();
+                            //         },
+                            //         child: Text("Save",
+                            //             style: kGoogleStyleTexts.copyWith(
+                            //               fontWeight: FontWeight.w700,
+                            //               fontSize: 20,
+                            //               color: hexToColor(
+                            //                   AppColors.whiteTextColor),
+                            //             ))),
+                            //   ],
+                            // )
+                          ],
+                        ),
+                      ));
+                }
               }
-            }
 
-            return SizedBox.shrink();
-            // return Padding(
-            //   padding: const EdgeInsets.symmetric(
-            //       vertical: 8.0, horizontal: 35),
-            //   child: Center(
-            //     child: LinearProgressIndicator(
-            //       color: hexToColor(AppColors.appThemeColor),
-            //       backgroundColor: hexToColor(AppColors.whiteTextColor),
-            //     ),
-            //   ),
-            // );
-          }),
+              return SizedBox.shrink();
+              // return Padding(
+              //   padding: const EdgeInsets.symmetric(
+              //       vertical: 8.0, horizontal: 35),
+              //   child: Center(
+              //     child: LinearProgressIndicator(
+              //       color: hexToColor(AppColors.appThemeColor),
+              //       backgroundColor: hexToColor(AppColors.whiteTextColor),
+              //     ),
+              //   ),
+              // );
+            }),
+      ),
+      actionsAlignment: MainAxisAlignment.spaceEvenly,
       actions: [
         cancelButton,
         continueButton,
@@ -377,6 +402,7 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
             colorScheme: ColorScheme.light(
               primary: hexToColor(AppColors.orangeAccent),
               onSurface: Colors.white,
+              secondary: Colors.white,
             ),
             dialogBackgroundColor: hexToColor(AppColors.appThemeColor),
           ),
@@ -404,11 +430,13 @@ class _WeeklyForumEventsPageState extends State<WeeklyForumEventsPage> {
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: Text(AppStrings.eventDate,
-                style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w400,
-                    color: hexToColor(AppColors.whiteTextColor),
-                    fontSize: 15.0)),
+            child: Text(
+              AppStrings.eventDate,
+              style: GoogleFonts.montserrat(
+                  fontWeight: FontWeight.w400,
+                  color: hexToColor(AppColors.whiteTextColor),
+                  fontSize: 15.0),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10.0),

@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
         'Teams': (context) => TeamsPage(),
         'UserForm': (context) => UserForm(),
         'new youth': (context) => YouthRegistration(),
-        // 'updateYouth': (context) => UpdateYouth(),
+        'updateYouth': (context) => YouthRegistration(),
         'FormSuccessScreen': (context) => FormSuccessScreen(),
 
         //'AttendancePage': (context) => AttendancePage(),

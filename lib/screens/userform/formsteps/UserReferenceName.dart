@@ -8,7 +8,7 @@ import 'package:mozak/model/UserFormModel.dart';
 import 'package:mozak/utils/NoGlowBehaviour.dart';
 import 'package:mozak/utils/app_tools.dart';
 import 'package:flutter/services.dart';
-import 'package:mozak/utils/api_service.dart';
+//import 'package:mozak/utils/api_service.dart';
 
 import '../../../utils/youthData.dart';
 
@@ -181,7 +181,7 @@ class _UserReferenceNameState extends State<UserReferenceName> {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     referenceName.text = widget.model.getInTeamRef()!;
     selectedMandal = widget.model.getRefGrp();
-    _selectedCode = widget.model.getRefGrp();
+    //_selectedCode = widget.model.getRefGrp();
     _selectedCode = codeMap[selectedMandal];
     getCurrentTlList();
     selectedTL = widget.model.getReferenceName();

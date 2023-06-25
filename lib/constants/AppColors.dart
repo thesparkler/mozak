@@ -4,6 +4,9 @@ class AppColors {
   static const homeGridColor = "#272F41";
   static const centerLogoText = "#1E2537";
   //static const appThemeColor = "#141A26";
+
+  static const centerStart = "#269200";
+  static const centerEnd = "#E81F25";
   static const iconColor = "#747880";
   static const hintTextColor = "#626672";
   static const textFieldOutlineBorderColor = "#626672";

@@ -30,14 +30,35 @@ class YouthRegistration extends StatefulWidget {
 }
 
 class _YouthRegistrationState extends State<YouthRegistration> {
-  String groupCode = group.values.first;
-  String groupName = group.keys.first;
+  String groupCode = "GK";
+  String groupName = "Gurukrupa";
   bool isNew = false;
 
-  var teamLeader;
-  var currentList = <Youth>[];
+  var teamLeader = "Student";
+  var careerTypeList = <String>['Student', 'Professional'];
 
   DateTime? pickedDate;
+
+  Map<String, TextEditingController> signUpController = {
+    'firstName': TextEditingController(),
+    'middleName': TextEditingController(),
+    'fullName': TextEditingController(),
+    'lastName': TextEditingController(),
+    // 'email': TextEditingController(),
+    // 'mobile': TextEditingController(),
+    // 'mobile2': TextEditingController(),
+    // 'street': TextEditingController(),
+    // 'city': TextEditingController(),
+    // 'state': TextEditingController(),
+    // 'pincode': TextEditingController(),
+    // 'status': TextEditingController(),
+    // 'careerType': TextEditingController(),
+    // 'collegeName': TextEditingController(),
+    // 'courseName': TextEditingController(),
+    // 'companyName': TextEditingController(),
+    // 'designation': TextEditingController(),
+    'dateController': TextEditingController(),
+  };
 
   var date;
   var selected;
@@ -45,39 +66,40 @@ class _YouthRegistrationState extends State<YouthRegistration> {
   Youth youth = Youth(isTL: false, isKK: false);
 
   final _formKey = GlobalKey<FormState>();
-  final Map<String, TextEditingController> signUpController = {
-    'firstName': TextEditingController(),
-    'middleName': TextEditingController(),
-    'lastName': TextEditingController(),
-    'email': TextEditingController(),
-    'mobile': TextEditingController(),
-    'pincode': TextEditingController(),
-    'address': TextEditingController(),
-    'team': TextEditingController(),
-    'tlcode': TextEditingController(),
-    'dateController': TextEditingController(),
-    'street': TextEditingController(),
-    'city': TextEditingController(),
-    'state': TextEditingController(text: "Maharashtra"),
-  };
 
   @override
   void initState() {
-    currentList = YouthData.instance.youthList
-        .where((element) =>
-            element.isTL && element.rollno?.substring(0, 2) == groupCode)
-        .toList();
-    teamLeader = currentList[0];
-    youth.tlCode = teamLeader.rollno.toString();
-    youth.team = teamLeader.rollno.substring(0, 4);
-    print('${youth.tlCode}');
+    // currentList = YouthData.instance.youthList
+    //     .where((element) =>
+    //         element.isTL && element.rollno?.substring(0, 2) == groupCode)
+    //     .toList();
+    // teamLeader = currentList[0];
+    // youth.tlCode = teamLeader.rollno.toString();
+    // youth.team = teamLeader.rollno.substring(0, 4);
+    //print('${youth.tlCode}');
     super.initState();
   }
 
   pickDate(BuildContext context) async {
     selected = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(), //get today's date
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData(
+            colorScheme: ColorScheme.dark(
+              primary: hexToColor(AppColors.orangeAccent),
+              onPrimaryContainer: hexToColor(AppColors.orangeAccent),
+              // onSurface: Colors.white,
+              // secondary: Colors.white,
+            ),
+            dialogBackgroundColor: hexToColor(AppColors.appThemeColor),
+          ),
+          child: child ?? const Text("2001-12-21"),
+        );
+      },
+      initialDate: youth.dob != null
+          ? DateTime.parse(youth.dob.toString())
+          : DateTime.now(), //get today's date
       firstDate: DateTime(
           1934), //DateTime.now() - not to allow to choose before today.
       lastDate: DateTime.now(),
@@ -86,10 +108,12 @@ class _YouthRegistrationState extends State<YouthRegistration> {
     if (selected != null) {
       var formatter = DateFormat('yyyy-MM-dd');
 
-      setState(() {
-        date = signUpController['dateController']?.text =
-            formatter.format(selected);
-      });
+      setState(
+        () {
+          date = signUpController['dateController']?.text =
+              formatter.format(selected);
+        },
+      );
     }
   }
 
@@ -106,26 +130,21 @@ class _YouthRegistrationState extends State<YouthRegistration> {
 
       // create new youth object
       youth.youthFullName = youth.getFullName();
-      var response = await ApiService().setYouth(youth);
+      var response = await ApiService().updateYouth(youth);
       print(response.firstName);
-      var newYouth;
-      // set roll no
-      try {
-        newYouth = await ApiService().setRollNo(response, isNew);
-        print(newYouth.rollno);
-      } catch (e) {
-        EasyLoading.dismiss();
-      }
+      EasyLoading.dismiss();
       YouthData.instance.youthList = [];
       await YouthData.instance.getYouthList();
       EasyLoading.dismiss();
       Navigator.of(context)
-          .pushReplacementNamed("FormSuccessScreen", arguments: newYouth);
+          .pushReplacementNamed("FormSuccessScreen", arguments: response);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    youth = ModalRoute.of(context)!.settings.arguments as Youth;
+
     final mediaQuery = MediaQuery.of(context);
 
     final appBar = AppBar(
@@ -170,50 +189,78 @@ class _YouthRegistrationState extends State<YouthRegistration> {
                   builder: (context, constraint) {
                     return Column(
                       children: [
+                        //_buildFullName(bodyHeight, bodyWidth),
                         _buildFirstName(bodyHeight, bodyWidth),
                         _buildMiddleName(bodyHeight, bodyWidth),
                         _buildLastName(bodyHeight, bodyWidth),
                         _buildMobileNumber(bodyHeight, bodyWidth),
+                        _buildMobileNumber2(bodyHeight, bodyWidth),
                         _buildEmailID(bodyHeight, bodyWidth),
                         _buildAddressStreet(bodyHeight, bodyWidth),
                         _buildCityDistrict(bodyHeight, bodyWidth),
                         _buildState(bodyHeight, bodyWidth),
                         _buildPincode(bodyHeight, bodyWidth),
-                        _buildDOB(bodyHeight, bodyWidth, context),
                         SizedBox(
                           height: 5,
                         ),
-                        _buildSelectGroup(bodyHeight, bodyWidth),
-                        // Container(
-                        //     //Group dropdown container
-                        //     height: bodyHeight * 0.09,
-                        //     width: bodyWidth * 0.8,
-                        //     padding: EdgeInsets.all(5.0),
-                        //     decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(5.0),
-                        //       border: Border.all(
-                        //         color: hexToColor(
-                        //             AppColors.textFieldOutlineBorderColor),
-                        //         width: 1.0,
-                        //       ),
-                        //     ),
-                        //     child: DropdownMenu<String>(
-                        //       dropdownMenuEntries: [],
-                        //     )),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        _buildSelectTL(bodyHeight, bodyWidth),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        _buildSelectTempNew(bodyHeight, bodyWidth),
+                        _buildCareerType(bodyHeight, bodyWidth),
                         Text(
-                          "*Leaving Unselected creates a permanent Roll Number",
+                          "*Please Select to change Career Type",
                           softWrap: true,
                           style: TextStyle(color: Colors.white38),
                           textAlign: TextAlign.center,
                         ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        teamLeader != ""
+                            ? teamLeader == "Student"
+                                ? Column(
+                                    children: [
+                                      _buildCollegeName(bodyHeight, bodyWidth),
+                                      _buildCourseName(bodyHeight, bodyWidth),
+                                    ],
+                                  )
+                                : Column(
+                                    children: [
+                                      _buildCompanyName(bodyHeight, bodyWidth),
+                                      _buildDesignation(bodyHeight, bodyWidth),
+                                    ],
+                                  )
+                            : Container(),
+
+                        // _buildPincode(bodyHeight, bodyWidth),
+                        // _buildPincode(bodyHeight, bodyWidth),
+                        _buildDOB(bodyHeight, bodyWidth, context),
+                        // SizedBox(
+                        //   height: 5,
+                        // ),
+                        // //_buildSelectGroup(bodyHeight, bodyWidth),
+                        // // Container(
+                        // //     //Group dropdown container
+                        // //     height: bodyHeight * 0.09,
+                        // //     width: bodyWidth * 0.8,
+                        // //     padding: EdgeInsets.all(5.0),
+                        // //     decoration: BoxDecoration(
+                        // //       borderRadius: BorderRadius.circular(5.0),
+                        // //       border: Border.all(
+                        // //         color: hexToColor(
+                        // //             AppColors.textFieldOutlineBorderColor),
+                        // //         width: 1.0,
+                        // //       ),
+                        // //     ),
+                        // //     child: DropdownMenu<String>(
+                        // //       dropdownMenuEntries: [],
+                        // //     )),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
+                        // //_buildSelectTL(bodyHeight, bodyWidth),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
+                        //_buildSelectTempNew(bodyHeight, bodyWidth),
+
                         SizedBox(
                           height: 10,
                         ),
@@ -264,7 +311,8 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           toggleable: true,
           value: true,
           activeColor: Colors.white54,
-          tileColor: Colors.white54,//MaterialStateProperty.all(Colors.white54),
+          tileColor:
+              Colors.white54, //MaterialStateProperty.all(Colors.white54),
           title: Text(
             'Create Temporary Rollno',
             style: TextStyle(color: Colors.white54),
@@ -279,7 +327,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
     );
   }
 
-  Container _buildSelectTL(double bodyHeight, double bodyWidth) {
+  Container _buildCareerType(double bodyHeight, double bodyWidth) {
     return Container(
         // Team leader drop down
         height: bodyHeight * 0.08,
@@ -292,87 +340,97 @@ class _YouthRegistrationState extends State<YouthRegistration> {
             width: 1.0,
           ),
         ),
-        child: DropdownButton<Youth>(
-          isExpanded: true,
+        child: DropdownButton<String>(
+          // isExpanded: true,
           underline: SizedBox(),
           dropdownColor: hexToColor(AppColors.homeGridColor),
           icon: SizedBox.shrink(),
           value: teamLeader,
-          onChanged: (Youth? value) {
-            setState(() {
-              teamLeader = value!;
-              youth.tlCode = teamLeader.rollno.toString();
-              youth.team = teamLeader.team;
-              print('${youth.tlCode}');
-            });
-          },
-          items: currentList.map<DropdownMenuItem<Youth>>((Youth value) {
-            return DropdownMenuItem<Youth>(
-              value: value,
-              child: Text(
-                value.rollno! + " " + value.youthFullName.toString(),
-                softWrap: true,
-                style: TextStyle(
-                  color: hexToColor(AppColors.whiteTextColor).withOpacity(0.60),
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            );
-          }).toList(),
-        ));
-  }
-
-  Container _buildSelectGroup(double bodyHeight, double bodyWidth) {
-    return Container(
-        //Group dropdown container
-        height: bodyHeight * 0.08,
-        width: bodyWidth * 0.775,
-        padding: EdgeInsets.all(10.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5.0),
-          border: Border.all(
-            color: hexToColor(AppColors.textFieldOutlineBorderColor),
-            width: 1.0,
-          ),
-        ),
-        child: DropdownButton<String>(
-          hint: Text("Select"),
-          underline: SizedBox(),
-          value: groupName,
-          dropdownColor: hexToColor(AppColors.homeGridColor),
-          icon: SizedBox.shrink(),
           onChanged: (String? value) {
+            teamLeader = value!;
             setState(() {
-              groupName = value!;
-              groupCode = group[groupName]!;
-              currentList = YouthData.instance.youthList
-                  .where((element) =>
-                      element.isTL &&
-                      element.rollno?.substring(0, 2) == groupCode)
-                  .toList();
-
-              teamLeader = currentList[0];
-              youth.tlCode = teamLeader.rollno.toString();
-              youth.team = teamLeader.team;
-              print('${youth.tlCode}');
-              // print('$dropdownValue');
+              youth.careerType = value;
+              print('${youth.careerType}');
             });
           },
-          items: group.keys.map<DropdownMenuItem<String>>((String value) {
+          items: careerTypeList.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(
-                value,
-                softWrap: true,
-                style: TextStyle(
-                  color: hexToColor(AppColors.whiteTextColor).withOpacity(0.60),
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
+              child: value == teamLeader
+                  ? Text(
+                      value.toString(),
+                      softWrap: true,
+                      style: TextStyle(
+                          color: hexToColor(AppColors.whiteTextColor)
+                              .withOpacity(0.90),
+                          fontWeight: FontWeight.w400),
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  : Text(
+                      value.toString(),
+                      softWrap: true,
+                      style: TextStyle(
+                        color: hexToColor(AppColors.whiteTextColor)
+                            .withOpacity(0.60),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
             );
           }).toList(),
         ));
   }
+
+  // Container _buildSelectGroup(double bodyHeight, double bodyWidth) {
+  //   return Container(
+  //       //Group dropdown container
+  //       height: bodyHeight * 0.08,
+  //       width: bodyWidth * 0.775,
+  //       padding: EdgeInsets.all(10.0),
+  //       decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.circular(5.0),
+  //         border: Border.all(
+  //           color: hexToColor(AppColors.textFieldOutlineBorderColor),
+  //           width: 1.0,
+  //         ),
+  //       ),
+  //       child: DropdownButton<String>(
+  //         hint: Text("Select"),
+  //         underline: SizedBox(),
+  //         value: groupName,
+  //         dropdownColor: hexToColor(AppColors.homeGridColor),
+  //         icon: SizedBox.shrink(),
+  //         onChanged: (String? value) {
+  //           setState(() {
+  //             groupName = value!;
+  //             groupCode = group[groupName]!;
+  //             careerTypeList = YouthData.instance.youthList
+  //                 .where((element) =>
+  //                     element.isTL &&
+  //                     element.rollno?.substring(0, 2) == groupCode)
+  //                 .toList();
+  //
+  //             teamLeader = careerTypeList[0];
+  //             youth.tlCode = teamLeader.rollno.toString();
+  //             youth.team = teamLeader.team;
+  //             print('${youth.tlCode}');
+  //             // print('$dropdownValue');
+  //           });
+  //         },
+  //         items: group.keys.map<DropdownMenuItem<String>>((String value) {
+  //           return DropdownMenuItem<String>(
+  //             value: value,
+  //             child: Text(
+  //               value,
+  //               softWrap: true,
+  //               style: TextStyle(
+  //                 color: hexToColor(AppColors.whiteTextColor).withOpacity(0.60),
+  //               ),
+  //               overflow: TextOverflow.ellipsis,
+  //             ),
+  //           );
+  //         }).toList(),
+  //       ));
+  // }
 
   Container _buildDOB(
       double bodyHeight, double bodyWidth, BuildContext context) {
@@ -382,8 +440,9 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       width: bodyWidth * 0.8,
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
+        initialValue: youth.dob,
         cursorColor: hexToColor(AppColors.whiteTextColor),
-        controller: signUpController['dateController'],
+        //controller: signUpController['dateController'],
         decoration: InputDecoration(
           prefixIcon: Icon(
             Icons.calendar_month,
@@ -414,7 +473,7 @@ class _YouthRegistrationState extends State<YouthRegistration> {
             fontWeight: FontWeight.w400,
             color: hexToColor(AppColors.whiteTextColor),
             fontSize: 17.0),
-        validator: (value) => value != null ? null : 'Please select DOB',
+        //validator: (value) => value != null ? null : 'Please select DOB',
         readOnly: true,
         onTap: () => pickDate(context),
         onSaved: (value) {
@@ -431,8 +490,9 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         width: bodyWidth * 0.8,
         padding: EdgeInsets.all(5.0),
         child: TextFormField(
+          initialValue: youth.pincode,
           cursorColor: hexToColor(AppColors.whiteTextColor),
-          controller: signUpController['pincode'],
+          //controller: signUpController['pincode'],
           key: ValueKey('Pincode'),
           decoration: InputDecoration(
             labelText: 'Pincode',
@@ -460,11 +520,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
               fontWeight: FontWeight.w400,
               color: hexToColor(AppColors.whiteTextColor),
               fontSize: 17.0),
-          validator: (value) =>
-              (!RegExp(r'(^(?:[+0]9)?[0-9]{6}$)').hasMatch(value!) ||
-                      value.length > 6)
-                  ? 'Invalid pincode'
-                  : null,
           keyboardType: TextInputType.phone,
           onSaved: (value) {
             print('$value');
@@ -473,6 +528,56 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         ));
   }
 
+  // Container _buildCareerType(double bodyHeight, double bodyWidth) {
+  //   return Container(
+  //     // pin code
+  //       height: bodyHeight * 0.1,
+  //       width: bodyWidth * 0.8,
+  //       padding: EdgeInsets.all(5.0),
+  //       child: TextFormField(
+  //         initialValue: youth.careerType,
+  //         cursorColor: hexToColor(AppColors.whiteTextColor),
+  //         //controller: signUpController['pincode'],
+  //         key: ValueKey('Pincode'),
+  //         decoration: InputDecoration(
+  //           labelText: 'Pincode',
+  //           labelStyle: TextStyle(
+  //             color: Colors.white60,
+  //           ),
+  //           hintText: 'Enter your pincode',
+  //           hintStyle: TextStyle(
+  //             color: Colors.white38,
+  //           ),
+  //           border: OutlineInputBorder(),
+  //           focusedBorder: OutlineInputBorder(
+  //             borderSide: BorderSide(
+  //               color: Colors.white54,
+  //             ),
+  //           ),
+  //           enabledBorder: OutlineInputBorder(
+  //             borderSide: BorderSide(
+  //               color: Colors.white24,
+  //               width: 2.0,
+  //             ),
+  //           ),
+  //         ),
+  //         style: TextStyle(
+  //             fontWeight: FontWeight.w400,
+  //             color: hexToColor(AppColors.whiteTextColor),
+  //             fontSize: 17.0),
+  //         validator: (value) =>
+  //         (!RegExp(r'(^(?:[+0]9)?[0-9]{6}$)').hasMatch(value!) ||
+  //             value.length > 6)
+  //             ? 'Invalid pincode'
+  //             : null,
+  //         keyboardType: TextInputType.phone,
+  //         onSaved: (value) {
+  //           print('$value');
+  //           youth.careerType = value.toString();
+  //         },
+  //       ));
+  // }
+
   Container _buildEmailID(double bodyHeight, double bodyWidth) {
     return Container(
         //email
@@ -480,8 +585,9 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         width: bodyWidth * 0.8,
         padding: EdgeInsets.all(5.0),
         child: TextFormField(
+          initialValue: youth.emailid,
           cursorColor: hexToColor(AppColors.whiteTextColor),
-          controller: signUpController['email'],
+          //controller: signUpController['email'],
           key: ValueKey('Email-Id'),
           decoration: InputDecoration(
             labelText: 'Email Id',
@@ -510,9 +616,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
               color: hexToColor(AppColors.whiteTextColor),
               fontSize: 17.0),
           keyboardType: TextInputType.emailAddress,
-          validator: (value) => !EmailValidator.validate(value!, true)
-              ? 'Invalid email id'
-              : null,
           onSaved: (value) {
             print('$value');
             youth.emailid = value.toString();
@@ -527,8 +630,9 @@ class _YouthRegistrationState extends State<YouthRegistration> {
         width: bodyWidth * 0.8,
         padding: EdgeInsets.all(5.0),
         child: TextFormField(
+          initialValue: youth.mobile1,
           cursorColor: hexToColor(AppColors.whiteTextColor),
-          controller: signUpController['mobile'],
+          //controller: signUpController['mobile'],
           key: ValueKey('Mobile Number'),
           decoration: InputDecoration(
             labelText: 'Phone.No',
@@ -560,15 +664,64 @@ class _YouthRegistrationState extends State<YouthRegistration> {
           //         inputFormatters: <TextInputFormatter>[
           //   LengthLimitingTextInputFormatter(10),
           // ],
-          validator: (value) =>
-              (!RegExp(r'(^(?:[+0]9)?[0-9]{10}$)').hasMatch(value!) ||
-                      value.length == 0)
-                  ? 'Invalid phone number'
-                  : null,
           keyboardType: TextInputType.phone,
           onSaved: (value) {
             print('$value');
             youth.mobile1 = value.toString();
+          },
+        ));
+  }
+
+  Container _buildMobileNumber2(double bodyHeight, double bodyWidth) {
+    return Container(
+        // mobile
+        height: bodyHeight * 0.1,
+        width: bodyWidth * 0.8,
+        padding: EdgeInsets.all(5.0),
+        child: TextFormField(
+          initialValue: youth.mobile2,
+          cursorColor: hexToColor(AppColors.whiteTextColor),
+          //controller: signUpController['mobile'],
+          key: ValueKey('Mobile Number'),
+          decoration: InputDecoration(
+            labelText: 'Phone.No',
+            labelStyle: TextStyle(
+              color: Colors.white60,
+            ),
+            hintText: 'Enter Second mobile number',
+            prefixText: '+91',
+            hintStyle: TextStyle(
+              color: Colors.white38,
+            ),
+            border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white54,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white24,
+                width: 2.0,
+              ),
+            ),
+          ),
+          style: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: hexToColor(AppColors.whiteTextColor),
+              fontSize: 17.0),
+          //         inputFormatters: <TextInputFormatter>[
+          //   LengthLimitingTextInputFormatter(10),
+          // ],
+          // validator: (value) =>
+          //     (!RegExp(r'(^(?:[+0]9)?[0-9]{10}$)').hasMatch(value!) ||
+          //             value.length == 0)
+          //         ? 'Invalid phone number'
+          //         : null,
+          keyboardType: TextInputType.phone,
+          onSaved: (value) {
+            print('$value');
+            youth.mobile2 = value.toString();
           },
         ));
   }
@@ -580,11 +733,15 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       width: bodyWidth * 0.8,
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
+        initialValue: youth.lastName,
         cursorColor: hexToColor(AppColors.whiteTextColor),
-        controller: signUpController['lastName'],
+        //controller: signUpController['lastName'],
         onSaved: (name) {
           youth.lastName = name;
+          youth.youthFullName =
+              "${youth.firstName} ${youth.middleName} ${youth.lastName}";
         },
+
         decoration: InputDecoration(
           labelText: 'Last Name',
           labelStyle: TextStyle(
@@ -612,11 +769,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
             color: hexToColor(AppColors.whiteTextColor),
             fontSize: 17.0),
         keyboardType: TextInputType.text,
-        validator: (value) => value!.isEmpty
-            ? 'Please enter your last name'
-            : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]').hasMatch(value))
-                ? 'Invalid name'
-                : null,
       ),
     );
   }
@@ -628,10 +780,13 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       width: bodyWidth * 0.8,
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
+        initialValue: youth.middleName,
         cursorColor: hexToColor(AppColors.whiteTextColor),
-        controller: signUpController['middleName'],
+        //controller: signUpController['middleName'],
         onSaved: (name) {
           youth.middleName = name;
+          youth.youthFullName =
+              "${youth.firstName} ${youth.middleName} ${youth.lastName}";
         },
         decoration: InputDecoration(
           labelText: 'Middle Name',
@@ -660,11 +815,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
             color: hexToColor(AppColors.whiteTextColor),
             fontSize: 17.0),
         keyboardType: TextInputType.text,
-        validator: (value) => value!.isEmpty
-            ? 'Please enter your middle name'
-            : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]').hasMatch(value))
-                ? 'Invalid name'
-                : null,
       ),
     );
   }
@@ -677,10 +827,14 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
         cursorColor: hexToColor(AppColors.whiteTextColor),
-        controller: signUpController['firstName'],
+        //controller: signUpController['firstName'],
+        initialValue: youth.firstName,
         onSaved: (name) {
           youth.firstName = name;
+          youth.youthFullName =
+              "${youth.firstName} ${youth.middleName} ${youth.lastName}";
         },
+
         decoration: InputDecoration(
           labelText: 'First Name',
           labelStyle: TextStyle(
@@ -708,11 +862,53 @@ class _YouthRegistrationState extends State<YouthRegistration> {
             color: hexToColor(AppColors.whiteTextColor),
             fontSize: 17.0),
         keyboardType: TextInputType.text,
-        validator: (value) => value!.isEmpty
-            ? 'Please enter your name'
-            : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]').hasMatch(value))
-                ? 'Invalid name'
-                : null,
+      ),
+    );
+  }
+
+  Container _buildFullName(double bodyHeight, double bodyWidth) {
+    return Container(
+      // last name
+      height: bodyHeight * 0.1,
+      width: bodyWidth * 0.8,
+      padding: EdgeInsets.all(5.0),
+      child: TextFormField(
+        readOnly: true,
+        initialValue:
+            "${youth.firstName.toString()} ${youth.middleName.toString()} ${youth.lastName.toString()}",
+        cursorColor: hexToColor(AppColors.whiteTextColor),
+        //controller: signUpController['fullName'],
+        onSaved: (name) {
+          youth.youthFullName =
+              "${youth.firstName.toString()} ${youth.middleName.toString()} ${youth.lastName.toString()}";
+        },
+        decoration: InputDecoration(
+          labelText: 'Full Name',
+          labelStyle: TextStyle(
+            color: Colors.white60,
+          ),
+          hintText: 'Full Name',
+          hintStyle: TextStyle(
+            color: Colors.white38,
+          ),
+          border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white24,
+              width: 2.0,
+            ),
+          ),
+        ),
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: hexToColor(AppColors.whiteTextColor),
+            fontSize: 17.0),
+        keyboardType: TextInputType.text,
       ),
     );
   }
@@ -724,8 +920,9 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       width: bodyWidth * 0.8,
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
+        initialValue: youth.streetAddress,
         cursorColor: hexToColor(AppColors.whiteTextColor),
-        controller: signUpController['street'],
+        //controller: signUpController['street'],
         onSaved: (name) {
           youth.streetAddress = name;
         },
@@ -756,11 +953,182 @@ class _YouthRegistrationState extends State<YouthRegistration> {
             color: hexToColor(AppColors.whiteTextColor),
             fontSize: 17.0),
         keyboardType: TextInputType.text,
-        validator: (value) => value!.isEmpty
-            ? 'Please enter Your Locality'
-            : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%]').hasMatch(value))
-                ? 'Invalid name'
-                : null,
+      ),
+    );
+  }
+
+  Container _buildCollegeName(double bodyHeight, double bodyWidth) {
+    return Container(
+      // firstname
+      height: bodyHeight * 0.1,
+      width: bodyWidth * 0.8,
+      padding: EdgeInsets.all(5.0),
+      child: TextFormField(
+        initialValue: youth.collegeName,
+        cursorColor: hexToColor(AppColors.whiteTextColor),
+        //controller: signUpController['city'],
+        onSaved: (name) {
+          youth.collegeName = name;
+        },
+        decoration: InputDecoration(
+          labelText: 'School/College Name',
+          labelStyle: TextStyle(
+            color: Colors.white60,
+          ),
+          hintText: 'Eg. DAV',
+          hintStyle: TextStyle(
+            color: Colors.white38,
+          ),
+          border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white24,
+              width: 2.0,
+            ),
+          ),
+        ),
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: hexToColor(AppColors.whiteTextColor),
+            fontSize: 17.0),
+        keyboardType: TextInputType.text,
+      ),
+    );
+  }
+
+  Container _buildCourseName(double bodyHeight, double bodyWidth) {
+    return Container(
+      // firstname
+      height: bodyHeight * 0.1,
+      width: bodyWidth * 0.8,
+      padding: EdgeInsets.all(5.0),
+      child: TextFormField(
+        initialValue: youth.courseName,
+        cursorColor: hexToColor(AppColors.whiteTextColor),
+        //controller: signUpController['city'],
+        onSaved: (name) {
+          youth.courseName = name;
+        },
+        decoration: InputDecoration(
+          labelText: 'Course Name',
+          labelStyle: TextStyle(
+            color: Colors.white60,
+          ),
+          hintText: '10th/12th/B.Sc/B.Tech',
+          hintStyle: TextStyle(
+            color: Colors.white38,
+          ),
+          border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white24,
+              width: 2.0,
+            ),
+          ),
+        ),
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: hexToColor(AppColors.whiteTextColor),
+            fontSize: 17.0),
+        keyboardType: TextInputType.text,
+      ),
+    );
+  }
+
+  Container _buildCompanyName(double bodyHeight, double bodyWidth) {
+    return Container(
+      // firstname
+      height: bodyHeight * 0.1,
+      width: bodyWidth * 0.8,
+      padding: EdgeInsets.all(5.0),
+      child: TextFormField(
+        initialValue: youth.city,
+        cursorColor: hexToColor(AppColors.whiteTextColor),
+        //controller: signUpController['city'],
+        onSaved: (name) {
+          youth.streetAddress = name;
+        },
+        decoration: InputDecoration(
+          labelText: 'Company Name',
+          labelStyle: TextStyle(
+            color: Colors.white60,
+          ),
+          hintText: 'Eg. Godrej',
+          hintStyle: TextStyle(
+            color: Colors.white38,
+          ),
+          border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white24,
+              width: 2.0,
+            ),
+          ),
+        ),
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: hexToColor(AppColors.whiteTextColor),
+            fontSize: 17.0),
+        keyboardType: TextInputType.text,
+      ),
+    );
+  }
+
+  Container _buildDesignation(double bodyHeight, double bodyWidth) {
+    return Container(
+      // firstname
+      height: bodyHeight * 0.1,
+      width: bodyWidth * 0.8,
+      padding: EdgeInsets.all(5.0),
+      child: TextFormField(
+        initialValue: youth.city,
+        cursorColor: hexToColor(AppColors.whiteTextColor),
+        //controller: signUpController['city'],
+        onSaved: (name) {
+          youth.streetAddress = name;
+        },
+        decoration: InputDecoration(
+          labelText: 'Designation',
+          labelStyle: TextStyle(
+            color: Colors.white60,
+          ),
+          hintText: 'Eg. Assitant Manager/CA/Business Analyst',
+          hintStyle: TextStyle(
+            color: Colors.white38,
+          ),
+          border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white54,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white24,
+              width: 2.0,
+            ),
+          ),
+        ),
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: hexToColor(AppColors.whiteTextColor),
+            fontSize: 17.0),
+        keyboardType: TextInputType.text,
       ),
     );
   }
@@ -772,8 +1140,9 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       width: bodyWidth * 0.8,
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
+        initialValue: youth.city,
         cursorColor: hexToColor(AppColors.whiteTextColor),
-        controller: signUpController['city'],
+        //controller: signUpController['city'],
         onSaved: (name) {
           youth.streetAddress = name;
         },
@@ -804,11 +1173,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
             color: hexToColor(AppColors.whiteTextColor),
             fontSize: 17.0),
         keyboardType: TextInputType.text,
-        validator: (value) => value!.isEmpty
-            ? 'Please enter Your City'
-            : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%]').hasMatch(value))
-                ? 'Invalid name'
-                : null,
       ),
     );
   }
@@ -821,8 +1185,9 @@ class _YouthRegistrationState extends State<YouthRegistration> {
       width: bodyWidth * 0.8,
       padding: EdgeInsets.all(5.0),
       child: TextFormField(
+        initialValue: youth.state,
         cursorColor: hexToColor(AppColors.whiteTextColor),
-        controller: signUpController['state'],
+        //controller: signUpController['state'],
         onSaved: (name) {
           youth.streetAddress = name;
         },
@@ -853,11 +1218,6 @@ class _YouthRegistrationState extends State<YouthRegistration> {
             color: hexToColor(AppColors.whiteTextColor),
             fontSize: 17.0),
         keyboardType: TextInputType.text,
-        validator: (value) => value!.isEmpty
-            ? 'Please enter Your State'
-            : (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%]').hasMatch(value))
-                ? 'Invalid name'
-                : null,
       ),
     );
   }

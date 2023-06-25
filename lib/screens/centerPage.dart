@@ -153,7 +153,7 @@ class _CenterPageState extends State<CenterPage> {
                                   ],
                                 ),
                                 SizedBox(
-                                  height: 16 / 720 * bodyHeight,
+                                  height: 15 / 720 * bodyHeight,
                                 ),
                                 Container(
                                   // width: 276 / 324 * bodyWidth,
@@ -198,6 +198,91 @@ class _CenterPageState extends State<CenterPage> {
                                       ),
                                     ),
                                   ),
+                                ),
+                                SizedBox(
+                                  height: 16 / 720 * bodyHeight,
+                                ),
+                                Text(
+                                  "Time",
+                                  softWrap: true,
+                                  style: kGoogleStyleTexts.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 15 / 324 * bodyWidth,
+                                    color: hexToColor(AppColors.whiteTextColor),
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: 20,
+                                          width: 20,
+                                          child: Card(
+                                            color: hexToColor(
+                                                AppColors.centerStart),
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          "--------------------",
+                                          style: TextStyle(
+                                              letterSpacing: 2,
+                                              color: Colors.white,
+                                              fontSize: 15),
+                                        ),
+                                        Container(
+                                          height: 20,
+                                          width: 20,
+                                          child: Card(
+                                            color:
+                                                hexToColor(AppColors.centerEnd),
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: SizedBox(
+                                        width: 185,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "8:00 PM",
+                                              style: TextStyle(
+                                                  letterSpacing: 2,
+                                                  color: Colors.white,
+                                                  fontSize: 12),
+                                            ),
+                                            Text(
+                                              "10:00 PM",
+                                              style: TextStyle(
+                                                  letterSpacing: 2,
+                                                  color: Colors.white,
+                                                  fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 )
                               ],
                             );

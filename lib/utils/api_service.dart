@@ -121,6 +121,32 @@ class ApiService {
     }
   }
 
+  Future<Youth> updateYouth(
+    Youth youth,
+  ) async {
+    Uri createWFEUrl = Uri.parse('${Constants.domain}${Constants.updateYouth}');
+
+    http.Response response = await http.put(createWFEUrl,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(youth.toJson()));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      Youth _youth;
+      var jsonObject = jsonDecode(response.body);
+      _youth = Youth.fromJson(jsonObject);
+
+      return _youth;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load data');
+    }
+  }
+
   Future<List<Youth>> getAllYouths() async {
     Uri allWeeklyForumEventsUrl =
         Uri.parse('${Constants.domain}${Constants.allYouths}');

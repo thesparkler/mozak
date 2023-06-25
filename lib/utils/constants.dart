@@ -1,6 +1,6 @@
 class Constants {
   //static String domain = "http://192.168.29.220:8080/mozakio"; //@SITH
-  static String domain = "http://192.168.0.103:8080/mozakio"; //general
+  static String domain = "http://192.168.229.26:8080/mozakio"; //general
   static String allYouths = "/allYouths";
   static String allWFEvents = "/allWFEvents";
   static String allCenters = "/allCenters";

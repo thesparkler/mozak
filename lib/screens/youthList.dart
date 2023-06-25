@@ -255,10 +255,12 @@ class _YouthListState extends State<YouthList> {
                             color: hexToColor(AppColors.whiteTextColor),
                           ),
                         ),
-                        // Text('Email: ${e.emailid}'),
-                        // Text('DOB: ${e.dob}'),
-                        // Text('Mobile: ${e.mobile1}'),
-                        // Text('Status: ${e.status}')
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushNamed("updateYouth", arguments: e);
+                            },
+                            child: Text("Update"))
                       ],
                     );
                   }));

@@ -47,7 +47,6 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
     super.initState();
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     _valueNotifier = ValueNotifier<double>(1);
-
     _controller.addListener(() {
       _valueNotifier.value =
           (_controller.page != null ? _controller.page! + 1 : 1);
@@ -144,7 +143,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
       UserBloodType(youth, next),
       UserCareerType(youth, next),
       UserReferenceName(youth, next),
-      // UserRecognition(youth, next),
+      //UserRecognition(youth, next),
       VerifyDetails(youth),
     ];
 
@@ -157,7 +156,6 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
               valueListenable: _valueNotifier,
               builder: (context, v, child) {
                 currStep = v.round();
-                print(v.toString());
                 return Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: Column(
@@ -194,7 +192,7 @@ class _UserFormState extends State<UserForm> with TickerProviderStateMixin {
                                     ),
                                   )
                                 : Container(),
-                            v < 9 ? _buildNextIcon2() : _buildDoneIcon(),
+                            v < 8.3 ? _buildNextIcon2() : _buildDoneIcon(),
                           ],
                         ),
                       )
